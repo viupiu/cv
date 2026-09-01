@@ -202,7 +202,7 @@ a:hover{text-decoration:underline}
       <section class="hero">
         <div class="hero-kicker">Personal Knowledge Base · Computer Vision</div>
         <h2>Исследования для Prompt Engineer в CV-компании</h2>
-        <p>Проверенная коллекция статей arXiv из cs.CV и cs.CL. Для каждой работы сохранены авторы, русское резюме, практическая польза, навыки, сложность, роль чтения и оценки применимости.</p>
+        <p>Проверенная коллекция статей arXiv из cs.CV и cs.CL. Ключевые 20 отобраны специально по практикам prompt engineering и эффективной работе с LLM/VLM в CV-проектах; остальные статьи остаются доступными в полной библиотеке.</p>
         <div class="stats">
           <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">статей в базе</div></div>
           <div class="stat"><div class="num" id="statTop">—</div><div class="lbl">ключевых работ</div></div>
@@ -239,6 +239,10 @@ a:hover{text-decoration:underline}
       <div class="box" id="panelSummary"></div>
       <div class="section-title">Практическая польза</div>
       <div class="box practical" id="panelPractical"></div>
+      <div id="panelTopReasonSection" hidden>
+        <div class="section-title">Почему статья входит в новый топ-20</div>
+        <div class="box practical" id="panelTopReason"></div>
+      </div>
 
       <div class="details-grid">
         <div>
@@ -329,7 +333,8 @@ function matchesSearch(a,q){
   const hay=[
     getTitle(a),a.article,valuesText(a.authors),a.topic,a.summary,a.practical_use,
     a.knowledge_area,a._skill,valuesText(a.skills),valuesText(a.methods),
-    valuesText(a.tasks),valuesText(a.domains),valuesText(a.project_fit),a._reason,a.why_read
+    valuesText(a.tasks),valuesText(a.domains),valuesText(a.project_fit),a._reason,a.why_read,
+    a.top20_track,a.top20_selection_reason
   ].join(" ").toLowerCase();
   return hay.includes(q);
 }
@@ -406,7 +411,7 @@ function buildSidebar(){
   updateCounts();
 }
 function viewTitle(){
-  return {top20:"Ключевые 20 статей",queue:"Читать сейчас",favorites:"Избранное",read:"Прочитано",all:"Вся CV-библиотека"}[activeView];
+  return {top20:"Топ-20: prompting и LLM/VLM в CV",queue:"Читать сейчас",favorites:"Избранное",read:"Прочитано",all:"Вся CV-библиотека"}[activeView];
 }
 function renderCard(a){
   const isRead=state.read.includes(a.id);
@@ -423,7 +428,7 @@ function renderCard(a){
     <div class="original-title">${esc(a.article||"")}</div>
     <div class="source">${esc(TOPIC_SHORT[a.topic_key]||a.topic)} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
     <div class="summary">${esc(a.summary||"Аннотация не добавлена.")}</div>
-    <div class="card-foot"><span class="score">Оценка ${esc(a.selection_score||0)}</span><span>${isRead?"Прочитано":"Подробнее →"}</span></div>
+    <div class="card-foot"><span class="score">${a.top20_candidate?"Релевантность фокусу":"Оценка"} ${esc(a.top20_candidate?a.top20_focus_score:a.selection_score||0)}</span><span>${isRead?"Прочитано":"Подробнее →"}</span></div>
   </article>`;
 }
 function activeFilterLabels(){
@@ -439,7 +444,7 @@ function render(){
   const filters=activeFilterLabels();
   document.getElementById("appBody").innerHTML=`
     <div class="toolbar">
-      <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${filters.length?" · "+esc(filters.join(" · ")):""}</div></div>
+      <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${activeView==="top20"?" · текстовые и визуальные prompts · reasoning · CV-пайплайны":""}${filters.length?" · "+esc(filters.join(" · ")):""}</div></div>
     </div>
     ${filters.length?`<div class="pills"><button class="pill active" id="clearFilters">✕ Сбросить фильтры</button></div>`:""}
     <div class="grid">${list.length?list.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>`;
@@ -470,12 +475,15 @@ function openPanel(id){
   document.getElementById("panelOriginal").textContent=a.article||"";
   document.getElementById("panelMeta").textContent=`${TOPIC_SHORT[a.topic_key]||a.topic} · ${fmtDate(a.date)} · arXiv:${a.arxiv_id} · ${a.primary_category||""}`;
   document.getElementById("panelScores").innerHTML=
-    renderScore("Итоговая оценка",a.selection_score)+
+    renderScore(a.top20_candidate?"Релевантность фокусу":"Итоговая оценка",a.top20_candidate?a.top20_focus_score:a.selection_score)+
     renderScore("Польза для работы",a.work_relevance_score)+
     renderScore("Приоритет",a.priority_score)+
     renderScore("Фундаментальность",a.foundational_score);
   document.getElementById("panelSummary").textContent=a.summary||"—";
   document.getElementById("panelPractical").textContent=a.practical_use||"—";
+  document.getElementById("panelTopReasonSection").hidden=!a.top20_candidate;
+  document.getElementById("panelTopReason").textContent=a.top20_candidate?
+    `${a.top20_track}: ${a.top20_selection_reason}`:"";
   document.getElementById("panelReason").textContent=a.why_read||a._reason||"—";
   document.getElementById("panelArea").textContent=[a.knowledge_area,valuesText(a.subtopics)].filter(Boolean).join(" · ")||"—";
   document.getElementById("panelSkills").innerHTML=renderTags(a.skills?.length?a.skills:[a._skill]);
