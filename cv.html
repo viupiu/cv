@@ -291,14 +291,16 @@ a:hover{text-decoration:underline}
 const DATA_FILE = "arxiv_articles_enriched.json";
 const STORE_KEY = "cv-readinghub-v1";
 const PRIORITY_ORDER = {"🟢 ОБЯЗАТЕЛЬНО":0,"🟡 ПОЛЕЗНО":1,"🔵 СПЕЦИАЛИЗИРОВАННОЕ":2,"⚪ СПРАВОЧНИК":3};
-const REC_ORDER = {READ_NOW:0,READ_NEXT:1,SELECTIVE_READ:2,REFERENCE_ONLY:3};
+const REC_ORDER = {READ_NOW:0,READ_NEXT:1,GOLDEN:2,SELECTIVE_READ:3,REFERENCE_ONLY:4};
 const REC_LABELS = {READ_NOW:"Свежее · читать",READ_NEXT:"Свежее · далее",SELECTIVE_READ:"Выборочно",REFERENCE_ONLY:"Справка",GOLDEN:"Золотой фонд"};
 const ROLE_ORDER = {FOUNDATION:0,CORE:1,PRACTICAL:2,"DEEP DIVE":3,OPTIONAL:4};
 const TOPIC_SHORT = {
   generative_augmentation:"Генеративная аугментация",
   label_error_detection:"Ошибки разметки",
   prompt_engineering_cv:"CV-промпты",
-  annotation_management:"Управление разметкой"
+  annotation_management:"Управление разметкой",
+  auto_prelabel:"Предразметка",
+  nlp_pe:"NLP-промпты"
 };
 
 let articles = [];
@@ -561,7 +563,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){closePanel();closeS
 fetch(DATA_FILE,{cache:"no-store"})
   .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
   .then(data=>{
-    if(!Array.isArray(data)||data.length!==300)throw new Error("Ожидалось 300 статей");
+    if(!Array.isArray(data)||!data.length)throw new Error("Ожидался непустой список статей");
     articles=data;
     initStats();buildSidebar();render();
   })
