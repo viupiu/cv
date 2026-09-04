@@ -346,16 +346,16 @@ function matchesSearch(a,q){
   ].join(" ").toLowerCase();
   return hay.includes(q);
 }
-function baseFiltered(){
-  let list=articles.slice();
-  if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
-  else if(activeView==="read")list=list.filter(a=>state.read.includes(a.id));
-  if(activeTopic)list=list.filter(a=>a.topic_key===activeTopic);
-  if(activeYear)list=list.filter(a=>articleYear(a)===activeYear);
-  if(activeStars)list=list.filter(a=>(a.importance_stars||0)===+activeStars);
-  if(searchQuery)list=list.filter(a=>matchesSearch(a,searchQuery));
-  return list;
+function matchesFilters(a, skip){
+  if(activeView==="favorites" && !state.favorites.includes(a.id))return false;
+  if(activeView==="read" && !state.read.includes(a.id))return false;
+  if(skip!=="topic" && activeTopic && a.topic_key!==activeTopic)return false;
+  if(skip!=="year" && activeYear && articleYear(a)!==activeYear)return false;
+  if(skip!=="stars" && activeStars && Number(a.importance_stars||0)!==Number(activeStars))return false;
+  if(searchQuery && !matchesSearch(a,searchQuery))return false;
+  return true;
 }
+function baseFiltered(){return articles.filter(a=>matchesFilters(a,null))}
 function sortList(list){
   const mode=document.getElementById("sort").value;
   return list.slice().sort((a,b)=>{
@@ -374,45 +374,35 @@ function updateCounts(){
   document.getElementById("cntFav").textContent=state.favorites.length;
   document.getElementById("cntRead").textContent=state.read.length;
 }
-function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
-  const el=document.getElementById(containerId);
-  el.innerHTML=entries.map(([val,cnt])=>
-    `<button class="chip${activeValue===val?" active":""}" data-${attr}="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
-  ).join("");
-  el.querySelectorAll(".chip").forEach(btn=>{
-    btn.onclick=()=>{
-      const v=btn.dataset[attr];
-      if(attr==="topic")activeTopic=activeTopic===v?null:v;
-      if(attr==="year")activeYear=activeYear===v?null:v;
-      if(attr==="stars")activeStars=activeStars===v?null:v;
-      buildSidebar();render();
-    };
-  });
-}
-function facetList(except){
-  let list=articles.slice();
-  if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
-  else if(activeView==="read")list=list.filter(a=>state.read.includes(a.id));
-  if(except!=="topic" && activeTopic)list=list.filter(a=>a.topic_key===activeTopic);
-  if(except!=="year" && activeYear)list=list.filter(a=>articleYear(a)===activeYear);
-  if(except!=="stars" && activeStars)list=list.filter(a=>(a.importance_stars||0)===+activeStars);
-  if(searchQuery)list=list.filter(a=>matchesSearch(a,searchQuery));
-  return list;
-}
-function countBy(field, list){
+function countBy(field, skip){
   const result={};
-  list.forEach(a=>{const v=a[field];if(v||v===0)result[v]=(result[v]||0)+1});
+  articles.forEach(a=>{
+    if(!matchesFilters(a,skip))return;
+    const v=field==="year"?articleYear(a):a[field];
+    if(v||v===0)result[String(v)]=(result[String(v)]||0)+1;
+  });
   return Object.entries(result);
 }
-function countByYear(list){
-  const result={};
-  list.forEach(a=>{const y=articleYear(a);if(y)result[y]=(result[y]||0)+1});
-  return Object.entries(result).sort((a,b)=>b[0].localeCompare(a[0]));
+function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
+  const el=document.getElementById(containerId);
+  el.innerHTML=entries.filter(([,cnt])=>cnt>0).map(([val,cnt])=>
+    `<button type="button" class="chip${String(activeValue)===String(val)?" active":""}" data-facet="${attr}" data-value="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
+  ).join("");
+}
+function onChipClick(e){
+  const btn=e.target.closest(".chip");
+  if(!btn)return;
+  const attr=btn.getAttribute("data-facet");
+  const v=btn.getAttribute("data-value");
+  if(attr==="topic")activeTopic=activeTopic===v?null:v;
+  else if(attr==="year")activeYear=activeYear===v?null:v;
+  else if(attr==="stars")activeStars=String(activeStars)===String(v)?null:v;
+  buildSidebar();render();
 }
 function buildSidebar(){
-  buildChips("yearChips",countByYear(facetList("year")),activeYear,"year");
-  buildChips("topicChips",countBy("topic_key",facetList("topic")).sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
-  buildChips("starChips",countBy("importance_stars",facetList("stars")).sort((a,b)=>b[0]-a[0]),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
+  buildChips("yearChips",countBy("year","year").sort((a,b)=>b[0].localeCompare(a[0])),activeYear,"year");
+  buildChips("topicChips",countBy("topic_key","topic").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
+  buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.filter===activeView);
     btn.onclick=()=>{
@@ -554,6 +544,7 @@ document.getElementById("btnMarkRead").onclick=()=>currentId!=null&&toggleRead(c
 document.getElementById("panelNote").addEventListener("blur",()=>{if(currentId==null)return;const note=document.getElementById("panelNote").value.trim();if(note)state.notes[currentId]=note;else delete state.notes[currentId];saveState()});
 document.getElementById("search").addEventListener("input",e=>{searchQuery=e.target.value.trim().toLowerCase();buildSidebar();render()});
 document.getElementById("sort").addEventListener("change",render);
+document.getElementById("sidebar").addEventListener("click",onChipClick);
 document.getElementById("menuBtn").onclick=()=>{document.getElementById("sidebar").classList.toggle("open");document.getElementById("backdrop").classList.toggle("show")};
 document.getElementById("backdrop").onclick=closeSidebar;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closePanel();closeSidebar()}});
