@@ -204,8 +204,8 @@ a:hover{text-decoration:underline}
     <div class="content">
       <section class="hero">
         <div class="hero-kicker">Personal Knowledge Base · Computer Vision</div>
-        <h2>Библиотека по годам и звёздам</h2>
-        <p>Зажмите год (например 2026), тему и ★ — без полок «свежее / золотой фонд». Важность та же, что в Word-отчёте сборщика.</p>
+        <h2>Статьи по темам, годам и важности</h2>
+        <p>Слева можно выбрать сразу несколько лет, тем и оценок ★. Числа на чипах — сколько статей останется. Оценка ★ та же, что в Word-отчёте.</p>
         <div class="stats">
           <div class="stat"><div class="num" id="statAll">—</div><div class="lbl">всего статей</div></div>
           <div class="stat"><div class="num" id="statYears">—</div><div class="lbl">годов в базе</div></div>
@@ -296,10 +296,9 @@ const TOPIC_SHORT = {
 let articles = [];
 let state = loadState();
 let activeView = "all";
-let activePriority = null;
-let activeTopic = null;
-let activeYear = null;
-let activeStars = null;
+let activeTopic = [];
+let activeYear = [];
+let activeStars = [];
 let searchQuery = "";
 let currentId = null;
 
@@ -346,12 +345,17 @@ function matchesSearch(a,q){
   ].join(" ").toLowerCase();
   return hay.includes(q);
 }
+function toggleFilter(list, v){
+  const i=list.indexOf(v);
+  if(i>=0)list.splice(i,1);else list.push(v);
+  return list;
+}
 function matchesFilters(a, skip){
   if(activeView==="favorites" && !state.favorites.includes(a.id))return false;
   if(activeView==="read" && !state.read.includes(a.id))return false;
-  if(skip!=="topic" && activeTopic && a.topic_key!==activeTopic)return false;
-  if(skip!=="year" && activeYear && articleYear(a)!==activeYear)return false;
-  if(skip!=="stars" && activeStars && Number(a.importance_stars||0)!==Number(activeStars))return false;
+  if(skip!=="topic" && activeTopic.length && !activeTopic.includes(a.topic_key))return false;
+  if(skip!=="year" && activeYear.length && !activeYear.includes(articleYear(a)))return false;
+  if(skip!=="stars" && activeStars.length && !activeStars.includes(String(a.importance_stars??"")))return false;
   if(searchQuery && !matchesSearch(a,searchQuery))return false;
   return true;
 }
@@ -383,10 +387,11 @@ function countBy(field, skip){
   });
   return Object.entries(result);
 }
-function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
+function buildChips(containerId,entries,activeValues,attr,labeler=v=>v){
   const el=document.getElementById(containerId);
+  const selected=new Set((activeValues||[]).map(String));
   el.innerHTML=entries.filter(([,cnt])=>cnt>0).map(([val,cnt])=>
-    `<button type="button" class="chip${String(activeValue)===String(val)?" active":""}" data-facet="${attr}" data-value="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
+    `<button type="button" class="chip${selected.has(String(val))?" active":""}" data-facet="${attr}" data-value="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
   ).join("");
 }
 function onChipClick(e){
@@ -394,9 +399,9 @@ function onChipClick(e){
   if(!btn)return;
   const attr=btn.getAttribute("data-facet");
   const v=btn.getAttribute("data-value");
-  if(attr==="topic")activeTopic=activeTopic===v?null:v;
-  else if(attr==="year")activeYear=activeYear===v?null:v;
-  else if(attr==="stars")activeStars=String(activeStars)===String(v)?null:v;
+  if(attr==="topic")toggleFilter(activeTopic,v);
+  else if(attr==="year")toggleFilter(activeYear,v);
+  else if(attr==="stars")toggleFilter(activeStars,v);
   buildSidebar();render();
 }
 function buildSidebar(){
@@ -416,7 +421,7 @@ function buildSidebar(){
 function viewTitle(){
   if(activeView==="favorites")return"Избранное";
   if(activeView==="read")return"Прочитано";
-  if(activeYear)return"Год "+activeYear;
+  if(activeYear.length)return activeYear.slice().sort((a,b)=>b.localeCompare(a)).join(", ");
   return"Все статьи";
 }
 function renderCard(a){
@@ -438,9 +443,9 @@ function renderCard(a){
 }
 function activeFilterLabels(){
   const values=[];
-  if(activeTopic)values.push(TOPIC_SHORT[activeTopic]||activeTopic);
-  if(activeYear)values.push(activeYear);
-  if(activeStars)values.push("★".repeat(+activeStars));
+  activeTopic.forEach(t=>values.push(TOPIC_SHORT[t]||t));
+  activeYear.slice().sort((a,b)=>b.localeCompare(a)).forEach(y=>values.push(y));
+  activeStars.slice().sort((a,b)=>Number(b)-Number(a)).forEach(s=>values.push("★".repeat(+s)));
   return values;
 }
 function render(){
@@ -452,7 +457,7 @@ function render(){
     </div>
     ${filters.length?`<div class="pills"><button class="pill active" id="clearFilters">✕ Сбросить фильтры</button></div>`:""}
     <div class="grid">${list.length?list.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>`;
-  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeYear=activeStars=null;buildSidebar();render()});
+  document.getElementById("clearFilters")?.addEventListener("click",()=>{activeTopic=[];activeYear=[];activeStars=[];buildSidebar();render()});
   document.querySelectorAll(".card").forEach(card=>card.addEventListener("click",e=>{if(!e.target.closest("[data-fav]"))openPanel(+card.dataset.id)}));
   document.querySelectorAll("[data-fav]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();toggleFavorite(+btn.dataset.fav)}));
   updateCounts();
