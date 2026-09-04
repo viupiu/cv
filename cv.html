@@ -173,22 +173,17 @@ a:hover{text-decoration:underline}
       <p>Кураторская база arXiv по генеративной аугментации, качеству разметки, CV-промптам и annotation operations.</p>
     </div>
 
-    <div class="nav-label">Полки</div>
-    <button class="nav-btn active" data-filter="fresh"><span>Свежее</span><span class="count" id="cntFresh">—</span></button>
-    <button class="nav-btn" data-filter="golden"><span>Золотой фонд</span><span class="count" id="cntGolden">—</span></button>
-    <button class="nav-btn" data-filter="all"><span>Вся библиотека</span><span class="count" id="cntAll">—</span></button>
-    <button class="nav-btn" data-filter="archive"><span>Архив</span><span class="count" id="cntArchive">—</span></button>
+    <div class="nav-label">Библиотека</div>
+    <button class="nav-btn active" data-filter="all"><span>Все статьи</span><span class="count" id="cntAll">—</span></button>
     <button class="nav-btn" data-filter="favorites"><span>Избранное</span><span class="count" id="cntFav">0</span></button>
     <button class="nav-btn" data-filter="read"><span>Прочитано</span><span class="count" id="cntRead">0</span></button>
 
+    <div class="nav-label">Год</div>
+    <div class="chips" id="yearChips"></div>
     <div class="nav-label">Тема</div>
     <div class="chips" id="topicChips"></div>
     <div class="nav-label">Важность ★</div>
     <div class="chips" id="starChips"></div>
-    <div class="nav-label">Роль чтения</div>
-    <div class="chips" id="roleChips"></div>
-    <div class="nav-label">Сложность</div>
-    <div class="chips" id="levelChips"></div>
   </aside>
 
   <main class="main">
@@ -201,10 +196,6 @@ a:hover{text-decoration:underline}
       <select class="sort" id="sort">
         <option value="stars">По звёздам важности</option>
         <option value="date-desc">Сначала новые</option>
-        <option value="work">По пользе для работы</option>
-        <option value="foundation">По фундаментальности</option>
-        <option value="priority">По приоритету</option>
-        <option value="date-desc">Сначала новые</option>
         <option value="date-asc">Сначала старые</option>
         <option value="title">По названию</option>
       </select>
@@ -213,13 +204,13 @@ a:hover{text-decoration:underline}
     <div class="content">
       <section class="hero">
         <div class="hero-kicker">Personal Knowledge Base · Computer Vision</div>
-        <h2>Золотой фонд и свежий слой</h2>
-        <p>Старые канонические работы — отдельно. Свежие (с 2025) — отдельно. Важность — те же ★★★★★, что в Word-отчёте сборщика. Скрипт сбора не менялся: эта страница только приводит уже лежащую библиотеку к той же шкале.</p>
+        <h2>Библиотека по годам и звёздам</h2>
+        <p>Зажмите год (например 2026), тему и ★ — без полок «свежее / золотой фонд». Важность та же, что в Word-отчёте сборщика.</p>
         <div class="stats">
-          <div class="stat"><div class="num" id="statFresh">—</div><div class="lbl">свежих с 2025</div></div>
-          <div class="stat"><div class="num" id="statGolden">—</div><div class="lbl">золотой фонд</div></div>
+          <div class="stat"><div class="num" id="statAll">—</div><div class="lbl">всего статей</div></div>
+          <div class="stat"><div class="num" id="statYears">—</div><div class="lbl">годов в базе</div></div>
           <div class="stat"><div class="num" id="statFive">—</div><div class="lbl">с оценкой 5★</div></div>
-          <div class="stat"><div class="num" id="statArchive">—</div><div class="lbl">в архиве</div></div>
+          <div class="stat"><div class="num" id="statLatest">—</div><div class="lbl">за последний год</div></div>
         </div>
       </section>
 
@@ -292,8 +283,7 @@ const DATA_FILE = "arxiv_articles_enriched.json";
 const STORE_KEY = "cv-readinghub-v1";
 const PRIORITY_ORDER = {"🟢 ОБЯЗАТЕЛЬНО":0,"🟡 ПОЛЕЗНО":1,"🔵 СПЕЦИАЛИЗИРОВАННОЕ":2,"⚪ СПРАВОЧНИК":3};
 const REC_ORDER = {READ_NOW:0,READ_NEXT:1,GOLDEN:2,SELECTIVE_READ:3,REFERENCE_ONLY:4};
-const REC_LABELS = {READ_NOW:"Свежее · читать",READ_NEXT:"Свежее · далее",SELECTIVE_READ:"Выборочно",REFERENCE_ONLY:"Справка",GOLDEN:"Золотой фонд"};
-const ROLE_ORDER = {FOUNDATION:0,CORE:1,PRACTICAL:2,"DEEP DIVE":3,OPTIONAL:4};
+const REC_LABELS = {READ_NOW:"Читать",READ_NEXT:"Далее",SELECTIVE_READ:"Выборочно",REFERENCE_ONLY:"Справка",GOLDEN:"Канон"};
 const TOPIC_SHORT = {
   generative_augmentation:"Генеративная аугментация",
   label_error_detection:"Ошибки разметки",
@@ -305,11 +295,10 @@ const TOPIC_SHORT = {
 
 let articles = [];
 let state = loadState();
-let activeView = "fresh";
+let activeView = "all";
 let activePriority = null;
 let activeTopic = null;
-let activeRole = null;
-let activeLevel = null;
+let activeYear = null;
 let activeStars = null;
 let searchQuery = "";
 let currentId = null;
@@ -343,6 +332,10 @@ function shortPriority(p){
 function getTitle(a){return a.title_ru||a.article||"Без названия"}
 function valuesText(value){return Array.isArray(value)?value.join(" "):(value||"")}
 
+function articleYear(a){
+  const y=String(a.date||"").slice(0,4);
+  return /^\d{4}$/.test(y)?y:"";
+}
 function matchesSearch(a,q){
   if(!q)return true;
   const hay=[
@@ -355,15 +348,10 @@ function matchesSearch(a,q){
 }
 function baseFiltered(){
   let list=articles.slice();
-  if(activeView==="fresh")list=list.filter(a=>a.shelf==="fresh");
-  else if(activeView==="golden")list=list.filter(a=>a.shelf==="golden");
-  else if(activeView==="archive")list=list.filter(a=>a.shelf==="archive");
-  else if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
+  if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
   else if(activeView==="read")list=list.filter(a=>state.read.includes(a.id));
-  if(activePriority)list=list.filter(a=>a._priority===activePriority);
   if(activeTopic)list=list.filter(a=>a.topic_key===activeTopic);
-  if(activeRole)list=list.filter(a=>a._reading_role===activeRole);
-  if(activeLevel)list=list.filter(a=>a._level===activeLevel);
+  if(activeYear)list=list.filter(a=>articleYear(a)===activeYear);
   if(activeStars)list=list.filter(a=>(a.importance_stars||0)===+activeStars);
   if(searchQuery)list=list.filter(a=>matchesSearch(a,searchQuery));
   return list;
@@ -382,9 +370,6 @@ function sortList(list){
   });
 }
 function updateCounts(){
-  document.getElementById("cntFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
-  document.getElementById("cntGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
-  document.getElementById("cntArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
   document.getElementById("cntAll").textContent=articles.length;
   document.getElementById("cntFav").textContent=state.favorites.length;
   document.getElementById("cntRead").textContent=state.read.length;
@@ -397,10 +382,8 @@ function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
   el.querySelectorAll(".chip").forEach(btn=>{
     btn.onclick=()=>{
       const v=btn.dataset[attr];
-      if(attr==="priority")activePriority=activePriority===v?null:v;
       if(attr==="topic")activeTopic=activeTopic===v?null:v;
-      if(attr==="role")activeRole=activeRole===v?null:v;
-      if(attr==="level")activeLevel=activeLevel===v?null:v;
+      if(attr==="year")activeYear=activeYear===v?null:v;
       if(attr==="stars")activeStars=activeStars===v?null:v;
       buildSidebar();render();
     };
@@ -411,11 +394,15 @@ function countBy(field){
   articles.forEach(a=>{const v=a[field];if(v)result[v]=(result[v]||0)+1});
   return Object.entries(result);
 }
+function countByYear(){
+  const result={};
+  articles.forEach(a=>{const y=articleYear(a);if(y)result[y]=(result[y]||0)+1});
+  return Object.entries(result).sort((a,b)=>b[0].localeCompare(a[0]));
+}
 function buildSidebar(){
+  buildChips("yearChips",countByYear(),activeYear,"year");
   buildChips("topicChips",countBy("topic_key").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
   buildChips("starChips",countBy("importance_stars").sort((a,b)=>b[0]-a[0]),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
-  buildChips("roleChips",countBy("_reading_role").sort((a,b)=>(ROLE_ORDER[a[0]]??9)-(ROLE_ORDER[b[0]]??9)),activeRole,"role");
-  buildChips("levelChips",countBy("_level").sort((a,b)=>b[1]-a[1]),activeLevel,"level");
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.filter===activeView);
     btn.onclick=()=>{
@@ -427,17 +414,19 @@ function buildSidebar(){
   updateCounts();
 }
 function viewTitle(){
-  return {fresh:"Свежее (с 2025)",golden:"Золотой фонд",archive:"Архив",favorites:"Избранное",read:"Прочитано",all:"Вся библиотека"}[activeView];
+  if(activeView==="favorites")return"Избранное";
+  if(activeView==="read")return"Прочитано";
+  if(activeYear)return"Год "+activeYear;
+  return"Все статьи";
 }
 function renderCard(a){
   const isRead=state.read.includes(a.id);
   const isFav=state.favorites.includes(a.id);
   const stars=a.importance_stars||1;
-  const shelf=a.shelf||"archive";
   return `<article class="card${isRead?" read":""} stars-${stars}" data-id="${a.id}">
     <button class="fav-btn${isFav?" on":""}" data-fav="${a.id}" aria-label="Избранное">${isFav?"★":"☆"}</button>
     <div class="card-top">
-      <span class="shelf-tag shelf-${esc(shelf)}">${esc(a.shelf_label||shelf)}</span>
+      <span class="shelf-tag shelf-fresh">${esc(articleYear(a)||"—")}</span>
       <span class="stars" title="Важность">${esc(a.importance_mark||"★")}</span>
     </div>
     <h4>${esc(getTitle(a))}</h4>
@@ -450,9 +439,8 @@ function renderCard(a){
 function activeFilterLabels(){
   const values=[];
   if(activeTopic)values.push(TOPIC_SHORT[activeTopic]||activeTopic);
+  if(activeYear)values.push(activeYear);
   if(activeStars)values.push("★".repeat(+activeStars));
-  if(activeRole)values.push(activeRole);
-  if(activeLevel)values.push(activeLevel);
   return values;
 }
 function render(){
@@ -464,7 +452,7 @@ function render(){
     </div>
     ${filters.length?`<div class="pills"><button class="pill active" id="clearFilters">✕ Сбросить фильтры</button></div>`:""}
     <div class="grid">${list.length?list.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>`;
-  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeRole=activeLevel=activeStars=null;buildSidebar();render()});
+  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeYear=activeStars=null;buildSidebar();render()});
   document.querySelectorAll(".card").forEach(card=>card.addEventListener("click",e=>{if(!e.target.closest("[data-fav]"))openPanel(+card.dataset.id)}));
   document.querySelectorAll("[data-fav]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();toggleFavorite(+btn.dataset.fav)}));
   updateCounts();
@@ -482,10 +470,8 @@ function openPanel(id){
   if(!a)return;
   currentId=id;
   document.getElementById("panelBadges").innerHTML=`
-    <span class="shelf-tag shelf-${esc(a.shelf||"archive")}">${esc(a.shelf_label||a.shelf||"—")}</span>
-    <span class="stars">${esc(a.importance_mark||"")}</span>
-    <span class="badge badge-level">${esc(a._level||"—")}</span>
-    <span class="badge badge-rec">${esc(REC_LABELS[a._recommendation]||"—")}</span>`;
+    <span class="shelf-tag shelf-fresh">${esc(articleYear(a)||"—")}</span>
+    <span class="stars">${esc(a.importance_mark||"")}</span>`;
   document.getElementById("panelTitle").textContent=getTitle(a);
   document.getElementById("panelOriginal").textContent=a.article||"";
   document.getElementById("panelMeta").textContent=`${TOPIC_SHORT[a.topic_key]||a.topic} · ${fmtDate(a.date)} · arXiv:${a.arxiv_id} · ${a.primary_category||""}`;
@@ -543,10 +529,12 @@ function closeSidebar(){
   document.getElementById("backdrop").classList.remove("show");
 }
 function initStats(){
-  document.getElementById("statFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
-  document.getElementById("statGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
+  const years=new Set(articles.map(articleYear).filter(Boolean));
+  const latest=[...years].sort().pop();
+  document.getElementById("statAll").textContent=articles.length;
+  document.getElementById("statYears").textContent=years.size;
   document.getElementById("statFive").textContent=articles.filter(a=>a.importance_stars===5).length;
-  document.getElementById("statArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
+  document.getElementById("statLatest").textContent=latest?articles.filter(a=>articleYear(a)===latest).length:0;
 }
 
 document.getElementById("closePanel").onclick=closePanel;
