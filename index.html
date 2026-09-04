@@ -14,6 +14,8 @@
   --sidebar:#102126;--sidebar-text:#d5e0e2;--sidebar-muted:#91a5a9;
   --green:#087f5b;--green-bg:#e9f8f1;--amber:#b86400;--amber-bg:#fff4dd;
   --blue:#2563a8;--blue-bg:#eaf3ff;--red:#c23b32;--red-bg:#fff0ee;
+  --star:#c4a35a;
+  --pastel-5:#e7f0ea;--pastel-4:#f3eee4;--pastel-3:#eef1f4;--pastel-1:#f3f1ee;
   --shadow:0 1px 3px rgba(10,25,30,.06),0 10px 30px rgba(10,25,30,.04);
   --radius:14px;
 }
@@ -72,7 +74,16 @@ a:hover{text-decoration:underline}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:10px;position:relative}
 .card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(10,25,30,.09)}
-.card.read{opacity:.7}
+.card.shelf-fresh{background:linear-gradient(#fff,#fbfcfd)}
+.card.stars-5{background:var(--pastel-5);border-color:#c5d9cc}
+.card.stars-4{background:var(--pastel-4);border-color:#e2d8c4}
+.card.stars-1,.card.stars-2{background:var(--pastel-1)}
+.stars{letter-spacing:.06em;color:var(--star);font-size:14px;font-weight:700}
+.shelf-tag{font-size:11px;font-weight:650;padding:4px 8px;border-radius:7px}
+.shelf-golden{background:#f6edd8;color:#7a5b18}
+.shelf-fresh{background:#e7f0ea;color:#2f6b52}
+.shelf-archive{background:#eee;color:#5c5c5c}
+
 .card.top20{border-color:#82cdd2}
 .top-rank{position:absolute;right:14px;top:45px;background:var(--accent);color:#fff;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800}
 .card-top{display:flex;flex-wrap:wrap;gap:6px;padding-right:32px}
@@ -162,17 +173,18 @@ a:hover{text-decoration:underline}
       <p>Кураторская база arXiv по генеративной аугментации, качеству разметки, CV-промптам и annotation operations.</p>
     </div>
 
-    <div class="nav-label">Библиотека</div>
-    <button class="nav-btn active" data-filter="top20"><span>Ключевые 20</span><span class="count" id="cntTop">—</span></button>
-    <button class="nav-btn" data-filter="queue"><span>Читать сейчас</span><span class="count" id="cntQueue">—</span></button>
-    <button class="nav-btn" data-filter="all"><span>Все статьи</span><span class="count" id="cntAll">—</span></button>
+    <div class="nav-label">Полки</div>
+    <button class="nav-btn active" data-filter="fresh"><span>Свежее</span><span class="count" id="cntFresh">—</span></button>
+    <button class="nav-btn" data-filter="golden"><span>Золотой фонд</span><span class="count" id="cntGolden">—</span></button>
+    <button class="nav-btn" data-filter="all"><span>Вся библиотека</span><span class="count" id="cntAll">—</span></button>
+    <button class="nav-btn" data-filter="archive"><span>Архив</span><span class="count" id="cntArchive">—</span></button>
     <button class="nav-btn" data-filter="favorites"><span>Избранное</span><span class="count" id="cntFav">0</span></button>
     <button class="nav-btn" data-filter="read"><span>Прочитано</span><span class="count" id="cntRead">0</span></button>
 
     <div class="nav-label">Тема</div>
     <div class="chips" id="topicChips"></div>
-    <div class="nav-label">Приоритет</div>
-    <div class="chips" id="priorityChips"></div>
+    <div class="nav-label">Важность ★</div>
+    <div class="chips" id="starChips"></div>
     <div class="nav-label">Роль чтения</div>
     <div class="chips" id="roleChips"></div>
     <div class="nav-label">Сложность</div>
@@ -187,8 +199,8 @@ a:hover{text-decoration:underline}
         <input id="search" placeholder="Название, автор, метод, навык, задача…" autocomplete="off">
       </div>
       <select class="sort" id="sort">
-        <option value="top">По рейтингу топ-20</option>
-        <option value="score">По общей оценке</option>
+        <option value="stars">По звёздам важности</option>
+        <option value="date-desc">Сначала новые</option>
         <option value="work">По пользе для работы</option>
         <option value="foundation">По фундаментальности</option>
         <option value="priority">По приоритету</option>
@@ -201,13 +213,13 @@ a:hover{text-decoration:underline}
     <div class="content">
       <section class="hero">
         <div class="hero-kicker">Personal Knowledge Base · Computer Vision</div>
-        <h2>Исследования для Prompt Engineer в CV-компании</h2>
-        <p>Проверенная коллекция статей arXiv из cs.CV и cs.CL. Ключевые 20 отобраны специально по практикам prompt engineering и эффективной работе с LLM/VLM в CV-проектах; остальные статьи остаются доступными в полной библиотеке.</p>
+        <h2>Золотой фонд и свежий слой</h2>
+        <p>Старые канонические работы — отдельно. Свежие (с 2025) — отдельно. Важность — те же ★★★★★, что в Word-отчёте сборщика. Скрипт сбора не менялся: эта страница только приводит уже лежащую библиотеку к той же шкале.</p>
         <div class="stats">
-          <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">статей в базе</div></div>
-          <div class="stat"><div class="num" id="statTop">—</div><div class="lbl">ключевых работ</div></div>
-          <div class="stat"><div class="num" id="statHtml">—</div><div class="lbl">проверено по HTML</div></div>
-          <div class="stat"><div class="num" id="statTopics">—</div><div class="lbl">основных тем</div></div>
+          <div class="stat"><div class="num" id="statFresh">—</div><div class="lbl">свежих с 2025</div></div>
+          <div class="stat"><div class="num" id="statGolden">—</div><div class="lbl">золотой фонд</div></div>
+          <div class="stat"><div class="num" id="statFive">—</div><div class="lbl">с оценкой 5★</div></div>
+          <div class="stat"><div class="num" id="statArchive">—</div><div class="lbl">в архиве</div></div>
         </div>
       </section>
 
@@ -280,7 +292,7 @@ const DATA_FILE = "arxiv_articles_enriched.json";
 const STORE_KEY = "cv-readinghub-v1";
 const PRIORITY_ORDER = {"🟢 ОБЯЗАТЕЛЬНО":0,"🟡 ПОЛЕЗНО":1,"🔵 СПЕЦИАЛИЗИРОВАННОЕ":2,"⚪ СПРАВОЧНИК":3};
 const REC_ORDER = {READ_NOW:0,READ_NEXT:1,SELECTIVE_READ:2,REFERENCE_ONLY:3};
-const REC_LABELS = {READ_NOW:"READ NOW",READ_NEXT:"READ NEXT",SELECTIVE_READ:"SELECTIVE",REFERENCE_ONLY:"REFERENCE"};
+const REC_LABELS = {READ_NOW:"Свежее · читать",READ_NEXT:"Свежее · далее",SELECTIVE_READ:"Выборочно",REFERENCE_ONLY:"Справка",GOLDEN:"Золотой фонд"};
 const ROLE_ORDER = {FOUNDATION:0,CORE:1,PRACTICAL:2,"DEEP DIVE":3,OPTIONAL:4};
 const TOPIC_SHORT = {
   generative_augmentation:"Генеративная аугментация",
@@ -291,11 +303,12 @@ const TOPIC_SHORT = {
 
 let articles = [];
 let state = loadState();
-let activeView = "top20";
+let activeView = "fresh";
 let activePriority = null;
 let activeTopic = null;
 let activeRole = null;
 let activeLevel = null;
+let activeStars = null;
 let searchQuery = "";
 let currentId = null;
 
@@ -340,24 +353,23 @@ function matchesSearch(a,q){
 }
 function baseFiltered(){
   let list=articles.slice();
-  if(activeView==="top20")list=list.filter(a=>a.top20_candidate);
-  else if(activeView==="queue")list=list.filter(a=>a._recommendation==="READ_NOW");
+  if(activeView==="fresh")list=list.filter(a=>a.shelf==="fresh");
+  else if(activeView==="golden")list=list.filter(a=>a.shelf==="golden");
+  else if(activeView==="archive")list=list.filter(a=>a.shelf==="archive");
   else if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
   else if(activeView==="read")list=list.filter(a=>state.read.includes(a.id));
   if(activePriority)list=list.filter(a=>a._priority===activePriority);
   if(activeTopic)list=list.filter(a=>a.topic_key===activeTopic);
   if(activeRole)list=list.filter(a=>a._reading_role===activeRole);
   if(activeLevel)list=list.filter(a=>a._level===activeLevel);
+  if(activeStars)list=list.filter(a=>(a.importance_stars||0)===+activeStars);
   if(searchQuery)list=list.filter(a=>matchesSearch(a,searchQuery));
   return list;
 }
 function sortList(list){
   const mode=document.getElementById("sort").value;
   return list.slice().sort((a,b)=>{
-    if(mode==="top"){
-      if(a.top20_candidate!==b.top20_candidate)return a.top20_candidate?-1:1;
-      return (a.top20_rank||999)-(b.top20_rank||999)||(b.selection_score||0)-(a.selection_score||0);
-    }
+    if(mode==="stars")return (b.importance_stars||0)-(a.importance_stars||0)||(b.date||"").localeCompare(a.date||"");
     if(mode==="score")return (b.selection_score||0)-(a.selection_score||0);
     if(mode==="work")return (b.work_relevance_score||0)-(a.work_relevance_score||0);
     if(mode==="foundation")return (b.foundational_score||0)-(a.foundational_score||0);
@@ -368,8 +380,9 @@ function sortList(list){
   });
 }
 function updateCounts(){
-  document.getElementById("cntTop").textContent=articles.filter(a=>a.top20_candidate).length;
-  document.getElementById("cntQueue").textContent=articles.filter(a=>a._recommendation==="READ_NOW").length;
+  document.getElementById("cntFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
+  document.getElementById("cntGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
+  document.getElementById("cntArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
   document.getElementById("cntAll").textContent=articles.length;
   document.getElementById("cntFav").textContent=state.favorites.length;
   document.getElementById("cntRead").textContent=state.read.length;
@@ -386,6 +399,7 @@ function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
       if(attr==="topic")activeTopic=activeTopic===v?null:v;
       if(attr==="role")activeRole=activeRole===v?null:v;
       if(attr==="level")activeLevel=activeLevel===v?null:v;
+      if(attr==="stars")activeStars=activeStars===v?null:v;
       buildSidebar();render();
     };
   });
@@ -397,7 +411,7 @@ function countBy(field){
 }
 function buildSidebar(){
   buildChips("topicChips",countBy("topic_key").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
-  buildChips("priorityChips",countBy("_priority").sort((a,b)=>(PRIORITY_ORDER[a[0]]??9)-(PRIORITY_ORDER[b[0]]??9)),activePriority,"priority",shortPriority);
+  buildChips("starChips",countBy("importance_stars").sort((a,b)=>b[0]-a[0]),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
   buildChips("roleChips",countBy("_reading_role").sort((a,b)=>(ROLE_ORDER[a[0]]??9)-(ROLE_ORDER[b[0]]??9)),activeRole,"role");
   buildChips("levelChips",countBy("_level").sort((a,b)=>b[1]-a[1]),activeLevel,"level");
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
@@ -411,30 +425,30 @@ function buildSidebar(){
   updateCounts();
 }
 function viewTitle(){
-  return {top20:"Топ-20: prompting и LLM/VLM в CV",queue:"Читать сейчас",favorites:"Избранное",read:"Прочитано",all:"Вся CV-библиотека"}[activeView];
+  return {fresh:"Свежее (с 2025)",golden:"Золотой фонд",archive:"Архив",favorites:"Избранное",read:"Прочитано",all:"Вся библиотека"}[activeView];
 }
 function renderCard(a){
   const isRead=state.read.includes(a.id);
   const isFav=state.favorites.includes(a.id);
-  return `<article class="card${isRead?" read":""}${a.top20_candidate?" top20":""}" data-id="${a.id}">
+  const stars=a.importance_stars||1;
+  const shelf=a.shelf||"archive";
+  return `<article class="card${isRead?" read":""} stars-${stars}" data-id="${a.id}">
     <button class="fav-btn${isFav?" on":""}" data-fav="${a.id}" aria-label="Избранное">${isFav?"★":"☆"}</button>
-    ${a.top20_candidate?`<span class="top-rank">TOP ${a.top20_rank}</span>`:""}
     <div class="card-top">
-      <span class="badge ${priorityClass(a._priority)}">${esc(shortPriority(a._priority))}</span>
-      <span class="badge badge-level">${esc(a._level||"—")}</span>
-      <span class="badge badge-rec">${esc(REC_LABELS[a._recommendation]||a._recommendation||"—")}</span>
+      <span class="shelf-tag shelf-${esc(shelf)}">${esc(a.shelf_label||shelf)}</span>
+      <span class="stars" title="Важность">${esc(a.importance_mark||"★")}</span>
     </div>
     <h4>${esc(getTitle(a))}</h4>
     <div class="original-title">${esc(a.article||"")}</div>
     <div class="source">${esc(TOPIC_SHORT[a.topic_key]||a.topic)} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
     <div class="summary">${esc(a.summary||"Аннотация не добавлена.")}</div>
-    <div class="card-foot"><span class="score">${a.top20_candidate?"Релевантность фокусу":"Оценка"} ${esc(a.top20_candidate?a.top20_focus_score:a.selection_score||0)}</span><span>${isRead?"Прочитано":"Подробнее →"}</span></div>
+    <div class="card-foot"><span class="score">${esc(a.importance_mark||"")}</span><span>${isRead?"Прочитано":"Подробнее →"}</span></div>
   </article>`;
 }
 function activeFilterLabels(){
   const values=[];
   if(activeTopic)values.push(TOPIC_SHORT[activeTopic]||activeTopic);
-  if(activePriority)values.push(shortPriority(activePriority));
+  if(activeStars)values.push("★".repeat(+activeStars));
   if(activeRole)values.push(activeRole);
   if(activeLevel)values.push(activeLevel);
   return values;
@@ -444,11 +458,11 @@ function render(){
   const filters=activeFilterLabels();
   document.getElementById("appBody").innerHTML=`
     <div class="toolbar">
-      <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${activeView==="top20"?" · текстовые и визуальные prompts · reasoning · CV-пайплайны":""}${filters.length?" · "+esc(filters.join(" · ")):""}</div></div>
+      <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${filters.length?" · "+esc(filters.join(" · ")):""}</div></div>
     </div>
     ${filters.length?`<div class="pills"><button class="pill active" id="clearFilters">✕ Сбросить фильтры</button></div>`:""}
     <div class="grid">${list.length?list.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>`;
-  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeRole=activeLevel=null;buildSidebar();render()});
+  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeRole=activeLevel=activeStars=null;buildSidebar();render()});
   document.querySelectorAll(".card").forEach(card=>card.addEventListener("click",e=>{if(!e.target.closest("[data-fav]"))openPanel(+card.dataset.id)}));
   document.querySelectorAll("[data-fav]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();toggleFavorite(+btn.dataset.fav)}));
   updateCounts();
@@ -466,16 +480,15 @@ function openPanel(id){
   if(!a)return;
   currentId=id;
   document.getElementById("panelBadges").innerHTML=`
-    <span class="badge ${priorityClass(a._priority)}">${esc(shortPriority(a._priority))}</span>
+    <span class="shelf-tag shelf-${esc(a.shelf||"archive")}">${esc(a.shelf_label||a.shelf||"—")}</span>
+    <span class="stars">${esc(a.importance_mark||"")}</span>
     <span class="badge badge-level">${esc(a._level||"—")}</span>
-    <span class="badge badge-rec">${esc(REC_LABELS[a._recommendation]||"—")}</span>
-    <span class="badge badge-top">${esc(a._reading_role||"—")}</span>
-    ${a.top20_candidate?`<span class="badge badge-top">TOP ${a.top20_rank}</span>`:""}`;
+    <span class="badge badge-rec">${esc(REC_LABELS[a._recommendation]||"—")}</span>`;
   document.getElementById("panelTitle").textContent=getTitle(a);
   document.getElementById("panelOriginal").textContent=a.article||"";
   document.getElementById("panelMeta").textContent=`${TOPIC_SHORT[a.topic_key]||a.topic} · ${fmtDate(a.date)} · arXiv:${a.arxiv_id} · ${a.primary_category||""}`;
   document.getElementById("panelScores").innerHTML=
-    renderScore(a.top20_candidate?"Релевантность фокусу":"Итоговая оценка",a.top20_candidate?a.top20_focus_score:a.selection_score)+
+    renderScore("Важность ×20", (a.importance_stars||0)*20)+
     renderScore("Польза для работы",a.work_relevance_score)+
     renderScore("Приоритет",a.priority_score)+
     renderScore("Фундаментальность",a.foundational_score);
@@ -484,7 +497,7 @@ function openPanel(id){
   document.getElementById("panelTopReasonSection").hidden=!a.top20_candidate;
   document.getElementById("panelTopReason").textContent=a.top20_candidate?
     `${a.top20_track}: ${a.top20_selection_reason}`:"";
-  document.getElementById("panelReason").textContent=a.why_read||a._reason||"—";
+  document.getElementById("panelReason").textContent=[a._reason_shelf,a.why_read||a._reason].filter(Boolean).join(" ")||"—";
   document.getElementById("panelArea").textContent=[a.knowledge_area,valuesText(a.subtopics)].filter(Boolean).join(" · ")||"—";
   document.getElementById("panelSkills").innerHTML=renderTags(a.skills?.length?a.skills:[a._skill]);
   document.getElementById("panelMethods").innerHTML=renderTags(a.methods);
@@ -528,10 +541,10 @@ function closeSidebar(){
   document.getElementById("backdrop").classList.remove("show");
 }
 function initStats(){
-  document.getElementById("statTotal").textContent=articles.length;
-  document.getElementById("statTop").textContent=articles.filter(a=>a.top20_candidate).length;
-  document.getElementById("statHtml").textContent=articles.filter(a=>a.html_available).length;
-  document.getElementById("statTopics").textContent=new Set(articles.map(a=>a.topic_key)).size;
+  document.getElementById("statFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
+  document.getElementById("statGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
+  document.getElementById("statFive").textContent=articles.filter(a=>a.importance_stars===5).length;
+  document.getElementById("statArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
 }
 
 document.getElementById("closePanel").onclick=closePanel;
@@ -558,7 +571,7 @@ fetch(DATA_FILE,{cache:"no-store"})
     document.getElementById("loading").innerHTML=`
       <h4 style="color:var(--text);margin:0 0 8px">Не удалось загрузить CV-библиотеку</h4>
       <p>Проверьте, что рядом находится <a href="${DATA_FILE}">${DATA_FILE}</a>.</p>
-      ${isLocal?`<p>Для локального просмотра запустите в этой папке:<br><code>python -m http.server 8000</code><br>и откройте <code>http://localhost:8000/index.html</code>.</p>`:""}
+      ${isLocal?`<p>Для локального просмотра запустите в этой папке:<br><code>python -m http.server 8000</code><br>и откройте <code>http://localhost:8000/cv.html</code>.</p>`:""}
       <p style="font-size:12px">${esc(err.message)}</p>`;
   });
 </script>

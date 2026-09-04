@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CV ReadingHub — база статей arXiv</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f7;--surface:#fff;--text:#16181d;--muted:#68707d;--line:#e2e6ea;
+  --accent:#087e8b;--accent-dark:#066774;--accent-soft:#e7f7f8;
+  --sidebar:#102126;--sidebar-text:#d5e0e2;--sidebar-muted:#91a5a9;
+  --green:#087f5b;--green-bg:#e9f8f1;--amber:#b86400;--amber-bg:#fff4dd;
+  --blue:#2563a8;--blue-bg:#eaf3ff;--red:#c23b32;--red-bg:#fff0ee;
+  --star:#c4a35a;
+  --pastel-5:#e7f0ea;--pastel-4:#f3eee4;--pastel-3:#eef1f4;--pastel-1:#f3f1ee;
+  --shadow:0 1px 3px rgba(10,25,30,.06),0 10px 30px rgba(10,25,30,.04);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif}
+button,select,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+.sidebar{background:var(--sidebar);color:var(--sidebar-text);padding:24px 16px;display:flex;flex-direction:column;gap:8px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:0 10px 20px;border-bottom:1px solid #263b41;margin-bottom:8px}
+.brand h1{margin:0;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.brand h1 span{color:#55d4dc}
+.brand p{margin:6px 0 0;font-size:12px;color:var(--sidebar-muted);line-height:1.45}
+.nav-label{margin:18px 10px 6px;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#718a90;font-weight:700}
+.nav-btn{width:100%;border:0;background:transparent;color:var(--sidebar-text);text-align:left;padding:10px 12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.nav-btn:hover{background:#1a343a}
+.nav-btn.active{background:#075f69;color:#fff;font-weight:600}
+.nav-btn .count{background:#29444a;color:#e4edef;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+.nav-btn.active .count{background:#087e8b}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 8px}
+.chip{border:1px solid #355158;background:#1b363c;color:#d5e0e2;border-radius:999px;padding:5px 10px;font-size:11px;white-space:nowrap}
+.chip:hover{border-color:#51cbd3;color:#fff}
+.chip.active{background:#075f69;border-color:#28aeb8;color:#fff}
+.chip b{color:#65dbe2;margin-left:4px}
+
+.main{min-width:0}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(243,245,247,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px}
+.search-wrap{flex:1;position:relative}
+.search-wrap input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 14px 11px 38px;outline:none}
+.search-wrap input:focus{border-color:#6fcbd1;box-shadow:0 0 0 3px rgba(8,126,139,.12)}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.sort{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;color:var(--text);max-width:230px}
+
+.content{padding:28px;max-width:1440px}
+.hero{background:#102f36;color:#fff;border-radius:20px;padding:32px 36px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"CV";position:absolute;right:28px;top:-35px;font-size:150px;line-height:1;font-weight:800;color:rgba(255,255,255,.035);pointer-events:none}
+.hero-kicker{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#7ee3e8;margin-bottom:10px;font-weight:700}
+.hero h2{margin:0 0 10px;font-size:clamp(24px,3vw,34px);line-height:1.15;letter-spacing:-.03em}
+.hero p{margin:0;max-width:790px;color:#cde5e8;font-size:15px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px;position:relative;z-index:1}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px}
+.stat .num{font-size:28px;font-weight:800;line-height:1}
+.stat .lbl{font-size:12px;color:#b9d6d9;margin-top:4px}
+
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.toolbar h3{margin:0;font-size:22px;letter-spacing:-.02em}
+.toolbar .meta{color:var(--muted);font-size:14px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--muted)}
+.pill.active{background:var(--accent-soft);border-color:#a8dfe3;color:var(--accent-dark);font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;gap:10px;position:relative}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(10,25,30,.09)}
+.card.shelf-fresh{background:linear-gradient(#fff,#fbfcfd)}
+.card.stars-5{background:var(--pastel-5);border-color:#c5d9cc}
+.card.stars-4{background:var(--pastel-4);border-color:#e2d8c4}
+.card.stars-1,.card.stars-2{background:var(--pastel-1)}
+.stars{letter-spacing:.06em;color:var(--star);font-size:14px;font-weight:700}
+.shelf-tag{font-size:11px;font-weight:650;padding:4px 8px;border-radius:7px}
+.shelf-golden{background:#f6edd8;color:#7a5b18}
+.shelf-fresh{background:#e7f0ea;color:#2f6b52}
+.shelf-archive{background:#eee;color:#5c5c5c}
+
+.card.top20{border-color:#82cdd2}
+.top-rank{position:absolute;right:14px;top:45px;background:var(--accent);color:#fff;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:800}
+.card-top{display:flex;flex-wrap:wrap;gap:6px;padding-right:32px}
+.badge{font-size:11px;font-weight:650;padding:4px 8px;border-radius:7px;white-space:nowrap}
+.badge-priority-green{background:var(--green-bg);color:var(--green)}
+.badge-priority-yellow{background:var(--amber-bg);color:var(--amber)}
+.badge-priority-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-priority-gray{background:#f1f3f5;color:#4f5965}
+.badge-top{background:var(--accent-soft);color:var(--accent-dark)}
+.badge-level{background:#f1f3f5;color:#374151}
+.badge-rec{background:#ecf4ff;color:#295b91}
+.card h4{margin:0;font-size:16px;line-height:1.35;letter-spacing:-.01em;padding-right:34px}
+.card .original-title{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .source{font-size:12px;color:var(--muted)}
+.card .summary{font-size:13px;color:#4b5563;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;font-size:12px;color:var(--muted)}
+.score{font-weight:700;color:var(--accent-dark)}
+.fav-btn{position:absolute;top:14px;right:14px;border:0;background:transparent;font-size:18px;line-height:1;padding:4px}
+.fav-btn.on{color:#e69b00}
+
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty h4{margin:0 0 8px;color:var(--text)}
+.loading{padding:80px 20px;text-align:center;color:var(--muted)}
+.loading.error{color:var(--red)}
+.spinner{width:36px;height:36px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.overlay{position:fixed;inset:0;background:rgba(8,24,28,.5);z-index:40;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow:auto}
+.overlay.show{display:flex}
+.panel{background:var(--surface);width:min(900px,100%);border-radius:18px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:hidden}
+.panel-head{padding:24px 28px 0;display:flex;justify-content:space-between;gap:12px}
+.panel-head h2{margin:8px 0 4px;font-size:26px;line-height:1.2;letter-spacing:-.02em}
+.panel-original{font-size:13px;color:var(--muted);line-height:1.4}
+.close{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;color:var(--muted);align-self:flex-start}
+.panel-body{padding:20px 28px 28px}
+.section-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:18px 0 8px}
+.section-title:first-child{margin-top:0}
+.box{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65}
+.box.practical{background:var(--accent-soft);border-color:#b7e3e6}
+.details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px}
+.tag{background:#eef1f3;border-radius:7px;padding:4px 8px;font-size:12px;color:#46515c}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.score-box{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.score-box b{font-size:20px;color:var(--accent-dark)}
+.score-box span{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+.meter{height:5px;background:#e6ebed;border-radius:99px;margin-top:7px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn-link{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;border-radius:10px;font-weight:600;font-size:14px;border:0}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark);text-decoration:none}
+.btn-secondary{background:#fff;border:1px solid var(--line);color:var(--text)}
+.btn-secondary:hover{background:#f7f9fa;text-decoration:none}
+.panel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.panel-actions button{border-radius:10px;padding:10px 14px;border:1px solid var(--line);background:#fff}
+.panel-actions button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.note-area{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical;margin-top:6px}
+.sidebar-backdrop{display:none}
+
+@media(max-width:960px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;z-index:50;width:min(310px,88vw);transform:translateX(-105%);transition:transform .2s;height:100vh}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:45}
+  .sidebar-backdrop.show{display:block}
+  .menu-toggle{display:inline-flex}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .content{padding:20px 16px 40px}
+  .topbar{padding:12px 16px}
+  .hero{padding:24px 20px}
+}
+@media(max-width:620px){
+  .grid{grid-template-columns:1fr}
+  .score-grid{grid-template-columns:repeat(2,1fr)}
+  .details-grid{grid-template-columns:1fr}
+  .sort{max-width:145px}
+}
+</style>
+</head>
+<body>
+<div class="sidebar-backdrop" id="backdrop"></div>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <h1>CV Reading<span>Hub</span></h1>
+      <p>Кураторская база arXiv по генеративной аугментации, качеству разметки, CV-промптам и annotation operations.</p>
+    </div>
+
+    <div class="nav-label">Полки</div>
+    <button class="nav-btn active" data-filter="fresh"><span>Свежее</span><span class="count" id="cntFresh">—</span></button>
+    <button class="nav-btn" data-filter="golden"><span>Золотой фонд</span><span class="count" id="cntGolden">—</span></button>
+    <button class="nav-btn" data-filter="all"><span>Вся библиотека</span><span class="count" id="cntAll">—</span></button>
+    <button class="nav-btn" data-filter="archive"><span>Архив</span><span class="count" id="cntArchive">—</span></button>
+    <button class="nav-btn" data-filter="favorites"><span>Избранное</span><span class="count" id="cntFav">0</span></button>
+    <button class="nav-btn" data-filter="read"><span>Прочитано</span><span class="count" id="cntRead">0</span></button>
+
+    <div class="nav-label">Тема</div>
+    <div class="chips" id="topicChips"></div>
+    <div class="nav-label">Важность ★</div>
+    <div class="chips" id="starChips"></div>
+    <div class="nav-label">Роль чтения</div>
+    <div class="chips" id="roleChips"></div>
+    <div class="nav-label">Сложность</div>
+    <div class="chips" id="levelChips"></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuBtn" aria-label="Меню">☰</button>
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+        <input id="search" placeholder="Название, автор, метод, навык, задача…" autocomplete="off">
+      </div>
+      <select class="sort" id="sort">
+        <option value="stars">По звёздам важности</option>
+        <option value="date-desc">Сначала новые</option>
+        <option value="work">По пользе для работы</option>
+        <option value="foundation">По фундаментальности</option>
+        <option value="priority">По приоритету</option>
+        <option value="date-desc">Сначала новые</option>
+        <option value="date-asc">Сначала старые</option>
+        <option value="title">По названию</option>
+      </select>
+    </header>
+
+    <div class="content">
+      <section class="hero">
+        <div class="hero-kicker">Personal Knowledge Base · Computer Vision</div>
+        <h2>Золотой фонд и свежий слой</h2>
+        <p>Старые канонические работы — отдельно. Свежие (с 2025) — отдельно. Важность — те же ★★★★★, что в Word-отчёте сборщика. Скрипт сбора не менялся: эта страница только приводит уже лежащую библиотеку к той же шкале.</p>
+        <div class="stats">
+          <div class="stat"><div class="num" id="statFresh">—</div><div class="lbl">свежих с 2025</div></div>
+          <div class="stat"><div class="num" id="statGolden">—</div><div class="lbl">золотой фонд</div></div>
+          <div class="stat"><div class="num" id="statFive">—</div><div class="lbl">с оценкой 5★</div></div>
+          <div class="stat"><div class="num" id="statArchive">—</div><div class="lbl">в архиве</div></div>
+        </div>
+      </section>
+
+      <div id="appBody">
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <div>Загрузка CV-библиотеки…</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="panel" role="dialog" aria-modal="true">
+    <div class="panel-head">
+      <div style="min-width:0">
+        <div class="card-top" id="panelBadges"></div>
+        <h2 id="panelTitle"></h2>
+        <div class="panel-original" id="panelOriginal"></div>
+        <div class="source" id="panelMeta"></div>
+      </div>
+      <button class="close" id="closePanel">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="score-grid" id="panelScores"></div>
+
+      <div class="section-title">Суть статьи</div>
+      <div class="box" id="panelSummary"></div>
+      <div class="section-title">Практическая польза</div>
+      <div class="box practical" id="panelPractical"></div>
+      <div id="panelTopReasonSection" hidden>
+        <div class="section-title">Почему статья входит в новый топ-20</div>
+        <div class="box practical" id="panelTopReason"></div>
+      </div>
+
+      <div class="details-grid">
+        <div>
+          <div class="section-title">Почему прочитать</div>
+          <div class="box" id="panelReason"></div>
+        </div>
+        <div>
+          <div class="section-title">Область знаний</div>
+          <div class="box" id="panelArea"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Навыки после чтения</div>
+      <div class="tag-list" id="panelSkills"></div>
+      <div class="section-title">Методы и технологии</div>
+      <div class="tag-list" id="panelMethods"></div>
+      <div class="section-title">Ограничения</div>
+      <div class="box" id="panelLimitations"></div>
+      <div class="section-title">Авторы и библиография</div>
+      <div class="box" id="panelAuthors"></div>
+
+      <div class="links" id="panelLinks"></div>
+      <div class="section-title">Личные заметки</div>
+      <textarea class="note-area" id="panelNote" placeholder="Идеи для промптов, пилота или процесса разметки…"></textarea>
+      <div class="panel-actions">
+        <button class="primary" id="btnMarkRead">Отметить прочитанным</button>
+        <button id="btnFavorite">Добавить в избранное</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA_FILE = "arxiv_articles_enriched.json";
+const STORE_KEY = "cv-readinghub-v1";
+const PRIORITY_ORDER = {"🟢 ОБЯЗАТЕЛЬНО":0,"🟡 ПОЛЕЗНО":1,"🔵 СПЕЦИАЛИЗИРОВАННОЕ":2,"⚪ СПРАВОЧНИК":3};
+const REC_ORDER = {READ_NOW:0,READ_NEXT:1,SELECTIVE_READ:2,REFERENCE_ONLY:3};
+const REC_LABELS = {READ_NOW:"Свежее · читать",READ_NEXT:"Свежее · далее",SELECTIVE_READ:"Выборочно",REFERENCE_ONLY:"Справка",GOLDEN:"Золотой фонд"};
+const ROLE_ORDER = {FOUNDATION:0,CORE:1,PRACTICAL:2,"DEEP DIVE":3,OPTIONAL:4};
+const TOPIC_SHORT = {
+  generative_augmentation:"Генеративная аугментация",
+  label_error_detection:"Ошибки разметки",
+  prompt_engineering_cv:"CV-промпты",
+  annotation_management:"Управление разметкой"
+};
+
+let articles = [];
+let state = loadState();
+let activeView = "fresh";
+let activePriority = null;
+let activeTopic = null;
+let activeRole = null;
+let activeLevel = null;
+let activeStars = null;
+let searchQuery = "";
+let currentId = null;
+
+function loadState(){
+  try{return JSON.parse(localStorage.getItem(STORE_KEY))||{read:[],favorites:[],notes:{}}}
+  catch{return{read:[],favorites:[],notes:{}}}
+}
+function saveState(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}
+function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function clampScore(v){return Math.max(0,Math.min(100,Number(v)||0))}
+function fmtDate(raw){
+  if(!raw)return"—";
+  const m=String(raw).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(!m)return raw;
+  const months=["","янв","фев","мар","апр","май","июн","июл","авг","сен","окт","ноя","дек"];
+  return `${+m[3]} ${months[+m[2]]} ${m[1]}`;
+}
+function priorityClass(p){
+  if((p||"").includes("ОБЯЗАТЕЛЬНО"))return"badge-priority-green";
+  if((p||"").includes("ПОЛЕЗНО"))return"badge-priority-yellow";
+  if((p||"").includes("СПЕЦИАЛИЗ"))return"badge-priority-blue";
+  return"badge-priority-gray";
+}
+function shortPriority(p){
+  if((p||"").includes("ОБЯЗАТЕЛЬНО"))return"Обязательно";
+  if((p||"").includes("ПОЛЕЗНО"))return"Полезно";
+  if((p||"").includes("СПЕЦИАЛИЗ"))return"Спец.";
+  return"Справочник";
+}
+function getTitle(a){return a.title_ru||a.article||"Без названия"}
+function valuesText(value){return Array.isArray(value)?value.join(" "):(value||"")}
+
+function matchesSearch(a,q){
+  if(!q)return true;
+  const hay=[
+    getTitle(a),a.article,valuesText(a.authors),a.topic,a.summary,a.practical_use,
+    a.knowledge_area,a._skill,valuesText(a.skills),valuesText(a.methods),
+    valuesText(a.tasks),valuesText(a.domains),valuesText(a.project_fit),a._reason,a.why_read,
+    a.top20_track,a.top20_selection_reason
+  ].join(" ").toLowerCase();
+  return hay.includes(q);
+}
+function baseFiltered(){
+  let list=articles.slice();
+  if(activeView==="fresh")list=list.filter(a=>a.shelf==="fresh");
+  else if(activeView==="golden")list=list.filter(a=>a.shelf==="golden");
+  else if(activeView==="archive")list=list.filter(a=>a.shelf==="archive");
+  else if(activeView==="favorites")list=list.filter(a=>state.favorites.includes(a.id));
+  else if(activeView==="read")list=list.filter(a=>state.read.includes(a.id));
+  if(activePriority)list=list.filter(a=>a._priority===activePriority);
+  if(activeTopic)list=list.filter(a=>a.topic_key===activeTopic);
+  if(activeRole)list=list.filter(a=>a._reading_role===activeRole);
+  if(activeLevel)list=list.filter(a=>a._level===activeLevel);
+  if(activeStars)list=list.filter(a=>(a.importance_stars||0)===+activeStars);
+  if(searchQuery)list=list.filter(a=>matchesSearch(a,searchQuery));
+  return list;
+}
+function sortList(list){
+  const mode=document.getElementById("sort").value;
+  return list.slice().sort((a,b)=>{
+    if(mode==="stars")return (b.importance_stars||0)-(a.importance_stars||0)||(b.date||"").localeCompare(a.date||"");
+    if(mode==="score")return (b.selection_score||0)-(a.selection_score||0);
+    if(mode==="work")return (b.work_relevance_score||0)-(a.work_relevance_score||0);
+    if(mode==="foundation")return (b.foundational_score||0)-(a.foundational_score||0);
+    if(mode==="priority")return (PRIORITY_ORDER[a._priority]??9)-(PRIORITY_ORDER[b._priority]??9)||(b.priority_score||0)-(a.priority_score||0);
+    if(mode==="title")return getTitle(a).localeCompare(getTitle(b),"ru");
+    if(mode==="date-asc")return (a.date||"").localeCompare(b.date||"");
+    return (b.date||"").localeCompare(a.date||"");
+  });
+}
+function updateCounts(){
+  document.getElementById("cntFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
+  document.getElementById("cntGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
+  document.getElementById("cntArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
+  document.getElementById("cntAll").textContent=articles.length;
+  document.getElementById("cntFav").textContent=state.favorites.length;
+  document.getElementById("cntRead").textContent=state.read.length;
+}
+function buildChips(containerId,entries,activeValue,attr,labeler=v=>v){
+  const el=document.getElementById(containerId);
+  el.innerHTML=entries.map(([val,cnt])=>
+    `<button class="chip${activeValue===val?" active":""}" data-${attr}="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
+  ).join("");
+  el.querySelectorAll(".chip").forEach(btn=>{
+    btn.onclick=()=>{
+      const v=btn.dataset[attr];
+      if(attr==="priority")activePriority=activePriority===v?null:v;
+      if(attr==="topic")activeTopic=activeTopic===v?null:v;
+      if(attr==="role")activeRole=activeRole===v?null:v;
+      if(attr==="level")activeLevel=activeLevel===v?null:v;
+      if(attr==="stars")activeStars=activeStars===v?null:v;
+      buildSidebar();render();
+    };
+  });
+}
+function countBy(field){
+  const result={};
+  articles.forEach(a=>{const v=a[field];if(v)result[v]=(result[v]||0)+1});
+  return Object.entries(result);
+}
+function buildSidebar(){
+  buildChips("topicChips",countBy("topic_key").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
+  buildChips("starChips",countBy("importance_stars").sort((a,b)=>b[0]-a[0]),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
+  buildChips("roleChips",countBy("_reading_role").sort((a,b)=>(ROLE_ORDER[a[0]]??9)-(ROLE_ORDER[b[0]]??9)),activeRole,"role");
+  buildChips("levelChips",countBy("_level").sort((a,b)=>b[1]-a[1]),activeLevel,"level");
+  document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.filter===activeView);
+    btn.onclick=()=>{
+      activeView=btn.dataset.filter;
+      document.querySelectorAll(".nav-btn[data-filter]").forEach(b=>b.classList.toggle("active",b.dataset.filter===activeView));
+      render();closeSidebar();
+    };
+  });
+  updateCounts();
+}
+function viewTitle(){
+  return {fresh:"Свежее (с 2025)",golden:"Золотой фонд",archive:"Архив",favorites:"Избранное",read:"Прочитано",all:"Вся библиотека"}[activeView];
+}
+function renderCard(a){
+  const isRead=state.read.includes(a.id);
+  const isFav=state.favorites.includes(a.id);
+  const stars=a.importance_stars||1;
+  const shelf=a.shelf||"archive";
+  return `<article class="card${isRead?" read":""} stars-${stars}" data-id="${a.id}">
+    <button class="fav-btn${isFav?" on":""}" data-fav="${a.id}" aria-label="Избранное">${isFav?"★":"☆"}</button>
+    <div class="card-top">
+      <span class="shelf-tag shelf-${esc(shelf)}">${esc(a.shelf_label||shelf)}</span>
+      <span class="stars" title="Важность">${esc(a.importance_mark||"★")}</span>
+    </div>
+    <h4>${esc(getTitle(a))}</h4>
+    <div class="original-title">${esc(a.article||"")}</div>
+    <div class="source">${esc(TOPIC_SHORT[a.topic_key]||a.topic)} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
+    <div class="summary">${esc(a.summary||"Аннотация не добавлена.")}</div>
+    <div class="card-foot"><span class="score">${esc(a.importance_mark||"")}</span><span>${isRead?"Прочитано":"Подробнее →"}</span></div>
+  </article>`;
+}
+function activeFilterLabels(){
+  const values=[];
+  if(activeTopic)values.push(TOPIC_SHORT[activeTopic]||activeTopic);
+  if(activeStars)values.push("★".repeat(+activeStars));
+  if(activeRole)values.push(activeRole);
+  if(activeLevel)values.push(activeLevel);
+  return values;
+}
+function render(){
+  const list=sortList(baseFiltered());
+  const filters=activeFilterLabels();
+  document.getElementById("appBody").innerHTML=`
+    <div class="toolbar">
+      <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${filters.length?" · "+esc(filters.join(" · ")):""}</div></div>
+    </div>
+    ${filters.length?`<div class="pills"><button class="pill active" id="clearFilters">✕ Сбросить фильтры</button></div>`:""}
+    <div class="grid">${list.length?list.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>`;
+  document.getElementById("clearFilters")?.addEventListener("click",()=>{activePriority=activeTopic=activeRole=activeLevel=activeStars=null;buildSidebar();render()});
+  document.querySelectorAll(".card").forEach(card=>card.addEventListener("click",e=>{if(!e.target.closest("[data-fav]"))openPanel(+card.dataset.id)}));
+  document.querySelectorAll("[data-fav]").forEach(btn=>btn.addEventListener("click",e=>{e.stopPropagation();toggleFavorite(+btn.dataset.fav)}));
+  updateCounts();
+}
+function renderTags(values){
+  const list=Array.isArray(values)?values.filter(Boolean):[];
+  return list.length?list.map(v=>`<span class="tag">${esc(v)}</span>`).join(""):`<span class="tag">Не указано</span>`;
+}
+function renderScore(label,value){
+  const score=clampScore(value);
+  return `<div class="score-box"><b>${score}</b><span>${esc(label)}</span><div class="meter"><i style="width:${score}%"></i></div></div>`;
+}
+function openPanel(id){
+  const a=articles.find(x=>x.id===id);
+  if(!a)return;
+  currentId=id;
+  document.getElementById("panelBadges").innerHTML=`
+    <span class="shelf-tag shelf-${esc(a.shelf||"archive")}">${esc(a.shelf_label||a.shelf||"—")}</span>
+    <span class="stars">${esc(a.importance_mark||"")}</span>
+    <span class="badge badge-level">${esc(a._level||"—")}</span>
+    <span class="badge badge-rec">${esc(REC_LABELS[a._recommendation]||"—")}</span>`;
+  document.getElementById("panelTitle").textContent=getTitle(a);
+  document.getElementById("panelOriginal").textContent=a.article||"";
+  document.getElementById("panelMeta").textContent=`${TOPIC_SHORT[a.topic_key]||a.topic} · ${fmtDate(a.date)} · arXiv:${a.arxiv_id} · ${a.primary_category||""}`;
+  document.getElementById("panelScores").innerHTML=
+    renderScore("Важность ×20", (a.importance_stars||0)*20)+
+    renderScore("Польза для работы",a.work_relevance_score)+
+    renderScore("Приоритет",a.priority_score)+
+    renderScore("Фундаментальность",a.foundational_score);
+  document.getElementById("panelSummary").textContent=a.summary||"—";
+  document.getElementById("panelPractical").textContent=a.practical_use||"—";
+  document.getElementById("panelTopReasonSection").hidden=!a.top20_candidate;
+  document.getElementById("panelTopReason").textContent=a.top20_candidate?
+    `${a.top20_track}: ${a.top20_selection_reason}`:"";
+  document.getElementById("panelReason").textContent=[a._reason_shelf,a.why_read||a._reason].filter(Boolean).join(" ")||"—";
+  document.getElementById("panelArea").textContent=[a.knowledge_area,valuesText(a.subtopics)].filter(Boolean).join(" · ")||"—";
+  document.getElementById("panelSkills").innerHTML=renderTags(a.skills?.length?a.skills:[a._skill]);
+  document.getElementById("panelMethods").innerHTML=renderTags(a.methods);
+  document.getElementById("panelLimitations").textContent=(a.limitations||[]).join(" • ")||"Не указаны.";
+  document.getElementById("panelAuthors").textContent=
+    `${(a.authors||[]).join(", ")||"Авторы не указаны"}. Дата: ${fmtDate(a.date)}. Категории: ${(a.categories||[]).join(", ")}. Основа анализа: ${a.evidence_basis==="full_html"?"полный HTML":"abstract"}.`;
+  const links=[
+    `<a class="btn-link btn-primary" href="${esc(a.article_link)}" target="_blank" rel="noopener">arXiv abstract ↗</a>`,
+    a.html_available?`<a class="btn-link btn-secondary" href="${esc(a.html_link)}" target="_blank" rel="noopener">HTML ↗</a>`:"",
+    `<a class="btn-link btn-secondary" href="${esc(a.pdf_link)}" target="_blank" rel="noopener">PDF ↗</a>`
+  ];
+  document.getElementById("panelLinks").innerHTML=links.join("");
+  document.getElementById("panelNote").value=state.notes[id]||"";
+  document.getElementById("btnMarkRead").textContent=state.read.includes(id)?"Прочитано — снять отметку":"Отметить прочитанным";
+  document.getElementById("btnFavorite").textContent=state.favorites.includes(id)?"В избранном":"Добавить в избранное";
+  document.getElementById("overlay").classList.add("show");
+}
+function closePanel(){
+  if(currentId!=null){
+    const note=document.getElementById("panelNote").value.trim();
+    if(note)state.notes[currentId]=note;else delete state.notes[currentId];
+    saveState();
+  }
+  document.getElementById("overlay").classList.remove("show");
+  currentId=null;render();
+}
+function toggleFavorite(id){
+  const i=state.favorites.indexOf(id);
+  if(i>=0)state.favorites.splice(i,1);else state.favorites.push(id);
+  saveState();render();
+}
+function toggleRead(id){
+  const i=state.read.indexOf(id);
+  if(i>=0)state.read.splice(i,1);else state.read.push(id);
+  saveState();
+  if(currentId===id)document.getElementById("btnMarkRead").textContent=state.read.includes(id)?"Прочитано — снять отметку":"Отметить прочитанным";
+  render();
+}
+function closeSidebar(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("backdrop").classList.remove("show");
+}
+function initStats(){
+  document.getElementById("statFresh").textContent=articles.filter(a=>a.shelf==="fresh").length;
+  document.getElementById("statGolden").textContent=articles.filter(a=>a.shelf==="golden").length;
+  document.getElementById("statFive").textContent=articles.filter(a=>a.importance_stars===5).length;
+  document.getElementById("statArchive").textContent=articles.filter(a=>a.shelf==="archive").length;
+}
+
+document.getElementById("closePanel").onclick=closePanel;
+document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closePanel()});
+document.getElementById("btnFavorite").onclick=()=>currentId!=null&&toggleFavorite(currentId);
+document.getElementById("btnMarkRead").onclick=()=>currentId!=null&&toggleRead(currentId);
+document.getElementById("panelNote").addEventListener("blur",()=>{if(currentId==null)return;const note=document.getElementById("panelNote").value.trim();if(note)state.notes[currentId]=note;else delete state.notes[currentId];saveState()});
+document.getElementById("search").addEventListener("input",e=>{searchQuery=e.target.value.trim().toLowerCase();render()});
+document.getElementById("sort").addEventListener("change",render);
+document.getElementById("menuBtn").onclick=()=>{document.getElementById("sidebar").classList.toggle("open");document.getElementById("backdrop").classList.toggle("show")};
+document.getElementById("backdrop").onclick=closeSidebar;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closePanel();closeSidebar()}});
+
+fetch(DATA_FILE,{cache:"no-store"})
+  .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+  .then(data=>{
+    if(!Array.isArray(data)||data.length!==300)throw new Error("Ожидалось 300 статей");
+    articles=data;
+    initStats();buildSidebar();render();
+  })
+  .catch(err=>{
+    const isLocal=location.protocol==="file:";
+    document.getElementById("loading").classList.add("error");
+    document.getElementById("loading").innerHTML=`
+      <h4 style="color:var(--text);margin:0 0 8px">Не удалось загрузить CV-библиотеку</h4>
+      <p>Проверьте, что рядом находится <a href="${DATA_FILE}">${DATA_FILE}</a>.</p>
+      ${isLocal?`<p>Для локального просмотра запустите в этой папке:<br><code>python -m http.server 8000</code><br>и откройте <code>http://localhost:8000/cv.html</code>.</p>`:""}
+      <p style="font-size:12px">${esc(err.message)}</p>`;
+  });
+</script>
+</body>
+</html>
