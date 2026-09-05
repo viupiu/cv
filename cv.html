@@ -221,6 +221,7 @@ a:hover{text-decoration:underline}
         <div class="loading" id="loading">
           <div class="spinner"></div>
           <div>Загрузка CV-библиотеки…</div>
+          <div style="font-size:12px;margin-top:8px">Первый раз может занять несколько секунд — база статей с GitHub.</div>
         </div>
       </div>
     </div>
@@ -580,7 +581,7 @@ document.getElementById("menuBtn").onclick=()=>{document.getElementById("sidebar
 document.getElementById("backdrop").onclick=closeSidebar;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closePanel();closeSidebar()}});
 
-fetch(DATA_FILE,{cache:"no-store"})
+fetch(DATA_FILE)
   .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
   .then(data=>{
     if(!Array.isArray(data)||!data.length)throw new Error("Ожидался непустой список статей");
