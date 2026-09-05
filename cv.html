@@ -123,6 +123,9 @@ a:hover{text-decoration:underline}
 .section-title:first-child{margin-top:0}
 .box{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65}
 .box.practical{background:var(--accent-soft);border-color:#b7e3e6}
+.advice-card{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.advice-card blockquote{margin:0 0 10px;padding:0 0 0 12px;border-left:3px solid var(--accent);font-size:13px;line-height:1.55;color:#334155;font-style:italic}
+.advice-who{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);border-radius:7px;padding:3px 8px;margin-bottom:6px}
 .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .tag-list{display:flex;flex-wrap:wrap;gap:6px}
 .tag{background:#eef1f3;border-radius:7px;padding:4px 8px;font-size:12px;color:#46515c}
@@ -242,6 +245,10 @@ a:hover{text-decoration:underline}
       <div class="box" id="panelSummary"></div>
       <div class="section-title">Практическая польза</div>
       <div class="box practical" id="panelPractical"></div>
+      <div id="panelAdviceSection" hidden>
+        <div class="section-title">Цитаты и советы</div>
+        <div id="panelAdvice"></div>
+      </div>
       <div id="panelTopReasonSection" hidden>
         <div class="section-title">Почему статья входит в новый топ-20</div>
         <div class="box practical" id="panelTopReason"></div>
@@ -341,7 +348,8 @@ function matchesSearch(a,q){
     getTitle(a),a.article,valuesText(a.authors),a.topic,a.summary,a.practical_use,
     a.knowledge_area,a._skill,valuesText(a.skills),valuesText(a.methods),
     valuesText(a.tasks),valuesText(a.domains),valuesText(a.project_fit),a._reason,a.why_read,
-    a.top20_track,a.top20_selection_reason
+    a.top20_track,a.top20_selection_reason,
+    ...(a.advice_items||[]).flatMap(it=>[it.quote,it.advice,it.audience])
   ].join(" ").toLowerCase();
   return hay.includes(q);
 }
@@ -466,7 +474,24 @@ function renderTags(values){
   const list=Array.isArray(values)?values.filter(Boolean):[];
   return list.length?list.map(v=>`<span class="tag">${esc(v)}</span>`).join(""):`<span class="tag">Не указано</span>`;
 }
-function renderScore(label,value){
+function audienceLabel(v){
+  if(v==="разметчик")return"Для разметчика";
+  if(v==="руководитель")return"Для руководителя";
+  if(v==="CV-разработчик")return"Для CV-разработчика";
+  return v||"Для команды";
+}
+function renderAdvice(items){
+  const list=Array.isArray(items)?items.filter(it=>it&&(it.quote||it.advice)):[]
+  const sec=document.getElementById("panelAdviceSection");
+  const box=document.getElementById("panelAdvice");
+  if(!list.length){sec.hidden=true;box.innerHTML="";return}
+  sec.hidden=false;
+  box.innerHTML=list.map(it=>`<article class="advice-card">
+    ${it.quote?`<blockquote>«${esc(it.quote)}»</blockquote>`:""}
+    <div class="advice-who">${esc(audienceLabel(it.audience))}</div>
+    <div>${esc(it.advice||"")}</div>
+  </article>`).join("");
+}
   const score=clampScore(value);
   return `<div class="score-box"><b>${score}</b><span>${esc(label)}</span><div class="meter"><i style="width:${score}%"></i></div></div>`;
 }
@@ -487,6 +512,7 @@ function openPanel(id){
     renderScore("Фундаментальность",a.foundational_score);
   document.getElementById("panelSummary").textContent=a.summary||"—";
   document.getElementById("panelPractical").textContent=a.practical_use||"—";
+  renderAdvice(a.advice_items);
   document.getElementById("panelTopReasonSection").hidden=!a.top20_candidate;
   document.getElementById("panelTopReason").textContent=a.top20_candidate?
     `${a.top20_track}: ${a.top20_selection_reason}`:"";
