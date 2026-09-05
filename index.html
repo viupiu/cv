@@ -120,10 +120,13 @@ a:hover{text-decoration:underline}
 .close{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;color:var(--muted);align-self:flex-start}
 .panel-body{padding:20px 28px 28px}
 .section-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:18px 0 8px}
-.section-title:first-child{margin-top:0}
+.panel-body > .section-title:first-of-type{margin-top:18px}
 .box{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65}
 .box.practical{background:var(--accent-soft);border-color:#b7e3e6}
-.advice-card{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+#panelAdviceSection{margin:4px 0 8px}
+#panelAdviceSection .section-title{margin-top:18px;margin-bottom:12px}
+.advice-card{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 12px}
+.advice-card:last-child{margin-bottom:4px}
 .advice-card .advice-kicker{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 .advice-card blockquote{margin:0 0 12px;padding:10px 12px;border-left:3px solid var(--accent);background:#fff;font-size:13px;line-height:1.55;color:#1f2937;font-style:normal;white-space:pre-wrap}
 .advice-who{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);border-radius:7px;padding:3px 8px;margin:0 0 8px}
