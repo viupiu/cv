@@ -124,8 +124,11 @@ a:hover{text-decoration:underline}
 .box{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65}
 .box.practical{background:var(--accent-soft);border-color:#b7e3e6}
 .advice-card{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
-.advice-card blockquote{margin:0 0 10px;padding:0 0 0 12px;border-left:3px solid var(--accent);font-size:13px;line-height:1.55;color:#334155;font-style:italic}
-.advice-who{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);border-radius:7px;padding:3px 8px;margin-bottom:6px}
+.advice-card .advice-kicker{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.advice-card blockquote{margin:0 0 12px;padding:10px 12px;border-left:3px solid var(--accent);background:#fff;font-size:13px;line-height:1.55;color:#1f2937;font-style:normal;white-space:pre-wrap}
+.advice-who{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-dark);background:var(--accent-soft);border-radius:7px;padding:3px 8px;margin:0 0 8px}
+.advice-text{font-size:14px;line-height:1.65}
+.tag-advice{background:#dceef0;color:#0f5b63}
 .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .tag-list{display:flex;flex-wrap:wrap;gap:6px}
 .tag{background:#eef1f3;border-radius:7px;padding:4px 8px;font-size:12px;color:#46515c}
@@ -178,6 +181,7 @@ a:hover{text-decoration:underline}
 
     <div class="nav-label">Библиотека</div>
     <button class="nav-btn active" data-filter="all"><span>Все статьи</span><span class="count" id="cntAll">—</span></button>
+    <button class="nav-btn" data-filter="advice"><span>Цитаты и советы</span><span class="count" id="cntAdvice">0</span></button>
     <button class="nav-btn" data-filter="favorites"><span>Избранное</span><span class="count" id="cntFav">0</span></button>
     <button class="nav-btn" data-filter="read"><span>Прочитано</span><span class="count" id="cntRead">0</span></button>
 
@@ -246,7 +250,7 @@ a:hover{text-decoration:underline}
       <div class="section-title">Практическая польза</div>
       <div class="box practical" id="panelPractical"></div>
       <div id="panelAdviceSection" hidden>
-        <div class="section-title">Цитаты и советы</div>
+        <div class="section-title">Цитата из статьи и совет</div>
         <div id="panelAdvice"></div>
       </div>
       <div id="panelTopReasonSection" hidden>
@@ -358,9 +362,11 @@ function toggleFilter(list, v){
   if(i>=0)list.splice(i,1);else list.push(v);
   return list;
 }
+function hasAdvice(a){return Array.isArray(a.advice_items)&&a.advice_items.some(it=>it&&(it.quote||it.advice))}
 function matchesFilters(a, skip){
   if(activeView==="favorites" && !state.favorites.includes(a.id))return false;
   if(activeView==="read" && !state.read.includes(a.id))return false;
+  if(activeView==="advice" && !hasAdvice(a))return false;
   if(skip!=="topic" && activeTopic.length && !activeTopic.includes(a.topic_key))return false;
   if(skip!=="year" && activeYear.length && !activeYear.includes(articleYear(a)))return false;
   if(skip!=="stars" && activeStars.length && !activeStars.includes(String(a.importance_stars??"")))return false;
@@ -383,6 +389,7 @@ function sortList(list){
 }
 function updateCounts(){
   document.getElementById("cntAll").textContent=articles.length;
+  document.getElementById("cntAdvice").textContent=articles.filter(hasAdvice).length;
   document.getElementById("cntFav").textContent=state.favorites.length;
   document.getElementById("cntRead").textContent=state.read.length;
 }
@@ -429,6 +436,7 @@ function buildSidebar(){
 function viewTitle(){
   if(activeView==="favorites")return"Избранное";
   if(activeView==="read")return"Прочитано";
+  if(activeView==="advice")return"Цитаты и советы";
   if(activeYear.length)return activeYear.slice().sort((a,b)=>b.localeCompare(a)).join(", ");
   return"Все статьи";
 }
@@ -440,6 +448,7 @@ function renderCard(a){
     <button class="fav-btn${isFav?" on":""}" data-fav="${a.id}" aria-label="Избранное">${isFav?"★":"☆"}</button>
     <div class="card-top">
       <span class="shelf-tag shelf-fresh">${esc(articleYear(a)||"—")}</span>
+      ${hasAdvice(a)?`<span class="shelf-tag tag-advice">совет</span>`:""}
       <span class="stars" title="Важность">${esc(a.importance_mark||"★")}</span>
     </div>
     <h4>${esc(getTitle(a))}</h4>
@@ -487,9 +496,10 @@ function renderAdvice(items){
   if(!list.length){sec.hidden=true;box.innerHTML="";return}
   sec.hidden=false;
   box.innerHTML=list.map(it=>`<article class="advice-card">
-    ${it.quote?`<blockquote>«${esc(it.quote)}»</blockquote>`:""}
+    ${it.quote?`<div class="advice-kicker">Цитата — как в тексте статьи</div><blockquote>${esc(it.quote)}</blockquote>`:""}
     <div class="advice-who">${esc(audienceLabel(it.audience))}</div>
-    <div>${esc(it.advice||"")}</div>
+    <div class="advice-kicker">Совет</div>
+    <div class="advice-text">${esc(it.advice||"")}</div>
   </article>`).join("");
 }
 function renderScore(label,value){
