@@ -581,22 +581,42 @@ document.getElementById("menuBtn").onclick=()=>{document.getElementById("sidebar
 document.getElementById("backdrop").onclick=closeSidebar;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closePanel();closeSidebar()}});
 
-fetch(DATA_FILE)
-  .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
-  .then(data=>{
-    if(!Array.isArray(data)||!data.length)throw new Error("Ожидался непустой список статей");
-    articles=data;
-    initStats();buildSidebar();render();
-  })
-  .catch(err=>{
-    const isLocal=location.protocol==="file:";
-    document.getElementById("loading").classList.add("error");
-    document.getElementById("loading").innerHTML=`
-      <h4 style="color:var(--text);margin:0 0 8px">Не удалось загрузить CV-библиотеку</h4>
-      <p>Проверьте, что рядом находится <a href="${DATA_FILE}">${DATA_FILE}</a>.</p>
-      ${isLocal?`<p>Для локального просмотра запустите в этой папке:<br><code>python -m http.server 8000</code><br>и откройте <code>http://localhost:8000/cv.html</code>.</p>`:""}
-      <p style="font-size:12px">${esc(err.message)}</p>`;
-  });
+function startLibrary(data){
+  if(!Array.isArray(data)||!data.length)throw new Error("Ожидался непустой список статей");
+  articles=data;
+  initStats();buildSidebar();render();
+}
+function showLoadError(err){
+  const isLocal=location.protocol==="file:";
+  document.getElementById("loading").classList.add("error");
+  document.getElementById("loading").innerHTML=`
+    <h4 style="color:var(--text);margin:0 0 8px">Не удалось загрузить CV-библиотеку</h4>
+    <p>Рядом должен быть <a href="${DATA_FILE}">${DATA_FILE}</a> или <code>arxiv_articles_data.js</code>.</p>
+    ${isLocal?`<p>Chrome не читает JSON с <code>file://</code>. Откройте через <code>python -m http.server 8000</code> или дождитесь файла <code>arxiv_articles_data.js</code> в этой папке.</p>`:""}
+    <p style="font-size:12px">${esc(err&&err.message?err.message:String(err))}</p>`;
+}
+function loadLibrary(){
+  if(Array.isArray(window.HUB_ARTICLES)&&window.HUB_ARTICLES.length){
+    startLibrary(window.HUB_ARTICLES);
+    return;
+  }
+  if(location.protocol==="file:"){
+    const s=document.createElement("script");
+    s.src="arxiv_articles_data.js";
+    s.onload=()=>{
+      try{startLibrary(window.HUB_ARTICLES)}
+      catch(err){showLoadError(err)}
+    };
+    s.onerror=()=>showLoadError(new Error("Браузер заблокировал JSON на file://, а arxiv_articles_data.js не найден"));
+    document.head.appendChild(s);
+    return;
+  }
+  fetch(DATA_FILE)
+    .then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+    .then(startLibrary)
+    .catch(showLoadError);
+}
+loadLibrary();
 </script>
 </body>
 </html>
