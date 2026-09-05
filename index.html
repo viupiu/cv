@@ -492,6 +492,7 @@ function renderAdvice(items){
     <div>${esc(it.advice||"")}</div>
   </article>`).join("");
 }
+function renderScore(label,value){
   const score=clampScore(value);
   return `<div class="score-box"><b>${score}</b><span>${esc(label)}</span><div class="meter"><i style="width:${score}%"></i></div></div>`;
 }
