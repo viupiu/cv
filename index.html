@@ -176,7 +176,7 @@ a:hover{text-decoration:underline}
       <button class="menu-toggle" id="menuBtn" aria-label="Меню">☰</button>
       <div class="search-wrap">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
-        <input id="search" placeholder="Название, автор, метод, навык, задача…" autocomplete="off">
+        <input id="search" placeholder="Название, arXiv id, автор, метод, навык, задача…" autocomplete="off">
       </div>
       <select class="sort" id="sort">
         <option value="stars">По звёздам важности</option>
@@ -322,6 +322,7 @@ function nonemptyList(value){
 function matchesSearch(a,q){
   if(!q)return true;
   const hay=[
+    a.arxiv_id,a.article_link,a.html_link,a.pdf_link,a.doi,
     getTitle(a),a.article,valuesText(a.authors),a.topic,a.summary,a.practical_use,
     a.knowledge_area,a._skill,valuesText(a.skills),valuesText(a.methods),
     valuesText(a.tasks),valuesText(a.domains),valuesText(a.project_fit),a._reason,a.why_read,
