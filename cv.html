@@ -435,7 +435,7 @@ function onChipClick(e){
 function buildSidebar(){
   buildChips("yearChips",countBy("year","year").sort((a,b)=>b[0].localeCompare(a[0])),activeYear,"year");
   buildChips("topicChips",countBy("topic_key","topic").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
-  buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
+  buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>`${Number(v)}★`);
   buildChips("audienceChips",countByAudience(),activeAudience,"audience",audienceLabel);
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.filter===activeView);
@@ -476,7 +476,7 @@ function activeFilterLabels(){
   const values=[];
   activeTopic.forEach(t=>values.push(TOPIC_SHORT[t]||t));
   activeYear.slice().sort((a,b)=>b.localeCompare(a)).forEach(y=>values.push(y));
-  activeStars.slice().sort((a,b)=>Number(b)-Number(a)).forEach(s=>values.push("★".repeat(+s)));
+  activeStars.slice().sort((a,b)=>Number(b)-Number(a)).forEach(s=>values.push(`${Number(s)}★`));
   AUDIENCE_ORDER.filter(r=>activeAudience.includes(r)).forEach(r=>values.push(audienceLabel(r)));
   activeAudience.filter(r=>!AUDIENCE_ORDER.includes(r)).forEach(r=>values.push(audienceLabel(r)));
   return values;
