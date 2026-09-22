@@ -288,7 +288,7 @@ let articles = [];
 let activeView = "all";
 let activeTopic = [];
 let activeYear = ["2026"];
-let activeStars = ["5"];
+let activeStars = [];
 let activeAudience = [];
 let searchQuery = "";
 let currentId = null;
@@ -354,13 +354,13 @@ function baseFiltered(){return articles.filter(a=>matchesFilters(a,null))}
 function isDefaultFilters(){
   return activeView==="all" && !searchQuery && !activeTopic.length && !activeAudience.length
     && activeYear.length===1 && activeYear[0]==="2026"
-    && activeStars.length===1 && activeStars[0]==="5";
+    && !activeStars.length;
 }
 function resetFilters(){
   activeView="all";
   activeTopic=[];
   activeYear=["2026"];
-  activeStars=["5"];
+  activeStars=[];
   activeAudience=[];
   searchQuery="";
   pageIndex=0;
