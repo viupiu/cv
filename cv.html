@@ -279,7 +279,8 @@ const TOPIC_SHORT = {
   uav_aerial_detection:"Дрон/аэро",
   dataset_quality:"Качество данных",
   general_cv:"Прочее CV",
-  off_topic:"Вне тематики"
+  off_topic:"Вне тематики",
+  watermark_removal:"Удаление вотермарок"
 };
 
 const AUDIENCE_ORDER = ["разметчик", "руководитель", "CV-разработчик"];
@@ -420,10 +421,10 @@ function countByAudience(){
   const extra=Object.entries(result).filter(([r])=>!AUDIENCE_ORDER.includes(r));
   return ordered.concat(extra);
 }
-function buildChips(containerId,entries,activeValues,attr,labeler=v=>v){
+function buildChips(containerId,entries,activeValues,attr,labeler=v=>v,keepZero=false){
   const el=document.getElementById(containerId);
   const selected=new Set((activeValues||[]).map(String));
-  el.innerHTML=entries.filter(([,cnt])=>cnt>0).map(([val,cnt])=>
+  el.innerHTML=entries.filter(([,cnt])=>keepZero||cnt>0).map(([val,cnt])=>
     `<button type="button" class="chip${selected.has(String(val))?" active":""}" data-facet="${attr}" data-value="${esc(val)}">${esc(labeler(val))}<b>${cnt}</b></button>`
   ).join("");
 }
@@ -432,7 +433,13 @@ function onChipClick(e){
   if(!btn)return;
   const attr=btn.getAttribute("data-facet");
   const v=btn.getAttribute("data-value");
-  if(attr==="topic")toggleFilter(activeTopic,v);
+  if(attr==="topic"){
+    const turningOn=!activeTopic.includes(v);
+    toggleFilter(activeTopic,v);
+    if(turningOn && !articles.some(a=>a.topic_key===v&&matchesFilters(a,"topic")) && articles.some(a=>a.topic_key===v)){
+      activeYear=[];activeStars=[];
+    }
+  }
   else if(attr==="year")toggleFilter(activeYear,v);
   else if(attr==="stars")toggleFilter(activeStars,v);
   else if(attr==="audience")toggleFilter(activeAudience,v);
@@ -441,7 +448,11 @@ function onChipClick(e){
 }
 function buildSidebar(){
   buildChips("yearChips",countBy("year","year").sort((a,b)=>b[0].localeCompare(a[0])),activeYear,"year");
-  buildChips("topicChips",countBy("topic_key","topic").sort((a,b)=>b[1]-a[1]),activeTopic,"topic",v=>TOPIC_SHORT[v]||v);
+  const topicCounts=new Map(countBy("topic_key","topic"));
+  const topicSet=new Set(Object.keys(TOPIC_SHORT));
+  articles.forEach(a=>{if(a.topic_key)topicSet.add(a.topic_key)});
+  const topicEntries=[...topicSet].map(k=>[k,topicCounts.get(k)||0]).sort((a,b)=>b[1]-a[1]||(TOPIC_SHORT[a[0]]||a[0]).localeCompare(TOPIC_SHORT[b[0]]||b[0],"ru"));
+  buildChips("topicChips",topicEntries,activeTopic,"topic",v=>TOPIC_SHORT[v]||v,true);
   buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>`${Number(v)}★`);
   buildChips("audienceChips",countByAudience(),activeAudience,"audience",audienceLabel);
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
