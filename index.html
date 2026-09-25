@@ -293,16 +293,13 @@ let articles = [];
 let activeView = "all";
 let activeTopic = [];
 let activeYear = ["2026"];
-let activeStars = [];
+let activeStars = ["5"];
 let activeAudience = [];
 let searchQuery = "";
 let currentId = null;
 let pageIndex = 0;
 
 function esc(s){return String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
-function starsOnly(v){
-  return String(v||"").replace(/[☆]。·∙•]/g,"").replace(/[^★]/g,"")||"★";
-}
 function fmtDate(raw){
   if(!raw)return"—";
   const m=String(raw).match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -362,13 +359,13 @@ function baseFiltered(){return articles.filter(a=>matchesFilters(a,null))}
 function isDefaultFilters(){
   return activeView==="all" && !searchQuery && !activeTopic.length && !activeAudience.length
     && activeYear.length===1 && activeYear[0]==="2026"
-    && !activeStars.length;
+    && activeStars.length===1 && activeStars[0]==="5";
 }
 function resetFilters(){
   activeView="all";
   activeTopic=[];
   activeYear=["2026"];
-  activeStars=[];
+  activeStars=["5"];
   activeAudience=[];
   searchQuery="";
   pageIndex=0;
@@ -457,7 +454,7 @@ function buildSidebar(){
   articles.forEach(a=>{if(a.topic_key)topicSet.add(a.topic_key)});
   const topicEntries=[...topicSet].map(k=>[k,topicCounts.get(k)||0]).sort((a,b)=>b[1]-a[1]||(TOPIC_SHORT[a[0]]||a[0]).localeCompare(TOPIC_SHORT[b[0]]||b[0],"ru"));
   buildChips("topicChips",topicEntries,activeTopic,"topic",v=>TOPIC_SHORT[v]||v,true);
-  buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>("★".repeat(+v))+("☆".repeat(5-+v)));
+  buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>`${Number(v)}★`);
   buildChips("audienceChips",countByAudience(),activeAudience,"audience",audienceLabel);
   document.querySelectorAll(".nav-btn[data-filter]").forEach(btn=>{
     btn.classList.toggle("active",btn.dataset.filter===activeView);
@@ -485,20 +482,20 @@ function renderCard(a){
   return `<article class="card stars-${stars}" data-id="${a.id}">
     <div class="card-top">
       <span class="year-tag">${esc(articleYear(a)||"—")}</span>
-      <span class="stars" title="Важность">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(stars))}</span>
+      <span class="stars" title="Важность">${esc(a.importance_mark||"★")}</span>
     </div>
     <h4>${esc(getTitle(a))}</h4>
     <div class="original-title">${esc(a.article||"")}</div>
     <div class="source">${esc(TOPIC_SHORT[a.topic_key]||a.topic)} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
     <div class="summary">${esc(a.summary||"")}</div>
-    <div class="card-foot"><span class="score">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(stars))}</span><span>Подробнее →</span></div>
+    <div class="card-foot"><span class="score">${esc(a.importance_mark||"")}</span><span>Подробнее →</span></div>
   </article>`;
 }
 function activeFilterLabels(){
   const values=[];
   activeTopic.forEach(t=>values.push(TOPIC_SHORT[t]||t));
   activeYear.slice().sort((a,b)=>b.localeCompare(a)).forEach(y=>values.push(y));
-  activeStars.slice().sort((a,b)=>Number(b)-Number(a)).forEach(s=>values.push("★".repeat(+s)));
+  activeStars.slice().sort((a,b)=>Number(b)-Number(a)).forEach(s=>values.push(`${Number(s)}★`));
   AUDIENCE_ORDER.filter(r=>activeAudience.includes(r)).forEach(r=>values.push(audienceLabel(r)));
   activeAudience.filter(r=>!AUDIENCE_ORDER.includes(r)).forEach(r=>values.push(audienceLabel(r)));
   return values;
@@ -529,7 +526,7 @@ function render(){
       <div><h3>${esc(viewTitle())}</h3><div class="meta">${list.length} статей${filters.length?" · "+esc(filters.join(" · ")):""}${list.length>PAGE_SIZE?` · на странице ${slice.length}`:""}</div></div>
     </div>
     <div class="pills">
-      <button class="pill active" id="clearFilters">Стартовый вид: 2026, все звёзды</button>
+      <button class="pill active" id="clearFilters">Стартовый вид: 2026 и 5★</button>
       <button class="pill" id="showAllBtn">Весь каталог</button>
     </div>
     <div class="grid">${slice.length?slice.map(renderCard).join(""):`<div class="empty" style="grid-column:1/-1"><h4>Ничего не найдено</h4><p>Измените фильтры или поисковый запрос.</p></div>`}</div>
@@ -587,7 +584,7 @@ function openPanel(id){
   currentId=id;
   document.getElementById("panelBadges").innerHTML=`
     <span class="year-tag">${esc(articleYear(a)||"—")}</span>
-    <span class="stars">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(a.importance_stars||1))}</span>`;
+    <span class="stars">${esc(a.importance_mark||"")}</span>`;
   document.getElementById("panelTitle").textContent=getTitle(a);
   document.getElementById("panelOriginal").textContent=a.article||"";
   const idBit=a.arxiv_id?` · ${a.arxiv_id}`:"";
