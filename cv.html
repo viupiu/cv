@@ -109,6 +109,14 @@ a:hover{text-decoration:underline}
 .box.practical{background:var(--accent-soft);border-color:#b7e3e6}
 #panelAdviceSection{margin:4px 0 8px}
 #panelAdviceSection .section-title{margin-top:18px;margin-bottom:12px}
+#panelAttackSection{margin:4px 0 8px}
+#panelAttackSection .section-title{margin-top:18px;margin-bottom:12px}
+.attack-card{display:flex;gap:12px;background:#fff4f2;border:1px solid #edc2b8;border-left:3px solid #c0392b;border-radius:12px;padding:13px 15px;margin:0 0 10px}
+.attack-card:last-child{margin-bottom:4px}
+.attack-num{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#c0392b;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.attack-method{font-size:13.5px;font-weight:600;line-height:1.5;color:#6b1f14;margin:0 0 7px}
+.attack-check{font-size:12.5px;line-height:1.5;color:#7f2a1d;background:#ffe7e0;border:1px solid #f0c9bf;border-radius:8px;padding:8px 10px}
+.attack-check b{letter-spacing:.02em}
 .advice-card{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 12px}
 .advice-card:last-child{margin-bottom:4px}
 .advice-card .advice-kicker{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
@@ -227,6 +235,10 @@ a:hover{text-decoration:underline}
       <div id="panelPracticalBlock">
         <div class="section-title">Практическая польза</div>
         <div class="box practical" id="panelPractical"></div>
+      </div>
+      <div id="panelAttackSection" hidden>
+        <div class="section-title">Методы атак — проверить у нас</div>
+        <div id="panelAttack"></div>
       </div>
       <div id="panelAdviceSection" hidden>
         <div class="section-title">Цитата из статьи и совет</div>
@@ -577,6 +589,20 @@ function renderAdvice(items){
     return `<div class="advice-group"><div class="advice-group-title">${esc(title)}</div>${cards}</div>`;
   }).join("");
 }
+function renderAttack(items){
+  const list=Array.isArray(items)?items.filter(it=>it&&(it.method||it.check)):[];
+  const sec=document.getElementById("panelAttackSection");
+  const box=document.getElementById("panelAttack");
+  if(!list.length){sec.hidden=true;box.innerHTML="";return}
+  sec.hidden=false;
+  box.innerHTML=list.map((it,idx)=>`<article class="attack-card">
+    <div class="attack-num">${idx+1}</div>
+    <div class="attack-body">
+      <div class="attack-method">${esc(it.method||"")}</div>
+      ${it.check?`<div class="attack-check"><b>Проверить у нас:</b> ${esc(it.check)}</div>`:""}
+    </div>
+  </article>`).join("");
+}
 function setBlock(id, on){
   const el=document.getElementById(id);
   if(el)el.hidden=!on;
@@ -598,6 +624,7 @@ function openPanel(id){
   const practical=String(a.practical_use||"").trim();
   setBlock("panelPracticalBlock", !!practical);
   document.getElementById("panelPractical").textContent=practical;
+  renderAttack(a.attack_methods);
   renderAdvice(a.advice_items);
   const why=[a.why_read,a._reason].map(v=>String(v||"").trim()).filter(Boolean).join(" ");
   setBlock("panelReasonBlock", !!why);
