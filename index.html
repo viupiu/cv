@@ -296,8 +296,18 @@ const TOPIC_SHORT = {
   image_translation:"Перевод изображений",
   inpaint_editing:"Редактирование и дорисовка изображений",
   prompt_injection:"Промпт-инъекции",
-  watermark_removal:"Удаление вотермарок (фото и видео)"
+  watermark_removal:"Вотермарки / логотипы",
+  video_object_propagation:"Видео: удаление / propagation"
 };
+function articleTopicKeys(a){
+  if(Array.isArray(a.topic_keys) && a.topic_keys.length)return a.topic_keys.filter(Boolean);
+  return a.topic_key ? [a.topic_key] : [];
+}
+function articleTopicLabel(a){
+  const keys=articleTopicKeys(a);
+  if(!keys.length)return a.topic||"";
+  return keys.map(k=>TOPIC_SHORT[k]||k).join(" · ");
+}
 
 const AUDIENCE_ORDER = ["разметчик", "руководитель", "CV-разработчик"];
 
@@ -360,7 +370,10 @@ function toggleFilter(list, v){
   return list;
 }
 function matchesFilters(a, skip){
-  if(skip!=="topic" && activeTopic.length && !activeTopic.includes(a.topic_key))return false;
+  if(skip!=="topic" && activeTopic.length){
+    const keys=articleTopicKeys(a);
+    if(!activeTopic.some(t=>keys.includes(t)))return false;
+  }
   if(skip!=="year" && activeYear.length && !activeYear.includes(articleYear(a)))return false;
   if(skip!=="stars" && activeStars.length && !activeStars.includes(String(a.importance_stars??"")))return false;
   if(skip!=="audience" && activeAudience.length){
@@ -418,6 +431,12 @@ function countBy(field, skip){
   const result={};
   articles.forEach(a=>{
     if(!matchesFilters(a,skip))return;
+    if(field==="topic_key"){
+      articleTopicKeys(a).forEach(k=>{
+        result[String(k)]=(result[String(k)]||0)+1;
+      });
+      return;
+    }
     const v=field==="year"?articleYear(a):a[field];
     if(v||v===0)result[String(v)]=(result[String(v)]||0)+1;
   });
@@ -452,7 +471,8 @@ function onChipClick(e){
   if(attr==="topic"){
     const turningOn=!activeTopic.includes(v);
     toggleFilter(activeTopic,v);
-    if(turningOn && !articles.some(a=>a.topic_key===v&&matchesFilters(a,"topic")) && articles.some(a=>a.topic_key===v)){
+    const hasTopic=a=>articleTopicKeys(a).includes(v);
+    if(turningOn && !articles.some(a=>hasTopic(a)&&matchesFilters(a,"topic")) && articles.some(hasTopic)){
       activeYear=[];activeStars=[];
     }
   }
@@ -466,7 +486,7 @@ function buildSidebar(){
   buildChips("yearChips",countBy("year","year").sort((a,b)=>b[0].localeCompare(a[0])),activeYear,"year");
   const topicCounts=new Map(countBy("topic_key","topic"));
   const topicSet=new Set(Object.keys(TOPIC_SHORT));
-  articles.forEach(a=>{if(a.topic_key)topicSet.add(a.topic_key)});
+  articles.forEach(a=>{articleTopicKeys(a).forEach(k=>topicSet.add(k))});
   const topicEntries=[...topicSet].map(k=>[k,topicCounts.get(k)||0]).sort((a,b)=>b[1]-a[1]||(TOPIC_SHORT[a[0]]||a[0]).localeCompare(TOPIC_SHORT[b[0]]||b[0],"ru"));
   buildChips("topicChips",topicEntries,activeTopic,"topic",v=>TOPIC_SHORT[v]||v,true);
   buildChips("starChips",countBy("importance_stars","stars").sort((a,b)=>Number(b[0])-Number(a[0])),activeStars,"stars",v=>`${Number(v)}★`);
@@ -501,7 +521,7 @@ function renderCard(a){
     </div>
     <h4>${esc(getTitle(a))}</h4>
     <div class="original-title">${esc(a.article||"")}</div>
-    <div class="source">${esc(TOPIC_SHORT[a.topic_key]||a.topic)} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
+    <div class="source">${esc(articleTopicLabel(a))} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
     <div class="summary">${esc(a.summary||"")}</div>
     <div class="card-foot"><span class="score">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(stars))}</span><span>Подробнее →</span></div>
   </article>`;
@@ -617,7 +637,7 @@ function openPanel(id){
   document.getElementById("panelTitle").textContent=getTitle(a);
   document.getElementById("panelOriginal").textContent=a.article||"";
   const idBit=a.arxiv_id?` · ${a.arxiv_id}`:"";
-  document.getElementById("panelMeta").textContent=`${TOPIC_SHORT[a.topic_key]||a.topic} · ${fmtDate(a.date)} · ${sourceLabel(a)}${idBit} · ${a.primary_category||""}`;
+  document.getElementById("panelMeta").textContent=`${articleTopicLabel(a)} · ${fmtDate(a.date)} · ${sourceLabel(a)}${idBit} · ${a.primary_category||""}`;
   const summary=String(a.summary||"").trim();
   setBlock("panelSummaryBlock", !!summary);
   document.getElementById("panelSummary").textContent=summary;
