@@ -77,7 +77,9 @@ a:hover{text-decoration:underline}
 .card.stars-1,.card.stars-2{background:var(--pastel-1)}
 .stars{letter-spacing:.06em;color:var(--star);font-size:14px;font-weight:700}
 .year-tag{font-size:11px;font-weight:650;padding:4px 8px;border-radius:7px;background:#e7f0ea;color:#2f6b52}
-.card-top{display:flex;flex-wrap:wrap;gap:6px}
+.card-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.topic-tags{display:flex;flex-wrap:wrap;gap:6px}
+.topic-tag{font-size:11px;font-weight:650;padding:4px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent-dark);border:1px solid #b7e3e6;line-height:1.2}
 .card h4{margin:0;font-size:16px;line-height:1.35;letter-spacing:-.01em}
 .card .original-title{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card .source{font-size:12px;color:var(--muted)}
@@ -291,22 +293,37 @@ const TOPIC_SHORT = {
   uav_aerial_detection:"Дрон/аэро",
   dataset_quality:"Качество данных",
   general_cv:"Прочее CV",
-  annotation_guidelines:"Правила разметки",
-  vlm_annotation:"VLM/MLLM в разметке",
-  image_translation:"Перевод изображений",
-  inpaint_editing:"Редактирование и дорисовка изображений",
+  inpaint_editing:"Редактирование изображений",
   prompt_injection:"Промпт-инъекции",
   watermark_removal:"Вотермарки / логотипы",
   video_object_propagation:"Видео: удаление / propagation"
 };
+// Старые узкие темы в каталоге показываем как слитые.
+const TOPIC_MERGE = {
+  annotation_guidelines:"annotation_management",
+  vlm_annotation:"auto_prelabel",
+  image_translation:"inpaint_editing"
+};
+function mapTopicKey(k){
+  return TOPIC_MERGE[k]||k;
+}
 function articleTopicKeys(a){
-  if(Array.isArray(a.topic_keys) && a.topic_keys.length)return a.topic_keys.filter(Boolean);
-  return a.topic_key ? [a.topic_key] : [];
+  const raw=Array.isArray(a.topic_keys) && a.topic_keys.length
+    ? a.topic_keys.filter(Boolean)
+    : (a.topic_key ? [a.topic_key] : []);
+  const out=[];
+  raw.map(mapTopicKey).forEach(k=>{if(k && !out.includes(k))out.push(k)});
+  return out;
 }
 function articleTopicLabel(a){
   const keys=articleTopicKeys(a);
   if(!keys.length)return a.topic||"";
   return keys.map(k=>TOPIC_SHORT[k]||k).join(" · ");
+}
+function topicTagsHtml(a){
+  const keys=articleTopicKeys(a);
+  if(!keys.length)return "";
+  return `<div class="topic-tags">${keys.map(k=>`<span class="topic-tag">${esc(TOPIC_SHORT[k]||k)}</span>`).join("")}</div>`;
 }
 
 const AUDIENCE_ORDER = ["разметчик", "руководитель", "CV-разработчик"];
@@ -519,9 +536,10 @@ function renderCard(a){
       <span class="year-tag">${esc(articleYear(a)||"—")}</span>
       <span class="stars" title="Важность">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(stars))}</span>
     </div>
+    ${topicTagsHtml(a)}
     <h4>${esc(getTitle(a))}</h4>
     <div class="original-title">${esc(a.article||"")}</div>
-    <div class="source">${esc(articleTopicLabel(a))} · ${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
+    <div class="source">${esc(fmtDate(a.date))} · ${esc(a.primary_category||"")}</div>
     <div class="summary">${esc(a.summary||"")}</div>
     <div class="card-foot"><span class="score">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(stars))}</span><span>Подробнее →</span></div>
   </article>`;
@@ -633,11 +651,12 @@ function openPanel(id){
   currentId=id;
   document.getElementById("panelBadges").innerHTML=`
     <span class="year-tag">${esc(articleYear(a)||"—")}</span>
-    <span class="stars">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(a.importance_stars||1))}</span>`;
+    <span class="stars">${esc(a.importance_mark?starsOnly(a.importance_mark):"★".repeat(a.importance_stars||1))}</span>
+    ${articleTopicKeys(a).map(k=>`<span class="topic-tag">${esc(TOPIC_SHORT[k]||k)}</span>`).join("")}`;
   document.getElementById("panelTitle").textContent=getTitle(a);
   document.getElementById("panelOriginal").textContent=a.article||"";
   const idBit=a.arxiv_id?` · ${a.arxiv_id}`:"";
-  document.getElementById("panelMeta").textContent=`${articleTopicLabel(a)} · ${fmtDate(a.date)} · ${sourceLabel(a)}${idBit} · ${a.primary_category||""}`;
+  document.getElementById("panelMeta").textContent=`${fmtDate(a.date)} · ${sourceLabel(a)}${idBit} · ${a.primary_category||""}`;
   const summary=String(a.summary||"").trim();
   setBlock("panelSummaryBlock", !!summary);
   document.getElementById("panelSummary").textContent=summary;
