@@ -410870,5 +410870,453 @@
     "from_collector": true,
     "advice_items": [],
     "attack_methods": []
+  },
+  {
+    "id": 10930,
+    "source": "arXiv",
+    "arxiv_id": "2610.05918",
+    "version": null,
+    "article": "Prompt and Refinement: Asymmetric Mutual Learning for Infrared Small Target Detection with Noisy Labels",
+    "authors": [
+      "Yimin Fu",
+      "Songbo Wang",
+      "Lizhuo Liu",
+      "Baicheng Pan",
+      "Zhunga Liu",
+      "Michael K. Ng"
+    ],
+    "date": "2026-10-06",
+    "updated": "2026-10-06",
+    "topic": "Поиск ошибок разметки",
+    "topic_key": "label_error_detection",
+    "topic_keys": [
+      "label_error_detection"
+    ],
+    "topics": [
+      "Поиск ошибок разметки"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Existing data-driven infrared small target detection (ISTD) methods typically require large-scale datasets with accurate pixel-level annotations for model training. However, such labor-intensive requirements are difficult to satisfy in real-world applications due to the heavy reliance on expert knowledge and the inherently weak distinctiveness of infrared small targets. Consequently, the presence of noisy labels during model training is inevitable, which can severely mislead the learning of target perception toward spurious patterns. To address this challenge, we propose Prompt and Refinement (PAR), a label-noise-robust asymmetric mutual learning paradigm for ISTD. Specifically, PAR comprises a pretrained Segment Anything Model (SAM) and an ISTD-specific detector trained from scratch, which learn collaboratively through a peer-teaching scheme. Coupled with local contrast regularity, the predictions of the two asymmetric peer models are mutually exploited as rectification cues for the supervisory masks of their counterparts. The interaction between complementary inductive biases effectively prevents the label correction process from degenerating into the self-confirmation loop of a single model, enabling progressive refinement of the annotations toward intrinsic target characteristics. In addition, the detector predictions are utilized as corrective mask prompts to facilitate task-specific adaptation of the vision foundation model. Moreover, an evidential uncertainty estimation strategy is introduced into the optimization process to further alleviate the adverse effects of noisy labels. Extensive experiments under diverse noisy label scenarios on three ISTD datasets demonstrate that PAR consistently achieves state-of-the-art performance.",
+    "article_link": "https://arxiv.org/abs/2610.05918",
+    "html_link": "https://arxiv.org/html/2610.05918",
+    "pdf_link": "https://arxiv.org/pdf/2610.05918",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Prompt and Refinement: асимметричное взаимное обучение для обнаружения малых инфракрасных целей при шумной разметке",
+    "summary": "Авторы предлагают PAR — подход к обнаружению малых инфракрасных целей, устойчивый к ошибкам попиксельной разметки. Предобученная Segment Anything Model (SAM) и специализированный детектор обучаются совместно, взаимно уточняя маски друг друга; при исправлении меток учитываются уверенность предсказаний и локальный контраст изображения. Дополнительно авторы оценивают неопределённость предсказаний на нескольких масштабах и используют её для уменьшения вклада ненадёжных меток в функцию потерь. На трёх наборах данных для обнаружения малых инфракрасных целей метод показал высокие результаты в сценариях с расширенными, суженными и искажёнными морфологическими операциями границ масок.",
+    "practical_use": "Подход можно использовать как основу для предразметки и автоматического исправления масок малых объектов, когда в обучающей выборке есть ошибки на границах. Практически значимы три идеи: взаимная проверка разметки двумя неоднородными моделями вместо доверия предсказаниям одной модели, проверка кандидатов на исправление с учётом локального контраста и снижение веса сомнительных пикселей при обучении. Метод разработан для малых инфракрасных целей; перенос на другие домены и типы объектов требует отдельной проверки.",
+    "knowledge_area": "Компьютерное зрение, сегментация и обнаружение малых объектов, обучение при шумной разметке, контроль качества масок",
+    "subtopics": [
+      "Поиск ошибок попиксельной разметки",
+      "Автоматическое уточнение масок",
+      "Взаимное обучение неоднородных моделей",
+      "Segment Anything Model (SAM)",
+      "Локальный контраст",
+      "Оценка неопределённости предсказаний",
+      "Взвешивание функции потерь",
+      "Малые инфракрасные цели"
+    ],
+    "limitations": [
+      "As a result, the direct applicability of classification-oriented noisy-label learning strategies to segmentation tasks is limited.",
+      "Given the scarcity of reliable target cues in ISTD, errors induced by model-specific biases are more prone to accumulate, causing the learning process to collapse into a self-confirmation loop.",
+      "However, annotations rectified merely based on model predictions are highly unreliable due to the intrinsic challenges of ISTD.",
+      "These datasets are collected from a wide range of infrared sensing platforms, including ground-based, air-based, and satellite-based devices, and cover diverse target types under varying background conditions.",
+      "In future research, we aim to develop a more general and robust learning paradigm for ISTD that can accommodate diverse annotation imperfections, such as sparse point labels, inaccurate target boundaries, and spurious target annotations."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The interaction between complementary inductive biases effectively prevents the label correction process from degenerating into the self-confirmation loop of a single model, enabling progressive refinement of the annotations toward intrinsic target characteristics.",
+        "advice": "При разработке автоматического исправления разметки не полагайтесь исключительно на предсказания одной модели: её ошибки могут закрепляться при повторном обучении. Проверьте, можно ли использовать две модели с разными архитектурами или принципами обучения для взаимной проверки масок.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Unlike image-level noise, which is independently associated with each sample, pixel-level noisy annotations exhibit strong spatial correlations and structural dependencies.",
+        "advice": "При контроле качества сегментационных масок учитывайте, что ошибки пикселей связаны пространственно, а не обязательно возникают независимо. Анализируйте расположение ошибок относительно границ объектов и форму областей, а не только общую долю ошибочных пикселей.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Instead of merely relying on prediction confidence, we incorporate the local contrast prior of infrared targets into the annotation rectification process.",
+        "advice": "Не исправляйте маску только на основании уверенности модели, если в изображении есть дополнительные признаки, позволяющие проверить предсказание. Для инфракрасных целей авторы используют локальный контраст; для других доменов нужно подобрать и проверить подходящий предметный признак.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Given that annotation errors are predominantly located around target boundaries, we derive a binary mask",
+        "advice": "Если ошибки вашей разметки преимущественно находятся по границам объектов, ограничьте автоматическую коррекцию областью, где исправления наиболее вероятны, а внутренние области маски по возможности оставляйте без изменений. В статье для определения допустимой области коррекции применяются морфологические операции над исходной маской.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Moreover, an evidential uncertainty estimation strategy is introduced into the optimization process to further alleviate the adverse effects of noisy labels.",
+        "advice": "Рассмотрите оценку неопределённости как отдельный сигнал качества надзорной разметки. Используйте её для уменьшения вклада ненадёжных пикселей в функцию потерь, а не считайте все участки предоставленной маски одинаково достоверными.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Afterward, the estimated uncertainty is used to reweight the contribution of the IoU loss for supervising the ISTD detector:",
+        "advice": "При реализации взвешивания потерь проверьте, что оценка неопределённости действительно влияет на вклад соответствующих участков в обучение. Сравните вариант с таким взвешиванием и обычную IoU-потерю на одинаковых данных с контролируемыми ошибками разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The complementary inductive biases of the two heterogeneous branches enable distinct task understanding, which is collaboratively exploited for mutual label refinement throughout the learning process.",
+        "advice": "При выборе моделей для взаимной проверки ищите не просто два экземпляра одной архитектуры, а модели с потенциально различающимися сильными сторонами. Проверяйте, действительно ли их ошибки дополняют друг друга и улучшается ли итоговая разметка по сравнению с коррекцией одной моделью.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "These datasets are collected from a wide range of infrared sensing platforms, including ground-based, air-based, and satellite-based devices, and cover diverse target types under varying background conditions.",
+        "advice": "При оценке методов автоматической коррекции разметки проверяйте их на данных с разными условиями съёмки, типами объектов и фонами. Результаты на одном наборе данных не гарантируют устойчивости на других доменах.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "In future research, we aim to develop a more general and robust learning paradigm for ISTD that can accommodate diverse annotation imperfections, such as sparse point labels, inaccurate target boundaries, and spurious target annotations.",
+        "advice": "Разделяйте сценарии ошибок разметки при тестировании: неточные границы, неполные точечные метки и ложные аннотации. В статье обозначены эти типы несовершенной разметки как направления дальнейшей работы, поэтому нельзя считать, что предложенный метод уже одинаково хорошо решает их все.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": [],
+    "_reason": "Статья напрямую относится к поиску и исправлению ошибок разметки в задачах сегментации. Она предлагает конкретный механизм взаимного уточнения масок, ограничение области коррекции и снижение влияния ненадёжных меток при обучении; эти идеи полезны для проектирования QC и предразметки, хотя метод исследован на малых инфракрасных целях.",
+    "why_read": "Стоит прочитать, если вы разрабатываете предразметку или контроль качества сегментационных масок и сталкиваетесь с ошибками на границах объектов. В статье есть схема совместной работы SAM и специализированного детектора, правило коррекции с учётом локального контраста и механизм взвешивания потерь по неопределённости. Важно учитывать ограничение области применения: эксперименты проведены на трёх наборах данных для обнаружения малых инфракрасных целей."
+  },
+  {
+    "id": 10958,
+    "source": "arXiv",
+    "arxiv_id": "2610.09511",
+    "version": null,
+    "article": "LiG-DETR: Local-in-Global Reassembly in Latent Space for Aerial Object Detection",
+    "authors": [
+      "Yupeng Zhang",
+      "Fangzhuo Gao",
+      "Juntao Cheng",
+      "Ziyi Zhao",
+      "Liang Wan",
+      "Ruize Han"
+    ],
+    "date": "2026-10-08",
+    "updated": "2026-10-08",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.09511",
+    "html_link": "https://arxiv.org/html/2610.09511",
+    "pdf_link": "https://arxiv.org/pdf/2610.09511",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "LiG-DETR: объединение локальных и глобальных признаков для детекции объектов на аэрофотоснимках",
+    "summary": "LiG-DETR повышает качество детекции объектов на аэрофотоснимках, объединяя глобальные признаки всего изображения с локальными признаками, полученными при увеличенном масштабе до потери мелких деталей при кодировании. В отличие от подходов с нарезкой изображения, выполняющих отдельную детекцию на каждом фрагменте, метод восстанавливает локальные признаки в исходных пространственных координатах и обрабатывает их совместно с глобальными одним декодером DETR. Модуль CPSR выбирает информативные области по высокочастотным деталям изображения, а DA-AQA адаптирует число запросов декодера к содержимому сцены. На VisDrone-DET2019, AI-TOD-v2 и протоколе междоменной проверки DGDet-VisDrone метод улучшает обнаружение мелких и средних объектов, сохраняя качество на крупных объектах, однако требует дополнительных вычислений.",
+    "practical_use": "Рассмотреть LiG-DETR как основу или ориентир для предразметки и детекции мелких объектов на снимках с БПЛА, особенно в плотных сценах, при большом диапазоне масштабов и при изменении освещения или погоды. Главная практическая идея — извлекать признаки из увеличенных локальных областей до их потери при даунсемплинге, а затем объединять их с глобальным контекстом без независимой детекции на каждом кропе и последующего слияния рамок. Для пилотного теста сравнить базовую модель и LiG-DETR на собственных данных по AP, AP_s, AP_m, пропускам мелких объектов, скорости и вычислительным затратам; отдельно проверить качество на ночных, туманных и дождливых кадрах.",
+    "knowledge_area": "Компьютерное зрение; детекция объектов на аэрофотоснимках; DETR; многоуровневые признаки; обнаружение мелких объектов; адаптивное распределение вычислений; междоменная генерализация.",
+    "subtopics": [
+      "Детекция мелких и плотных объектов на снимках с БПЛА",
+      "Объединение локальных признаков высокого разрешения с глобальным контекстом",
+      "Предобработка локальных областей и восстановление пространственных координат признаков",
+      "Выбор информативных областей по высокочастотным деталям изображения",
+      "Адаптивное выделение запросов декодера в зависимости от содержимого сцены",
+      "Предразметка аэрофотоснимков",
+      "Оценка качества на доменных сдвигах",
+      "Компромисс между точностью и скоростью детекции"
+    ],
+    "limitations": [
+      "Nevertheless, this design still introduces additional computation for local high-resolution encoding.",
+      "In particular, although increasing the local-observation budget B consistently improves detection accuracy, the B = 4 configuration remains noticeably more computationally expensive than the RF-DETR-L baseline.",
+      "While effective and inexpensive, such low-level image cues are not always perfectly aligned with semantic object importance.",
+      "Finer partitioning, however, introduces additional patch processing and reassembly overhead, leading to lower practical FPS.",
+      "Further increasing the number of patches to 64 reduces AP_s and AP_m, possibly because overly fine partitioning fragments local context and introduces more patch boundaries."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "This magnifies local content before encoding, allowing small objects to occupy more visual tokens without changing the encoder architecture.",
+        "advice": "При проверке детекторов мелких объектов сравните обычное кодирование полного кадра с извлечением признаков из увеличенных локальных областей. Особое внимание уделите объектам, занимающим несколько пикселей и часто пропускаемым текущей предразметкой.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The projected local features are reassembled according to their original spatial locations, while unselected regions are filled with the corresponding Global G0 features, forming the context-preserved dense local feature L.",
+        "advice": "При реализации локальной предобработки сохраняйте исходные координаты фрагментов и восстанавливайте признаки в соответствующих местах общей карты. Не оставляйте невыбранные области пустыми: в описанном методе они заполняются глобальными признаками, чтобы сохранить контекст сцены.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The local branch is used only for high-resolution feature acquisition: all ground-truth boxes and Hungarian matching remain in the original image coordinate system, without crop-level detection heads, matching, or additional local-branch supervision.",
+        "advice": "При обучении модели с локальными кропами сохраняйте единую систему координат исходного изображения для эталонных рамок и сопоставления предсказаний. Проверьте, что локальные фрагменты не требуют отдельной разметки и что преобразования координат не приводят к смещению рамок.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Notably, CPSR estimates region importance directly in the image space rather than from encoded feature maps.",
+        "advice": "Если требуется выбирать области для увеличенного кодирования, протестируйте оценку информативности непосредственно по изображению до прохождения энкодера. Это позволяет принимать решение до того, как мелкие детали будут ослаблены даунсемплингом и сжатием признаков.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "While effective and inexpensive, such low-level image cues are not always perfectly aligned with semantic object importance.",
+        "advice": "Не считайте высокий отклик фильтра Лапласа гарантией наличия важного объекта: текстуры и фон также могут давать сильные высокочастотные отклики. Проверьте на размеченной выборке, какие реальные объекты пропускает стратегия выбора областей и сколько вычислений тратится на нерелевантные участки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Using a fixed query budget can therefore lead to unnecessary decoding for sparse scenes or insufficient capacity for dense ones.",
+        "advice": "Для сцен с сильно различающейся плотностью объектов сравните фиксированное число запросов декодера с адаптивным распределением запросов по оценкам предложений энкодера. Отдельно проверьте, не увеличивается ли число пропусков в плотных сценах при сокращении вычислений.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "At inference, each image uses its own query budget.",
+        "advice": "При тестировании адаптивного декодирования оценивайте не только среднюю скорость, но и качество на отдельных изображениях с разной плотностью объектов. Убедитесь, что индивидуальный бюджет запросов корректно применяется к каждому изображению на этапе инференса.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "These results suggest that acquiring and reassembling high-resolution local evidence helps preserve more discriminative fine-grained information for small and medium objects under domain shifts.",
+        "advice": "Проверяйте модель не только на привычных условиях съёмки, но и на данных с изменениями погоды, освещения и качества изображения. Сравнивайте результаты отдельно по доменам и размерам объектов, чтобы выявлять ухудшения, которые скрываются за общей метрикой.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Finer partitioning, however, introduces additional patch processing and reassembly overhead, leading to lower practical FPS.",
+        "advice": "При выборе размера локальных патчей измеряйте фактическую скорость полного пайплайна, включая упаковку фрагментов и восстановление признаков. Одинаковое число GFLOPs не гарантирует одинаковую производительность на практике.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Further improving the efficiency of high-resolution local evidence acquisition therefore remains an important direction for future work.",
+        "advice": "Перед внедрением оцените, оправдывает ли прирост качества мелких объектов дополнительные вычислительные затраты. Сравните несколько бюджетов локального кодирования и выберите вариант по результатам на собственных данных с учётом требуемой скорости обработки.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": [],
+    "_reason": "Статья предлагает конкретную архитектуру для повышения качества детекции мелких объектов на аэрофотоснимках: локальные увеличенные области кодируются до потери деталей, их признаки восстанавливаются в общей системе координат и объединяются с глобальными признаками. Эксперименты на VisDrone-DET2019, AI-TOD-v2 и DGDet-VisDrone показывают улучшение результатов относительно базовой RF-DETR-L, в том числе при междоменных сдвигах. Для отдела это полезный источник идей по улучшению предразметки UAV-данных, сокращению пропусков и настройке компромисса между точностью и скоростью.",
+    "why_read": "Стоит прочитать, если текущая модель пропускает мелкие или близко расположенные объекты на снимках с БПЛА. В статье подробно описаны два практически значимых механизма: выбор локальных областей по высокочастотным признакам до сжатия изображения и адаптивное выделение запросов декодера по содержимому сцены. Также приведены сравнения на нескольких датасетах, абляции и результаты при изменении условий съёмки. Важно учитывать вычислительную стоимость локального кодирования и то, что простой критерий на основе фильтра Лапласа не всегда соответствует семантической важности области."
+  },
+  {
+    "id": 10928,
+    "source": "arXiv",
+    "arxiv_id": "2610.11057",
+    "version": 1,
+    "article": "Learning What to Trust in Multimodal Learning under Noisy Supervision",
+    "authors": [
+      "Jiashuo Zou, Xiaobo Xia"
+    ],
+    "date": "2026-10-09",
+    "updated": "2026-10-09",
+    "topic": "Поиск ошибок разметки",
+    "topic_key": "label_error_detection",
+    "topic_keys": [
+      "label_error_detection"
+    ],
+    "topics": [
+      "Поиск ошибок разметки"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.LG"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Multimodal classification processes and relates information from multiple modalities to achieve more accurate predictions. However, existing methods typically rely on high-quality ground-truth labels, which are difficult to obtain in real-world scenarios. While sample-selection methods for learning with noisy labels aim to identify correctly labeled examples from noisy data, traditional methods primarily focus on unimodal settings and fail to exploit multimodal information fully. This motivates us to build a more reliable noise detector in multimodal learning. To this end, we theoretically analyze the relationship between representation structure and noise detection capability. Based on this analysis, we propose REFINE, which is a multimodal label-noise detection framework that jointly uses fused and unimodal representations for label-noise detection. Specifically, REFINE constructs discriminative eigenvectors through discriminative analysis of the target and background classes and selects trusted representation spaces with better noise detection capability for each class. Within each trusted space, REFINE measures the alignment between each instance representation and the discriminative eigenvectors. It then combines the subsets selected from these spaces. The combined set provides cleaner supervision for updating the multimodal classifier, thereby reducing the influence of mislabeled examples during training and improving model generalization. Extensive experiments across diverse tasks demonstrate REFINE's superiority compared to baseline methods. The source code will be publicly available.",
+    "article_link": "https://arxiv.org/abs/2610.11057",
+    "html_link": "https://arxiv.org/html/2610.11057v1",
+    "pdf_link": "https://arxiv.org/pdf/2610.11057v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Как определять надежные представления в мультимодальном обучении с шумной разметкой",
+    "summary": "Статья представляет REFINE — метод обнаружения ошибочных меток в мультимодальных классификационных данных. Он совместно использует объединенные и отдельные модальные представления, оценивает их способность различать правильно и неправильно размеченные примеры и выбирает надежные пространства представлений отдельно для каждого класса. Примеры отбираются по согласованности оценок с наблюдаемой меткой относительно остальных классов, а полученные подмножества объединяются для обучения классификатора. Эксперименты на семи мультимодальных наборах данных показывают улучшение качества отбора примеров и классификации при разных типах шума и режимах обучения.",
+    "practical_use": "Использовать REFINE как ориентир при разработке автоматической предразметки и контроля качества мультимодальных датасетов, в которых доступны изображения и текст либо другие сочетания модальностей. Метод позволяет формировать подмножество примеров с более надежными метками перед очередным этапом обучения, учитывая не только объединенное представление, но и отдельные модальности. Для обычных датасетов изображений без дополнительных модальностей прямое применение описанного метода статьей не подтверждается.",
+    "knowledge_area": "Обнаружение ошибок разметки в мультимодальном обучении",
+    "subtopics": [
+      "Отбор надежных обучающих примеров",
+      "Обнаружение шума в метках",
+      "Объединенные и одномодальные представления",
+      "Дискриминативный анализ целевого класса и фона",
+      "Автоматический выбор надежных пространств представлений",
+      "Согласованность метки с оценками остальных классов",
+      "Обучение с шумной разметкой"
+    ],
+    "limitations": [
+      "We adopt feature-level fusion for multimodal representation learning.",
+      "To establish our theorems, we adopt the following reasonable assumptions, motivated by related work.",
+      "Label corruption depends only on the true label, and clean examples constitute a majority in both observed classes.",
+      "For the synthetic experiments, we exploit UPMC-Food101, N24News, NWPU-Captions, Rakuten France, VGGSound50, and MIntRec2.0.",
+      "For the realistic one, we utilize BSD, which includes a noisy training set and an expert-annotated clean test set.",
+      "How training objectives affect representation discriminability and sample-selection quality under different noise conditions warrants further investigation.",
+      "Future work will extend this perspective toward more general forms of imperfect multimodal supervision, including partially corrupted, missing, and inconsistent modality-level signals."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Relying solely on information obtained after modality fusion, such as losses and gradients, for selection may overlook modality-specific cues useful for assessing label reliability; vice versa.",
+        "advice": "При поиске ошибочных меток в мультимодальных данных не ограничивайтесь потерями и градиентами объединенной модели. Проверьте, дает ли анализ отдельных модальностей дополнительную информацию о надежности разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Therefore, the relative advantages of fused and unimodal spaces depend on the representation structure of the specific class, and no type of representation space can be presumed optimal for all classes.",
+        "advice": "Не выбирайте одно представление как универсально лучшее для всех классов. При проектировании фильтра ошибок разметки сравнивайте объединенное и отдельные модальные представления для каждого класса отдельно.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "If other classes also have large alignment scores along the same vector, this eigenvector may primarily reflect structure shared across classes, weakening the separation between clean and mislabeled examples.",
+        "advice": "При оценке надежности меток учитывайте не только соответствие примера своему классу, но и его сходство с другими классами. Общие для нескольких классов признаки могут снижать способность фильтра отделять корректные метки от ошибочных.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "In contrast, our method exploits both fused and unimodal representation spaces for reliable sample selection without requiring additional clean samples or prior knowledge of the noise rate.",
+        "advice": "Рассмотрите отбор примеров по нескольким пространствам представлений, если для проекта доступны мультимодальные данные, но нет отдельного чистого набора для калибровки. REFINE рассчитан на работу без предварительной оценки доли шума.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Therefore, for each class, we aim to select a set of trusted representation spaces from the candidate set, which contains the fused and unimodal spaces, accounting for both their complementarity and discriminative ability.",
+        "advice": "При разработке фильтра предусмотрите автоматический выбор надежных пространств представлений для каждого класса. Сравнивайте их способность разделять классы, сохраняя возможность использовать дополнительную информацию из разных модальностей.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We directly compute an instance’s alignment scores along the discriminative eigenvectors of all classes and retain the example when its observed class has the strictly highest score.",
+        "advice": "Для проверки метки сравнивайте оценку примера для заявленного класса с оценками для остальных классов. Не считайте метку надежной только потому, что ее оценка высока относительно других примеров того же класса.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The final selected subset is the union of the subsets selected by the trusted spaces of each class:",
+        "advice": "При реализации схемы отбора объединяйте подмножества, выбранные надежными пространствами для соответствующих классов. В описанном REFINE примеры сохраняются, если проходят проверку согласованности хотя бы в одном надежном пространстве своего класса.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Table 4 compares their sample-selection performance on UPMC-Food101. REFINE achieves the highest selection F1 score under all four settings.",
+        "advice": "При сравнении методов обнаружения ошибок разметки оценивайте не только итоговую точность классификатора, но и качество самого отбора корректно размеченных примеров. В качестве метрик авторы используют precision, recall и F1.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We combine REFINE with different noise-robust losses and use CE as a reference.",
+        "advice": "При проверке совместимости фильтра ошибочных меток сравните его работу с несколькими функциями потерь, устойчивыми к шуму. Не предполагайте, что одна функция потерь даст лучший результат при всех типах ошибок разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Further comparison shows that combining REFINE with GCE or JAL-CE yields slightly higher accuracy than REFINE+CE under symmetric noise, but lower accuracy under asymmetric and both types of instance-dependent noise.",
+        "advice": "Проверяйте сочетание метода отбора и функции потерь на разных типах шума отдельно. Результат на симметричном шуме не гарантирует такого же преимущества при асимметричных или зависящих от экземпляра ошибках.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": [],
+    "_reason": "Статья непосредственно посвящена автоматическому обнаружению ошибочных меток и отбору надежных обучающих примеров. REFINE использует как объединенные, так и отдельные модальные представления и выбирает подходящие пространства для каждого класса, поэтому работа полезна для разработки систем контроля качества мультимодальной разметки. При этом метод не следует автоматически переносить на одномодальные задачи сегментации без дополнительной проверки.",
+    "why_read": "Стоит прочитать, если нужно уменьшить влияние ошибочной разметки на обучение и понять, почему качество обнаружения ошибок зависит от выбранного пространства представлений. Статья описывает конкретный алгоритм, правила отбора примеров и сравнение с существующими методами на синтетическом и реалистичном шуме. Особенно полезны идеи сравнения классовых оценок и адаптивного выбора представлений; применимость к изображениям без дополнительных модальностей не показана."
+  },
+  {
+    "id": 10926,
+    "source": "arXiv",
+    "arxiv_id": "2610.12147",
+    "version": 1,
+    "article": "Healthy Counterfactual Generation via Diffusion Inpainting for Mammography Classification",
+    "authors": [
+      "In\\^es Cruchinho Garcia, Mariana Mour\\~ao, Francisco Maria Calisto, Carlos Santiago, Jacinto Nascimento"
+    ],
+    "date": "2026-10-09",
+    "updated": "2026-10-09",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "False negatives remain a critical limitation of computer-aided diagnosis (CAD) systems for breast cancer screening due to delayed detection and treatment. To address this issue, we propose a counterfactual data augmentation strategy that generates healthy mammograms by \"erasing\" lesions from anomalous images, thereby enriching the training distribution. We train a Denoising Diffusion Probabilistic Model on BI-RADS 1 (healthy) mammograms and use a RePaint-based sampling strategy to inpaint realistic normal tissue within annotated lesion bounding boxes. The resulting healthy counterfactuals replace annotated lesion regions with realistic healthy tissue while preserving patient-specific anatomical structure, as supported by similarity metrics between real and generated images. Image realism was further assessed by radiologists and found to be consistent with the original dataset quality. We evaluate counterfactual augmentation across four representative classifier architectures: a convolutional neural network (ConvNeXt), a vision transformer (ViT), a vision-language model pre-trained on mammogram-report pairs (Mammo-CLIP) and a multi-scale attention-based multiple-instance learning framework (FPN-MIL). Experiments conducted on the VinDr-Mammo dataset show improvements in sensitivity across all architectures, particularly at 80% fixed specificity, contributing towards more reliable CAD systems for breast cancer. Code is available at: https://github.com/ines03garcia/diffusion-based-counterfactual-generation.",
+    "article_link": "https://arxiv.org/abs/2610.12147",
+    "html_link": "https://arxiv.org/html/2610.12147v1",
+    "pdf_link": "https://arxiv.org/pdf/2610.12147v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Генерация здоровых контрфактических изображений с помощью диффузионного заполнения для классификации маммограмм",
+    "summary": "Авторы предлагают метод синтетической аугментации медицинских изображений, который удаляет патологические изменения с маммограмм с помощью диффузионной модели и восстанавливает на их месте правдоподобную здоровую ткань. DDPM обучается исключительно на здоровых маммограммах BI-RADS 1, а RePaint заполняет области поражений внутри масок, построенных по размеченным ограничивающим прямоугольникам, сохраняя окружающую анатомическую структуру. На датасете VinDr-Mammo синтетические изображения улучшили чувствительность четырёх архитектур классификаторов, в том числе при фиксированной специфичности 80%, хотя для некоторых моделей специфичность снизилась. Качество генерации оценивали с помощью метрик сходства изображений и экспертных оценок радиологов.",
+    "practical_use": "Метод можно использовать как ориентир при разработке аугментации, которая изменяет конкретную размеченную область изображения, сохраняя окружающий контекст. Для отдела разметки и CV особенно полезны схема построения бинарных масок по bounding box, использование диффузионного inpainting и раздельная оценка реалистичности синтетических областей и влияния аугментации на качество классификатора. Результаты относятся к медицинским изображениям молочной железы и требуют отдельной проверки при переносе подхода на другие типы изображений, включая аэрофотоснимки и задачи сегментации.",
+    "knowledge_area": "Генеративные модели, синтетические данные и аугментация медицинских изображений",
+    "subtopics": [
+      "Диффузионные модели DDPM",
+      "RePaint и masked diffusion inpainting",
+      "Контрфактическая генерация изображений",
+      "Аугментация классификационных датасетов",
+      "Сохранение анатомического контекста",
+      "Оценка реалистичности синтетических данных",
+      "Экспертный контроль качества генерации"
+    ],
+    "limitations": [
+      "Counterfactuals showed a slight shift toward lower ratings, indicating a small reduction in perceived realism.",
+      "Inpainting quality was also negatively correlated with lesion size.",
+      "Specificity and ROC-AUC reveal a more mixed pattern.",
+      "While specificity improves slightly for ViT, it decreases for ConvNeXt, Mammo-CLIP, and FPN-MIL.",
+      "We did not perform matched-pair prediction-consistency analysis because its interpretation of what the classifier’s learning is limited in the context of counterfactual image generation.",
+      "The dataset and patch types differ, although our results indicate competitive realism."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "To address this, our approach restricts modifications to previously annotated lesion regions by employing masked diffusion inpainting.",
+        "advice": "При генеративном редактировании размеченных изображений ограничивайте область изменения маской, построенной по исходной разметке. Проверяйте, что за пределами маски сохраняются исходные пиксели и контекст, а изменения не затрагивают соседние объекты.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The inpainted area is iteratively conditioned on the surrounding tissue, ensuring anatomical coherence while preventing unintended modifications outside the annotated bounding box.",
+        "advice": "При выборе метода inpainting проверяйте не только правдоподобие заполненной области, но и сохранность окружения. Для QC сравнивайте оригинал и результат за пределами целевой области, чтобы выявлять нежелательные изменения соседних структур.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "First, a DDPM is trained exclusively on BI-RADS 1 mammograms to model the distribution of normal breast tissue.",
+        "advice": "При обучении генератора для замены патологических областей используйте примеры, соответствующие целевому состоянию, которое требуется синтезировать. Явно фиксируйте состав обучающей выборки и проверяйте, не попадают ли в неё нежелательные классы или структуры.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "For each anomalous image, a binary lesion mask was constructed from the annotated bounding box, with lesion pixels set to 0 (to be inpainted) and surrounding tissue set to 1 (to be preserved).",
+        "advice": "Зафиксируйте однозначное соглашение о значениях маски: какие пиксели изменяются, а какие сохраняются. Перед генерацией проверяйте соответствие маски исходному bounding box и визуально контролируйте несколько примеров, особенно при преобразовании координат и размеров изображений.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We also assess only the generated patch by cropping each counterfactual to the edited bounding-box region and compare the generated healthy patches with real healthy patches from VinDr-Mammo.",
+        "advice": "Оценивайте синтетические данные как минимум на двух уровнях: отдельно внутри изменённой области и на полном изображении. Для задач с тонкими объектами или небольшими дефектами локальная проверка помогает обнаружить артефакты, которые теряются при оценке целого кадра.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The radiologist also noted several quality limitations in the original dataset, including low contrast, unrealistic soft-tissue appearance, implausible superposition in the axillary region and incomplete breast coverage, with some mammograms cropping posterior or inferior tissue.",
+        "advice": "При экспертной оценке синтетических изображений отдельно фиксируйте дефекты исходного датасета, чтобы не приписывать генератору уже существующие проблемы. В QC-разметке полезно разделять артефакты исходного изображения, ошибки маски и дефекты синтетического заполнения.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Inpainting quality was also negatively correlated with lesion size (Fig. 4).",
+        "advice": "Проверяйте качество inpainting отдельно для областей разного размера. Не переносите результаты, полученные на небольших масках, на крупные области без дополнительной проверки; увеличенные области заполнения могут требовать более строгого контроля.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We evaluated the realism and clinical plausibility of the generated counterfactuals through distributional metrics and radiologists’ studies.",
+        "advice": "Не полагайтесь на одну автоматическую метрику реалистичности синтетических данных. Сочетайте количественное сравнение распределений с экспертной проверкой изображений и оценкой пригодности синтетики для целевой задачи.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "Recall and performance at fixed specificity (shown through Recall at 80% Spec.) improve consistently across all models.",
+        "advice": "При сравнении вариантов аугментации оценивайте не только общие метрики, но и целевой показатель при фиксированном рабочем ограничении. Выводы о пользе синтетических данных делайте по нескольким метрикам, поскольку рост чувствительности не гарантирует улучшения специфичности.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "These results suggest that healthy counterfactual augmentation consistently improves sensitivity, particularly at the clinically relevant operating point of 80% specificity, while introducing a slight reduction in specificity for some models.",
+        "advice": "Перед внедрением синтетической аугментации определите, какие ошибки критичнее для конкретной задачи, и проверяйте компромисс между полнотой и специфичностью. Не считайте аугментацию безусловно полезной только на основании улучшения одной метрики.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "One counterfactual image was generated per anomalous annotated mammogram and subsequently added to the training set.",
+        "advice": "При добавлении синтетики документируйте связь каждого сгенерированного изображения с исходным примером и его разметкой. Контролируйте разделение обучающей и тестовой выборок, чтобы производные от одного исходного изображения не приводили к утечке данных между выборками.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": [],
+    "_reason": "Статья описывает конкретный воспроизводимый подход к генерации синтетических изображений с локальным изменением размеченной области и сохранением окружающего контекста. Практическая ценность для отдела связана с принципами masked inpainting, проверкой качества синтетических областей и измерением влияния аугментации на классификаторы. При этом работа посвящена маммографии, а не общим задачам сегментации или предразметки, поэтому перенос метода на другие домены требует отдельной валидации.",
+    "why_read": "Стоит прочитать, если команда изучает синтетическую аугментацию с сохранением меток и контекста изображения. В статье показан полный цикл: обучение диффузионной модели на целевом классе, заполнение маски через RePaint, экспертная оценка реалистичности и проверка влияния синтетики на несколько архитектур. Особенно полезны наблюдения о снижении качества заполнения при увеличении области маски и о том, что чувствительность может улучшаться одновременно со снижением специфичности."
   }
 ]
