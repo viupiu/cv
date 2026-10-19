@@ -418813,5 +418813,44 @@
       }
     ],
     "attack_methods": []
+  },
+  {
+    "id": 11026,
+    "source": "Hugging Face Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Welcome FLUX.3 Image Klein in Diffusers",
+    "authors": [],
+    "date": "2026-10-15",
+    "updated": "2026-10-15",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://huggingface.co/blog/flux-3",
+    "html_link": "https://huggingface.co/blog/flux-3",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "FLUX.3 Image Klein: открытые веса генерации и правки изображений в Diffusers",
+    "summary": "Black Forest Labs выпустила FLUX.3 Image Klein — открытую модель для генерации изображений, которая с первого дня работает в Hugging Face Diffusers. Одна модель закрывает text-to-image и multi-reference image-to-image и добавляет layout control: в промпт можно вписать bounding boxes, чтобы задать, где должен оказаться каждый элемент сцены или какую область референса двигать. Доступны два чекпоинта: distilled для быстрой генерации (16 шагов, без CFG) и base для дообучения (50 шагов, с CFG); есть квантизованные варианты NVFP4/FP8 и скрипты LoRA для генерации и image editing.",
+    "practical_use": "Имеет смысл сразу поставить оба чекпоинта в Diffusers/ComfyUI и прогнать свои сценарии: чистая генерация, сборка сцены из нескольких референсов и правка по боксам. Distilled — для быстрых прогонов и предпросмотра, base — если планируете LoRA или дообучение под домен отдела. Для пайплайнов удаления/вставки объектов полезно отдельно проверить, насколько стабильно модель держит неизменяемые области при локальном edit.",
+    "_reason": "Это крупный open-weights релиз image-модели с day-one поддержкой Diffusers: генерация, мультиреференс и управление раскладкой через боксы. Для отдела, который работает с inpaint, правкой и синтетикой по картинкам, такие модели — базовый рабочий инструмент, а не периферийная новость.",
+    "why_read": "CV-разработчику — чтобы быстро поднять FLUX.3 Image Klein локально и сравнить distilled vs base на своих промптах и референсах. Руководителю — как сигнал, что появился новый сильный open image stack с правкой и layout control, который стоит заложить в стек инструментов отдела.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
   }
 ]
