@@ -418567,5 +418567,251 @@
       }
     ],
     "attack_methods": []
+  },
+  {
+    "id": 11023,
+    "source": "arXiv",
+    "arxiv_id": "2610.22413",
+    "version": 1,
+    "article": "napari-TurboBox: Interactive Multi-Viewer Bounding Box Annotation for AI-Guided Volumetric Bioimaging",
+    "authors": [
+      "Nils Friederich, Philip Kohle, Maximilian Beichter, Mona Wellh\\\"ausser, Marcel Stahl, Pascal Zwick, Angelo Jovin Yamachui Sitcheu, Thomas Lautenschlager, David Exler, Linus Schilpp, Stephan Allgeier, Andreas Specker, Lennart Hilbert, Ralf Mikut"
+    ],
+    "date": "2026-10-19",
+    "updated": "2026-10-19",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "eess.IV",
+      "q-bio.QM"
+    ],
+    "primary_category": "eess.IV",
+    "abstract_en": "Promptable segmentation models turn one 3D bounding box into an instance mask. Box placement therefore limits how fast microscopy volumes with thousands of objects are annotated. Each box must be checked in several synchronized viewers, but napari-bbox shares no state between viewers. An edit must update every viewer and slows down with more boxes. napari-TurboBox instead holds one shared copy of the boxes for all viewers. In a four-viewer layout, napari-TurboBox needs a few milliseconds per mouse move to update the three slice viewers up to $10^4$ boxes. The same update in napari-bbox leaves the 33 ms budget beyond about $10^3$ boxes and takes 159 ms at $10^4$. Boxes stay axis-aligned and export to COCO and YOLO as per-slice 2D boxes.   napari-TurboBox is a pure-Python plugin for napari 0.6.6 to 0.9. The code is available at https://github.com/N-Friederich/napari-turbobox under the Apache 2.0 licence, and version 0.1.0 is archived at https://doi.org/10.5281/zenodo.23090828 on Zenodo.",
+    "article_link": "https://arxiv.org/abs/2610.22413",
+    "html_link": "https://arxiv.org/html/2610.22413v1",
+    "pdf_link": "https://arxiv.org/pdf/2610.22413v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "napari-TurboBox: Ускорение интерактивной разметки 3D-объёмов с помощью синхронизированных рамок",
+    "summary": "Статья представляет napari-TurboBox — плагин для napari, который ускоряет расстановку и редактирование трёхмерных ограничивающих рамок при разметке микроскопических изображений с большим количеством объектов. В отличие от napari-bbox, плагин хранит рамки в едином общем хранилище и обновляет представления только для изменённой рамки, что снижает вычислительные затраты при синхронизации нескольких окон. В конфигурации с четырьмя окнами обновление занимает около 2 мс даже при 10 000 рамок, тогда как napari-bbox при таком количестве требует около 159 мс; рамки можно экспортировать в форматы COCO и YOLO как двумерные рамки для отдельных срезов.",
+    "practical_use": "Команде стоит рассмотреть napari-TurboBox для интерактивной предразметки плотных трёхмерных изображений, если точное положение объекта нужно проверять одновременно в трёх ортогональных срезах и 3D-представлении. При интеграции с nnInteractive или μSAM можно использовать рамки как пространственные подсказки для получения масок, а затем экспортировать аннотации в COCO или YOLO. Перед внедрением необходимо проверить совместимость с используемой версией napari и целевым процессом разметки: результаты статьи относятся к объёмной биомедицинской визуализации, а рамки остаются осевыми и экспортируются как 2D-аннотации отдельных срезов.",
+    "_reason": "Статья описывает практическое улучшение инструмента предразметки: ускорение редактирования рамок при работе с большим количеством объектов и синхронизации нескольких представлений изображения. Архитектура общего хранилища и обновление только изменённой рамки полезны при проектировании интерактивных инструментов разметки, в которых задержки интерфейса ограничивают производительность оператора. Применимость к обычным 2D-задачам отдела ограничена, но подход особенно интересен для объёмных данных и генерации масок по рамкам.",
+    "why_read": "CV-разработчику стоит прочитать статью, чтобы понять, как организация общего состояния аннотаций и пространственная индексация уменьшают задержки при редактировании большого числа рамок. Руководителю и специалисту по разметке материал поможет оценить возможность ускорить проверку трёхмерных объектов перед запуском promptable segmentation-моделей. Особенно полезна статья тем, кто разрабатывает собственные инструменты на базе napari или работает с объёмными микроскопическими изображениями.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Boxes stay axis-aligned and export to COCO and YOLO as per-slice 2D boxes.",
+      "napari-TurboBox is a pure-Python plugin for napari 0.6.6 to 0.9."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "An imprecise box yields an imprecise mask",
+        "advice": "При использовании рамок в качестве подсказок для сегментационной модели проверяйте, что рамка охватывает весь целевой объект и учитывает его протяжённость по глубине. Ошибки положения рамки непосредственно влияют на качество получаемой маски, поэтому проверку следует выполнять во всех ортогональных срезах, а не только в одном окне.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Dense volumes with thousands of objects can thus be edited as a whole rather than in crops, whose boundaries clip objects and remove the depth context a box must be checked against.",
+        "advice": "При разметке плотных трёхмерных объёмов рассмотрите работу со всем объёмом вместо разбиения на фрагменты, если границы фрагментов обрезают объекты или скрывают их контекст по глубине. napari-TurboBox рассчитан на интерактивное редактирование большого числа рамок в нескольких синхронизированных представлениях и может упростить проверку пространственных границ объектов.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "In contrast, the 3D verification viewer, where reconstructing volumetric wireframe meshes is computationally expensive, defers redrawing until the mouse drag is released",
+        "advice": "При разработке многопанельного интерфейса разметки обновляйте ортогональные срезы во время перетаскивания, а дорогостоящую перерисовку 3D-представления выполняйте после завершения действия. Такой подход позволяет сохранить оперативную обратную связь там, где она нужна для позиционирования рамки, не тратя ресурсы на перестроение объёмной геометрии при каждом движении мыши.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "For programmatic tasks such as dataset loading or clearing annotations, a built-in context manager pauses listener notifications, executing a single bulk redraw upon completion.",
+        "advice": "При массовой загрузке, очистке или изменении аннотаций используйте пакетное обновление состояния с временным отключением уведомлений представлений и одной перерисовкой после завершения операции. Это помогает избежать повторных обновлений интерфейса для каждого объекта и может сократить задержки при обработке больших наборов рамок.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Using binary interval search, the index retrieves intersecting boxes and click targets in (mathcal{O}(log N+w)) time",
+        "advice": "При разработке инструмента для плотной разметки используйте пространственный индекс, чтобы находить рамки, пересекающие текущий срез, и доступные для выбора объекты без полного перебора всех аннотаций. В статье для этого применяются отсортированные границы координат и бинарный поиск, а индекс обновляется инкрементально при редактировании отдельной рамки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Every bounding box remains a strictly valid AABB during interaction",
+        "advice": "При реализации интерактивного редактирования ограничивайте перемещение и изменение размера рамок так, чтобы они оставались корректными осевыми ограничивающими параллелепипедами и не выходили за границы изображения. Это предотвращает появление некорректных пространственных подсказок для сегментационной модели и упрощает последующий экспорт аннотаций.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "napari-TurboBox therefore needs about 2 ms per mouse move to update the three slice viewers up to",
+        "advice": "Если задержки при редактировании рамок становятся узким местом предразметки, сравните napari-TurboBox с текущим инструментом на типичных объёмах и количестве объектов вашей команды. В статье сообщается об обновлении трёх срезов примерно за 2 мс при количестве рамок до 10 000, однако перед внедрением необходимо воспроизвести измерения на собственных данных и оборудовании.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11024,
+    "source": "Google Developers Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Step by Step guide: Build a Voice Agent That Never Goes Silent using ADK",
+    "authors": [],
+    "date": "",
+    "updated": "",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "The open-source Agent Development Kit (ADK) and gemini-3.8-live enable developers to build responsive voice agents by implementing non-blocking tools in Python. Developers can use streaming tools to yield progress updates or background execution patterns to keep conversations fluid during long-running backend queries. Additionally, configuring response scheduling behaviors such as WHEN_IDLE, INTERRUPT, or SILENT gives developers precise control over when and how tool results are delivered into the conversation.",
+    "article_link": "https://developers.googleblog.com/step-by-step-guide-build-a-voice-agent-that-never-goes-silent-using-adk/",
+    "html_link": "https://developers.googleblog.com/step-by-step-guide-build-a-voice-agent-that-never-goes-silent-using-adk/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "ADK: как создавать голосовых агентов, которые не замолкают во время долгих запросов",
+    "summary": "Статья описывает способы организовать работу голосового агента на базе Agent Development Kit (ADK) и Gemini 3.8 Live так, чтобы долгие запросы к базам данных и RAG-пайплайны не блокировали диалог. Авторы сравнивают потоковые инструменты, фоновые задачи и настройки response_scheduling, позволяющие сообщать промежуточный прогресс, ждать естественной паузы или добавлять результат в контекст без немедленного озвучивания. В приведённом тесте переход от блокирующего инструмента к потоковому сократил время до первых слов агента с 14,4 до 1,2 секунды, не уменьшая фактическую длительность запроса.",
+    "practical_use": "Материал полезен команде, если разрабатываются голосовые интерфейсы для поиска по внутренней базе знаний, анализа разметки или получения результатов CV-пайплайнов: долгие операции можно выполнять в фоне, не блокируя дальнейший диалог. Для обычных текстовых инструментов и конвейеров компьютерного зрения статья не предлагает новых методов разметки, сегментации или контроля качества, поэтому её практическая ценность ограничена архитектурой взаимодействия с агентом.",
+    "_reason": "Статья затрагивает RAG и оркестрацию инструментов, которые могут использоваться вокруг CV-систем, но не рассматривает непосредственно модели компьютерного зрения, разметку или QC. Наиболее полезны рекомендации по организации долгих фоновых операций и предотвращению повторных вызовов инструментов в агентных системах.",
+    "why_read": "CV-разработчику стоит прочитать материал, если он интегрирует голосового агента с поиском по документации, базами разметки или длительными задачами обработки данных. Руководителю он поможет понять, как архитектура выполнения инструментов влияет на пользовательский опыт и почему инструкции в промпте не заменяют неблокирующее выполнение.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Non-blocking tools do not reduce backend execution time: a 13-second query still takes 13 seconds.",
+      "When using response_scheduling with a return-once coroutine, the model receives no payload until the entire function completes.",
+      "Running streaming or background tools are not cancelled when the user talks over the agent."
+    ],
+    "importance_stars": 2,
+    "importance_mark": "★★☆☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Keep a clear \"Call this ONCE\" directive in your docstring, and consider implementing an in-memory latch or idempotency key in your tool implementation for production safety.",
+        "advice": "Если агент вызывает инструмент для длительного поиска или обработки данных, явно укажите в описании функции, что её нужно вызывать один раз. Для производственного контура дополнительно используйте защиту от повторного запуска, например ключ идемпотентности. Это снижает риск дублирования запросов и лишней нагрузки на инфраструктуру.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "ADK provides a built-in escape hatch for long-running streaming tools.",
+        "advice": "Для длительных потоковых операций предусмотрите возможность отмены задачи. В ADK для этого можно добавить инструмент stop_streaming, который отменяет выполнение генератора и позволяет корректно закрыть соединения с базой данных и файловые ресурсы. Такой механизм полезен для агентных интерфейсов, запускающих продолжительные задачи обработки или поиска.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "If the wait has a story, stream it. If the wait is just a wait, run it in the background and let the result land when idle.",
+        "advice": "Выбирайте способ выполнения по характеру операции. Если обработка состоит из понятных этапов, например чтения данных, агрегации и формирования отчёта, передавайте промежуточные статусы; если промежуточные результаты не несут пользы, выполняйте задачу в фоне. Это помогает не перегружать пользователя сообщениями и сохранять отзывчивость интерфейса при долгих CV- или RAG-запросах.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "WHEN_IDLE never cuts into a turn in progress: if the model is still speaking or the user is still talking, the result waits until that turn ends, and the model responds at the next natural pause.",
+        "advice": "Для результатов фоновых операций, которые не требуют немедленного внимания, настройте доставку на момент естественной паузы. Если результат критичен и должен быть озвучен немедленно, рассмотрите режим INTERRUPT; если достаточно сохранить его для следующего запроса, используйте SILENT. Это позволяет согласовать выдачу результатов длительных операций с приоритетами интерфейса.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Furthermore, in ADK 2.8 and newer, streaming tools can dynamically specify scheduling per update by yielding types.FunctionResponse:",
+        "advice": "Если потоковая задача выдаёт промежуточные статусы и итоговый результат, назначайте режим доставки отдельно для каждого сообщения. Например, промежуточный статус можно передать в режиме SILENT, а итог — в режиме WHEN_IDLE. Такой подход помогает не прерывать диалог техническими деталями, но своевременно предоставлять готовый результат.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11025,
+    "source": "Google Developers Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Evaluating AI agents: moving past the vibe check",
+    "authors": [],
+    "date": "",
+    "updated": "",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "A practical engineering guide and reference architecture for establishing continuous evaluation pipelines for multi-turn AI agents using Gemini Enterprise Agent Platform, Google ADK, and OpenInference standards.",
+    "article_link": "https://developers.googleblog.com/evaluating-ai-agents-moving-past-the-vibe-check/",
+    "html_link": "https://developers.googleblog.com/evaluating-ai-agents-moving-past-the-vibe-check/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Evaluating AI agents: как построить регулярную проверку качества AI-агентов вместо субъективной оценки ответов",
+    "summary": "Статья описывает инженерный подход к регулярной оценке многошаговых AI-агентов, которые могут выдавать правдоподобные ответы, одновременно допускать ошибки в вызовах инструментов, зацикливаться и расходовать лишние ресурсы. Авторы предлагают строить тестирование на критических пользовательских сценариях, синтетических симуляциях пользователей, анализе трасс выполнения и сочетании модульных тестов, детерминированных метрик, проверок LLM-as-a-judge и интеграционных тестов. Для предотвращения регрессий рекомендуется сохранять неизменный эталонный набор сценариев, использовать проверки pass/fail, отслеживать качество ответов вместе с задержками, расходом токенов и вызовами инструментов, а изменения проверять в регулярном цикле и CI/CD.",
+    "practical_use": "Для CV-команды этот подход полезен при разработке агентов, которые управляют предразметкой, вызывают SAM/DINO или другие инструменты обработки изображений и выполняют последовательности операций редактирования. Стоит собирать эталонные сценарии с ожидаемыми действиями и проверяемыми результатами, сохранять трассы вызовов инструментов и повторно запускать один и тот же набор тестов после изменений промптов, моделей и описаний инструментов. Для оценки качества самой сегментации или точности разметки потребуются отдельные метрики предметной области: статья посвящена прежде всего поведению AI-агентов, а не качеству компьютерного зрения.",
+    "_reason": "Статья предлагает практическую систему контроля регрессий в промптах и многошаговых процессах, что актуально для агентов предразметки, интерактивной правки изображений и автоматизации QC. Особенно полезны рекомендации по фиксации эталонных сценариев, проверке промежуточных действий и совместному контролю результата и стоимости выполнения. Прямых новых методов сегментации или разметки статья не описывает.",
+    "why_read": "CV-разработчику стоит прочитать статью, если он создаёт агента, который управляет моделями и инструментами обработки изображений, а руководителю — если нужно сделать изменения промптов проверяемыми и воспроизводимыми. Материал поможет перейти от нескольких ручных проверок к регулярному тестированию сценариев и обнаружению скрытых регрессий до выпуска изменений.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "A single top-line score will never tell you why an agent failed.",
+      "LLMs are notoriously inconsistent at grading qualitative 1-to-5 scales; the boundary between a \"3\" and a \"4\" is fuzzy and often shifts from run to run.",
+      "Switching orchestration frameworks often forces teams to scrap and rewrite their entire testing suite."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Anchor your tests in critical user journeys (CUJs) rather than abstract benchmarks.",
+        "advice": "Опишите типовые рабочие процессы CV-агента через цель пользователя, ограничения и проверяемые условия успеха. Например, сценарий может требовать корректно выбрать инструмент сегментации, передать ему нужные параметры и сохранить результат в заданном формате. Это позволит проверять весь процесс, а не только то, насколько убедительно агент описал выполненную работу.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "By testing your agent against a synthetic user and realistic scenarios, you can record comprehensive execution traces (including tool logs) prior to user interaction.",
+        "advice": "Подготовьте симуляции пользователей для основных сценариев предразметки и редактирования, включая неполные инструкции, неоднозначные запросы и ошибки входных данных. Сохраняйте трассы выполнения и логи инструментов до подключения реальных пользователей. Это поможет заранее обнаружить неправильные вызовы моделей и проблемы с последовательностью операций.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Every time you add or remove a test, though, you invalidate your baseline: you cannot tell if a score changed because the agent got better or because the test suite moved.",
+        "advice": "Зафиксируйте эталонный набор сценариев и не меняйте его одновременно с настройкой промпта или модели. Новые сценарии добавляйте отдельно, а устаревшие выводите из набора только тогда, когда действительно изменились требования к процессу. Так команда сможет отличать улучшение агента от изменения самих условий тестирования.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Whenever possible, turn your judge rubrics into boolean (pass/fail) questions rather than open-ended rating scales.",
+        "advice": "Формулируйте критерии оценки действий агента как однозначные проверки: вызвал ли он нужный инструмент, передал ли обязательный параметр, проверил ли результат и сохранил ли требуемый формат. Такие критерии проще сравнивать между запусками, чем субъективные оценки ответа по шкале. Для качества масок, боксов и других CV-результатов отдельно задавайте предметные проверки, соответствующие используемой разметке.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Always evaluate the whole system rather than just the final text.",
+        "advice": "Оценивайте не только итоговое сообщение агента, но и промежуточные вызовы моделей и инструментов, задержку, расход токенов и стоимость выполнения. Для CV-процессов это позволит выявлять ситуации, когда итоговый файл выглядит корректно, но получен через повторные запуски, лишние обращения к моделям или неэффективную последовательность действий. Сопоставляйте операционные показатели с качеством конечной разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Standardizing your traces around open specifications like OpenInference solves this by decoupling evaluation from your orchestration framework.",
+        "advice": "Если команда использует несколько фреймворков для оркестрации агентов, стандартизируйте формат трасс выполнения на основе OpenInference. Это упростит повторное использование тестового набора при замене фреймворка или переходе на другую архитектуру агента. Перед внедрением проверьте, какие данные о вызовах инструментов и токенах реально доступны в используемом стеке.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Ignore aggregate scores and read the actual execution traces from top to bottom: the prompts, intermediate reasoning steps, tool arguments, and final outputs.",
+        "advice": "На первом этапе вручную разберите трассы нескольких типовых и проблемных сценариев, проверяя инструкции, аргументы вызовов инструментов и конечные результаты. Отмечайте случаи, когда агент выбирает неподходящую модель, передаёт неверные параметры или пропускает обязательный шаг. По этим наблюдениям сформируйте конкретные автоматические проверки вместо попытки заранее придумать универсальные критерии качества.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Run on every change: Whenever you adjust a prompt, swap a model, or edit a tool docstring, execute the exact same test battery and compare the delta against your baseline.",
+        "advice": "Включите повторный запуск эталонных сценариев в процесс изменения системных промптов, моделей и описаний инструментов. Сравнивайте результаты с предыдущим базовым запуском и отдельно разбирайте ухудшившиеся проверки. Это особенно важно, когда одно исправление для предразметки или интерактивного редактирования может нарушить другой сценарий работы агента.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Never trust a new LLM-as-a-judge metric blindly. Compare the automated scores against the traces you graded by hand on Day 0.",
+        "advice": "Перед использованием автоматического оценщика сопоставьте его результаты с трассами, которые специалисты уже проверили вручную. Если оценщик принимает заведомо ошибочные действия агента, уточните критерии и повторите сравнение. Так команда сможет проверить пригодность автоматической оценки, прежде чем использовать её для контроля качества или блокировки релизов.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "On every pull request, it runs your golden dataset and enforces two merge rules:",
+        "advice": "После проверки надёжности тестового набора подключите его к CI/CD и запускайте при каждом pull request. Используйте общий порог прохождения тестов и отдельную защиту от регрессий по критическим метрикам. Для CV-агентов включайте в эти проверки не только корректность последовательности действий, но и необходимые условия сохранения результатов разметки.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
   }
 ]
