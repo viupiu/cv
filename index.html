@@ -98,14 +98,24 @@ a:hover{text-decoration:underline}
 .pager button:disabled{opacity:.4;cursor:default}
 .pager .pg-info{font-size:13px;color:var(--muted)}
 
-.overlay{position:fixed;inset:0;background:rgba(8,24,28,.5);z-index:40;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow:auto}
+.overlay{position:fixed;inset:0;background:rgba(8,24,28,.5);z-index:40;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .overlay.show{display:flex}
-.panel{background:var(--surface);width:min(900px,100%);border-radius:18px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:hidden}
-.panel-head{padding:24px 28px 0;display:flex;justify-content:space-between;gap:12px}
+.panel{background:var(--surface);width:min(900px,100%);border-radius:18px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.2);overflow:visible;position:relative}
+.panel-head{padding:16px 28px 12px;display:flex;justify-content:space-between;gap:12px;position:static;background:var(--surface);border-bottom:1px solid var(--line)}
 .panel-head h2{margin:8px 0 4px;font-size:26px;line-height:1.2;letter-spacing:-.02em}
 .panel-original{font-size:13px;color:var(--muted);line-height:1.4}
-.close{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;color:var(--muted);align-self:flex-start}
+.close{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;color:var(--muted);align-self:flex-start;flex:0 0 auto}
 .panel-body{padding:20px 28px 28px}
+@media (max-width:720px){
+  .overlay{padding:12px;padding-top:max(12px,env(safe-area-inset-top))}
+  .panel-head{position:static;padding:12px 16px 10px;padding-right:56px}
+  .panel-head .close{display:none}
+  .close-float{display:flex;position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:60;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid var(--line);background:rgba(255,255,255,.96);border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.12);color:var(--muted);font-size:18px;padding:0}
+  .panel-body{padding:16px}
+}
+@media (min-width:721px){
+  .close-float{display:none}
+}
 .section-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin:18px 0 8px}
 .box{background:#f8fafb;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.65}
 .box.practical{background:var(--accent-soft);border-color:#b7e3e6}
@@ -204,7 +214,6 @@ a:hover{text-decoration:underline}
         <div class="stats">
           <div class="stat"><div class="num" id="statShown">—</div><div class="lbl">сейчас на экране (фильтр)</div></div>
           <div class="stat"><div class="num" id="statCatalog">—</div><div class="lbl">во всём каталоге</div></div>
-          <div class="stat"><div class="num" id="statYears">—</div><div class="lbl">лет покрыто в каталоге</div></div>
         </div>
       </section>
 
@@ -220,6 +229,7 @@ a:hover{text-decoration:underline}
 
 <div class="overlay" id="overlay">
   <div class="panel" role="dialog" aria-modal="true">
+    <button class="close-float" id="closePanelFloat" type="button" aria-label="Закрыть">✕</button>
     <div class="panel-head">
       <div style="min-width:0">
         <div class="card-top" id="panelBadges"></div>
@@ -554,12 +564,10 @@ function activeFilterLabels(){
   return values;
 }
 function updateHero(list){
-  const catalogYears=new Set(articles.map(articleYear).filter(Boolean));
   const filtered=!!(searchQuery || activeTopic.length || activeYear.length || activeStars.length || activeAudience.length);
   document.getElementById("statShown").textContent=list.length;
   document.getElementById("statShown").closest(".stat").querySelector(".lbl").textContent=filtered?"сейчас на экране (фильтр)":"сейчас на экране";
   document.getElementById("statCatalog").textContent=articles.length;
-  document.getElementById("statYears").textContent=catalogYears.size;
 }
 function render(){
   const list=sortList(baseFiltered());
@@ -690,11 +698,36 @@ function openPanel(id){
     a.pdf_link?`<a class="btn-link btn-secondary" href="${esc(a.pdf_link)}" target="_blank" rel="noopener">PDF ↗</a>`:""
   ];
   document.getElementById("panelLinks").innerHTML=links.join("");
-  document.getElementById("overlay").classList.add("show");
+  const ov=document.getElementById("overlay");
+  ov.classList.add("show");
+  ov.scrollTop=0;
+  lockPageScroll();
+}
+let lockScrollY=0;
+function lockPageScroll(){
+  lockScrollY=window.scrollY||window.pageYOffset||0;
+  document.documentElement.style.overflow="hidden";
+  document.body.style.overflow="hidden";
+  document.body.style.position="fixed";
+  document.body.style.top=`-${lockScrollY}px`;
+  document.body.style.left="0";
+  document.body.style.right="0";
+  document.body.style.width="100%";
+}
+function unlockPageScroll(){
+  document.documentElement.style.overflow="";
+  document.body.style.overflow="";
+  document.body.style.position="";
+  document.body.style.top="";
+  document.body.style.left="";
+  document.body.style.right="";
+  document.body.style.width="";
+  window.scrollTo(0, lockScrollY);
 }
 function closePanel(){
   document.getElementById("overlay").classList.remove("show");
   currentId=null;
+  unlockPageScroll();
 }
 function closeSidebar(){
   document.getElementById("sidebar").classList.remove("open");
@@ -702,6 +735,7 @@ function closeSidebar(){
 }
 
 document.getElementById("closePanel").onclick=closePanel;
+document.getElementById("closePanelFloat").onclick=closePanel;
 document.getElementById("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closePanel()});
 document.getElementById("search").addEventListener("input",e=>{searchQuery=e.target.value.trim().toLowerCase();pageIndex=0;buildSidebar();render()});
 document.getElementById("sort").addEventListener("change",()=>{pageIndex=0;render()});
