@@ -418852,5 +418852,558 @@
     "from_collector": true,
     "advice_items": [],
     "attack_methods": []
+  },
+  {
+    "id": 11027,
+    "source": "arXiv",
+    "arxiv_id": "2610.40029",
+    "version": null,
+    "article": "Segment Anything Model Based Context Guided Mamba Unet for Medical Image Segmentation",
+    "authors": [
+      "Chenchen Wang",
+      "You Zhou"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.40029",
+    "html_link": "https://arxiv.org/html/2610.40029",
+    "pdf_link": "https://arxiv.org/pdf/2610.40029",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "SAMBA-UNet: сегментация медизображений на связке SAM и Context-Guided Mamba UNet",
+    "summary": "Прямой SAM слабо адаптирован к меддомену, а Mamba-модели хорошо ловят long-range зависимости, но могут терять мелкую анатомию. SAMBA-UNet объединяет контекст SAM с иерархическими признаками Mamba через Hierarchical Context Enhancement Module и дообучает SAM через LoRA/Adapter под медицинскую сегментацию. На Synapse, ISIC17 и ISIC18 авторы заявляют SOTA-баланс обобщения, точности и эффективности; код обещают открыть после acceptance.",
+    "practical_use": "Для общих задач предразметки отдела статья скорее ориентир по домену: LoRA/Adapter на SAM плюс fusion с другим backbone. Прямой перенос на UAV/обычные фото не гарантирован — набор данных медицинский. Имеет смысл смотреть, если строите специализированный сегментатор под узкий визуальный домен.",
+    "_reason": "Показывает практичный рецепт адаптации SAM под чужой домен через лёгкий fine-tuning и fusion-модуль. Для ядра отдела (не мед) ценность средняя, поэтому карточка на 3★.",
+    "why_read": "CV-разработчику, который адаптирует SAM под новый домен через LoRA/Adapter и multi-level fusion. Остальным достаточно skim по абстракту.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Оценка на медицинских датасетах Synapse/ISIC; перенос на домены отдела не показан.",
+      "Код обещан после acceptance — воспроизводимость пока ограничена."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Additionally, we employ LoRA and Adapter-based fine-tuning to adapt SAM to medical imaging tasks, further enhancing its domain-specific segmentation capability and robustness.",
+        "advice": "При переносе SAM на новый визуальный домен сначала пробуйте LoRA/Adapter, а не полное переобучение. Это дешевле и часто достаточно для заметного прироста. Для отдела тот же приём применим к aerial/тонким объектам, но нужно своё доменное валидационное множество.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Specifically, we introduce the Hierarchical Context Enhancement Module (HCEM), an attention-based fusion module that deeply incorporates the multi-level features of SAM and Mamba to improve detail perception and segmentation precision.",
+        "advice": "Если SAM даёт грубый контекст, а второй backbone — детали, сведите их multi-level fusion модулем с attention, а не простой конкатенацией на одном уровне. Так проще удержать и глобальную структуру, и границы. Проверяйте прирост отдельно на мелких структурах, которые обычно «съедает» универсальный SAM.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11028,
+    "source": "arXiv",
+    "arxiv_id": "2610.38587",
+    "version": null,
+    "article": "RoSAMDepth: Robust Self-supervised Depth Estimation Leveraging Segment Anything Model",
+    "authors": [
+      "Xuanang Gao",
+      "Zhiwei Ning",
+      "Gengming Zhang",
+      "Jiaxi Cao",
+      "Runze Yang",
+      "Zhonglong Zheng",
+      "Jie Yang",
+      "Rong Xiao",
+      "Wei Liu"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.38587",
+    "html_link": "https://arxiv.org/html/2610.38587",
+    "pdf_link": "https://arxiv.org/pdf/2610.38587",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "RoSAMDepth: устойчивая self-supervised оценка глубины с object-level приорами из SAM",
+    "summary": "Обычная self-supervised depth часто «плывёт» внутри объектов и размывается в сложных условиях, потому что не использует object-level информацию. RoSAMDepth подмешивает приоры Segment Anything: segment-guided representation contrasting, адаптивный regional outlier masking с regional Gaussian likelihood loss и оценку object-level reliability ненадёжного supervision. На нескольких датасетах и погодных условиях авторы получают более резкую и точную глубину; код открыт на GitHub.",
+    "practical_use": "Прямой пользы для разметки мало: это depth estimation, а не annotation pipeline. Идея использовать маски SAM как object-level prior может пригодиться в смежных CV-задачах, где нужна региональная согласованность. Для ReadingHub отдела — фоновый skim.",
+    "_reason": "Интересный пример использования SAM не для предразметки, а как источника object priors в другой задаче. К ядру разметки/QC относится слабо.",
+    "why_read": "Только если команда работает с depth/3D-геометрией и уже смотрит SAM-приоры. Разметчикам и руководителям разметки можно не читать.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Задача — self-supervised depth, не сегментационная разметка.",
+      "Выигрыш показан на depth-бенчмарках и adverse weather, не на annotation QC."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "we propose RoSAMDepth, a novel framework that can assist robust self-supervised depth estimation in leveraging rich and diverse object-level priors from the Segment Anything Model (SAM).",
+        "advice": "Если в пайплайне уже есть SAM-маски, попробуйте использовать их как object-level prior не только для сегментации, но и для смежных задач вроде depth. Имеет смысл явно штрафовать несогласованность внутри объекта и снижать вес ненадёжных регионов. Для отдела разметки это скорее идея на будущее, чем готовый процесс.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11029,
+    "source": "arXiv",
+    "arxiv_id": "2610.40453",
+    "version": null,
+    "article": "PhysInsert: Physically Plausible Object Insertion with Geometric Priors and Bidirectional Object-Scene Interactions",
+    "authors": [
+      "Yue Gong",
+      "Le Zhang",
+      "Rui Chen",
+      "Song Chang",
+      "Xiaochao Qu",
+      "Luoqi Liu",
+      "Ting Liu",
+      "Yebin Liu"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Inpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.40453",
+    "html_link": "https://arxiv.org/html/2610.40453",
+    "pdf_link": "https://arxiv.org/pdf/2610.40453",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PhysInsert: физически правдоподобная вставка объекта с геометрическими приорами и взаимным влиянием объекта и сцены",
+    "summary": "Авторы предлагают PhysInsert — метод reference-based вставки объекта в сцену, который одновременно подстраивает позу и освещение объекта и изменения окружения вокруг него. Для обучения собран Insert World: строго выровненные пары Blender-рендеров с референсами объекта при разных ракурсах и освещении. Геометрический поток VGGT вместе с image/text-стримами и 2D-супервизией занятости объекта и изменений сцены помогают получать пространственно согласованную вставку; на PhysInsert-Bench и DreamBooth показывают лучшую верность и более правдоподобные свет, перспективу и позу.",
+    "practical_use": "Для пайплайнов вставки объекта на фото стоит отдельно проверять не только «похожесть» объекта, но и адаптацию к освещению сцены, перспективе и побочным эффектам на окружение. Имеет смысл заложить в QC сценарии cross-environment и cross-view, а не только копирование внешности референса. Датасет Insert World и бенчмарк полезны как ориентир, если отдел собирает синтетику для обучения insertion-моделей.",
+    "_reason": "Вставка объекта — прямая рабочая задача отдела; статья бьёт по слабым местам текущих методов: освещение, поза и двустороннее взаимодействие со сценой. Появление специализированного датасета и бенчмарка упрощает сравнение собственных insertion-пайплайнов с внешними baseline.",
+    "why_read": "CV-разработчику — разобрать Geometry-Guided Adaptation и схему супервизии object–scene. Руководителю — понять, какие типы ошибок insertion нужно закладывать в приёмку. Разметчику — как формулировать требования к «правдоподобной» вставке: свет, поза, влияние на фон.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Обучение опирается на синтетические Blender-пары; перенос на фотореалистичные сцены отдела нужно отдельно проверять.",
+      "Оценка на PhysInsert-Bench и DreamBooth; результаты пользовательского исследования описаны обобщённо."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We construct the Insert World dataset with strictly aligned Blender-rendered counterfactual pairs and object references across viewpoints and lighting conditions.",
+        "advice": "Если готовите синтетику для обучения insertion, собирайте строго выровненные пары «сцена до/после» с одним и тем же объектом при разных ракурсах и освещении. Это даёт контролируемую супервизию позы и света, которой не хватает в обычных masked inpaint-парах. Для отдела такой корпус можно использовать и для обучения, и для регрессионных тестов QC.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Building on these data, Geometry-Guided Adaptation couples a VGGT geometry stream with image and text streams under target-scene feature supervision to guide spatially consistent insertion.",
+        "advice": "При проектировании insertion-модели не ограничивайтесь только appearance-веткой: добавляйте геометрический поток и супервизию признаков целевой сцены. Так проще удерживать согласованность масштаба, перспективы и положения объекта. Это особенно полезно, когда референс объекта снят в другом ракурсе, чем целевая сцена.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Complementary 2D Object–Scene Spatial Supervision jointly supervises object occupancy and environmental changes while grounding spatial instructions in object regions through image–text attention.",
+        "advice": "В loss и в инструкциях разметки разделяйте занятость объекта и изменения окружения (тени, отражения, окклюзии). Привязывайте текстовые пространственные указания к регионам объекта, а не ко всему кадру. Так QC сможет отдельно штрафовать «объект не туда» и «сцена не отреагировала на вставку».",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We introduce PhysInsert-Bench with dedicated cross-environment and cross-view cases requiring illumination and pose adaptation beyond appearance copying.",
+        "advice": "В приёмку insertion добавьте явные кейсы смены освещения и ракурса, где недостаточно скопировать текстуру референса. Сравнивайте модели именно по этим срезам, а не только по общему aesthetic score. Руководителю это даёт понятный критерий готовности пайплайна к продакшену.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11030,
+    "source": "arXiv",
+    "arxiv_id": "2610.39664",
+    "version": null,
+    "article": "EditAgent: Rethinking Agentic Image Editing",
+    "authors": [
+      "Haiyang Xu",
+      "Tianyu Wang",
+      "Jialu Li",
+      "Jiteng Mu",
+      "Yuanjun Xiong",
+      "Jianming Zhang",
+      "Zhuowen Tu",
+      "Mingze Xu"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Inpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.39664",
+    "html_link": "https://arxiv.org/html/2610.39664",
+    "pdf_link": "https://arxiv.org/pdf/2610.39664",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "EditAgent: агентное редактирование изображений с расширенным набором инструментов и проверкой кандидатов",
+    "summary": "Авторы показывают, что типичные agentic image editors ограничены узким action space и слабым observation space судьи: на экспертном бенчмарке универсальный редактор не даёт пригодного результата более чем в 40% случаев, а ни один judge не стабилен по всем типам правок. EditAgent на каждом шаге маршрутизирует запрос к общим и специализированным методам, строит кандидатов параллельно и прикладывает к каждому verification record; off-the-shelf VLM с такими записями судит лучше дообученных reward-моделей, а listwise-сравнение эксперты предпочитают последовательному refinement в 78,5% решённых сравнений при не более чем половине вызовов судьи.",
+    "practical_use": "Для интерактивной правки и QC стоит собирать несколько кандидатов разными методами (общий editor + узкие tools) и отдавать VLM не «голую» картинку, а кандидата с verification record. Параллельная генерация с одним listwise-судейством дешевле и стабильнее слепого retry тем же инструментом. EditAgent также можно использовать как data engine для дообучения open-weight редакторов на сложных многошаговых инструкциях.",
+    "_reason": "Отделу нужен не только один inpaint-модель, а управляемый контур правки с проверкой результата. Статья прямо бьёт по провалу «одного инструмента на всё» и даёт практичную схему маршрутизации, параллельных кандидатов и доказательной оценки для VLM-judge.",
+    "why_read": "CV-разработчику — как расширить action/observation space агента правки. Руководителю — почему одного редактора и «оценки на глаз» недостаточно на сложных брифах. Разметчику — какие артефакты и пропуски частей инструкции стоит фиксировать в эталонном бенчмарке.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Часть работы выполнена в Adobe Research; воспроизводимость полного агентного стека зависит от доступности специализированных tools.",
+      "Цифры 40% и 78,5% относятся к их экспертному бенчмарку и сравнениям, а не к произвольному продакшену отдела."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "On our expert-annotated benchmark, a general-purpose editor yields no usable result in over 40% of the cases, and no judge is reliable across edit types.",
+        "advice": "Не оценивайте пайплайн правки только средним score: отдельно считайте долю кейсов без пригодного результата и смотрите reliability судьи по типам правок. Если один judge «плывёт» на удалении, вставке и relight по-разному, закладывайте разные проверки или разные инструменты. Для отдела это прямой аргумент за смешанный tool-set, а не один универсальный editor.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "It routes each step to general editors and specialized methods, and attaches to each candidate a verification record.",
+        "advice": "На каждом шаге агента направляйте подзадачу и к общему редактору, и к узким методам, а к кандидату прикладывайте verification record с проверяемыми признаками успеха. Так VLM-судья получает evidence, а не только пиксели. В QC это снижает ложные accept на правках, где визуально «красиво», но инструкция выполнена частично.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "With these records, off-the-shelf VLM judges outperform finetuned reward models.",
+        "advice": "Перед дорогим дообучением reward-модели проверьте off-the-shelf VLM с verification records на ваших типах правок. Часто готовый VLM с хорошим evidence-промптом оказывается сильнее узкого reward. Это ускоряет запуск AutoQA без отдельного датасета наград.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Candidates are generated in parallel and judged in one listwise call: experts prefer this to sequential refinement in 78.5% of decided comparisons, at no more than half the judge calls.",
+        "advice": "Генерируйте кандидатов параллельно и сравнивайте listwise одним вызовом судьи вместо цепочки retry. Так вы экономите вызовы judge и получаете выбор, который эксперты чаще предпочитают последовательному refinement. Для продакшена это снижает latency и стоимость QC-агента.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "EditAgent improves two open-weight editors on three benchmarks and serves as a data engine for training stronger editors.",
+        "advice": "Используйте агентный контур не только для инференса, но и как источник траекторий для дообучения open-weight редакторов. Сохраняйте удачные многошаговые правки с verification records как обучающие пары. Это помогает закрывать сложные брифы, где один проход модели систематически теряет части инструкции.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11031,
+    "source": "arXiv",
+    "arxiv_id": "2610.39265",
+    "version": null,
+    "article": "DeCoRL: Decomposed Consistency Reinforcement Learning for Multi-Image Composition",
+    "authors": [
+      "Zhiqiang Wu",
+      "Shuang Sun",
+      "Jiale Zhang",
+      "Jing Li",
+      "Yibo Chen",
+      "Xu Tang",
+      "Yao Hu"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Inpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.39265",
+    "html_link": "https://arxiv.org/html/2610.39265",
+    "pdf_link": "https://arxiv.org/pdf/2610.39265",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "DeCoRL: обучение с подкреплением для согласованной композиции по нескольким референсным изображениям",
+    "summary": "Multi-image composition быстро теряет согласованность объектов, когда растёт число референсов: обычный SFT даёт лишь неявную супервизию по целому кадру и плохо учит object-level correspondence. DeCoRL раскладывает целостную согласованность на объектную: строит соответствия релевантных объектов между референсами, локализует их в результате и использует VLM-reward, обученный на single-object consistency annotations, а затем агрегирует object-wise сигналы в multi-object reward для RL post-training. Авторы также выпускают DeCo-Bench на композициях от 2 до 6 референсов и показывают улучшения на нём и на публичном MICo-Bench.",
+    "practical_use": "Если отдел собирает сцены из нескольких референсов (товар + фон + люди), оценивайте и обучайте модель не только по общему aesthetic, а по сохранению identity каждого объекта. Имеет смысл размечать single-object consistency для reward и держать бенчмарк с 2–6 референсами. Для QC проверяйте именно «какие объекты поплыли», а не только общий вид кадра.",
+    "_reason": "Мультиреференсная композиция — частый сценарий редактирования и синтетики; статья даёт понятную декомпозицию ошибки и схему RL с object-wise feedback. DeCo-Bench полезен как шаблон нагрузки для наших insertion/composition пайплайнов.",
+    "why_read": "CV-разработчику — как строить object-level reward и соответствия между референсами. Руководителю — почему SFT на целом кадре недостаточно при росте числа референсов. Разметчику — какой гранулярности нужна разметка согласованности объектов для обучения reward.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод завязан на VLM-reward и разметку single-object consistency; стоимость такой разметки нужно учитывать.",
+      "Основной фокус — consistency multi-image composition, а не классический single-image inpaint."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We propose DeCoRL, a reinforcement-learning (RL) framework that improves MICo consistency by decomposing holistic MICo consistency into object-level consistency.",
+        "advice": "Не обучайте multi-image composition только на целостном кадре: разложите метрику согласованности на уровень объектов. Так модель получает сигнал, какой именно референсный объект «поплыл». Для отдела это снижает систематические ошибки identity при сборке сложных сцен.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "It then uses a VLM-based reward model trained on single-object consistency annotations to produce fine-grained, object-wise feedback, which is aggregated into a multi-object consistency reward to guide RL post-training.",
+        "advice": "Соберите разметку согласованности на уровне отдельных объектов и обучите на ней VLM-reward; затем агрегируйте object-wise оценки в общий reward для RL. Это даёт более interpretable QC-сигнал, чем один score на весь кадр. Разметчикам важно фиксировать именно расхождения identity/атрибутов по каждому объекту.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "We further introduce DeCo-Bench, a benchmark covering compositions from 2 to 6 reference images.",
+        "advice": "Держите внутренний бенчмарк композиций с разным числом референсов (минимум до 6), а не только пары. Смотрите деградацию consistency по мере роста числа входов — это главный риск продакшена. Руководителю такой срез показывает, где пайплайн ещё не готов к сложным брифам.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11032,
+    "source": "arXiv",
+    "arxiv_id": "2610.38611",
+    "version": null,
+    "article": "V-CAPE: Visual Consistency Assessment for Product Image Editing",
+    "authors": [
+      "Iaroslav Melekhov",
+      "Roberto Alcover Couso",
+      "Francesco Taioli",
+      "Daniel Coelho",
+      "Artur Bekasov",
+      "Virginia Fernandez Arguedas",
+      "Jose Miguel Grande Saiz"
+    ],
+    "date": "2026-10-30",
+    "updated": "2026-10-30",
+    "topic": "Inpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.38611",
+    "html_link": "https://arxiv.org/html/2610.38611",
+    "pdf_link": "https://arxiv.org/pdf/2610.38611",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "V-CAPE: датасет и AutoQA для проверки визуальной согласованности при правке товарных изображений",
+    "summary": "Генеративное редактирование товарных фото часто ломает intrinsic-атрибуты объекта (геометрия, текстура, цвет, детали), а ручная проверка на масштабе нереалистична. V-CAPE — датасет из около 40 тыс. уникальных пар source–target с бинарной разметкой accept/reject и структурированными failure modes (искажения геометрии, ошибки позы, identity mismatch); есть и реальные правки, и синтетика по 3D-ассетам. На задаче AutoQA VLM всех проверенных размеров дают accuracy ниже 65%, то есть автоматическая проверка согласованности пока существенно недотягивает.",
+    "practical_use": "Для QC правок каталожных/товарных изображений закладывайте бинарный accept/reject плюс таксономию failure modes, а не один aesthetic score. Не полагайтесь слепо на VLM-AutoQA: на V-CAPE они слабее 65% accuracy. Датасет и постановка AutoQA — хороший шаблон для внутреннего регрессионного набора правок отдела.",
+    "_reason": "Отделу нужна масштабируемая приёмка правок с сохранением объекта. V-CAPE показывает и формат разметки ошибок, и жёсткий потолок текущих VLM-судей — это важно при внедрении автоматического QC.",
+    "why_read": "Руководителю и разметчику — как устроить схему accept/reject и failure modes для правок. CV-разработчику — почему нельзя считать VLM-AutoQA решённой задачей и какие кейсы включать в бенчмарк.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Фокус на product image editing; перенос на UAV/aerial и произвольные сцены нужно отдельно валидировать.",
+      "VLM accuracy <65% — результат на их AutoQA-сплитах, не универсальный закон для любой постановки."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "This challenge is particularly pronounced at scale, where manual inspection is infeasible and automated quality assessment (AutoQA) could become essential.",
+        "advice": "Если объём правок растёт, проектируйте AutoQA заранее: пара source/edited, критерий visual consistency и понятный verdict. Не оставляйте приёмку только ручному просмотру. Для отдела это снижает риск пропуска искажений identity на каталожных потоках.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "The dataset consists of 40 40 K unique source–target product image pairs, each annotated with binary accept/reject labels and structured failure modes capturing fine-grained inconsistencies such as geometric distortions, pose errors, and identity mismatches.",
+        "advice": "В инструкции разметки QC фиксируйте не только accept/reject, но и тип сбоя: геометрия, поза, identity и т.п. Такая структура потом кормит и обучение судей, и аналитику дефектов пайплайна. Разметчику проще спорить о спорных кейсах, когда есть общий словарь ошибок.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "V-CAPE combines real-world edited images with a synthetic subset constructed from 3D assets, enabling both realistic evaluation and controlled analysis.",
+        "advice": "В тестовом наборе смешивайте реальные правки и контролируемую синтетику по 3D-ассетам. Синтетика помогает изолировать типы искажений, реал — ловить продакшен-шум. Так вы избежите бенчмарка, который хорошо выглядит только на одном источнике данных.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Vision–language models (VLMs) across all evaluated size categories on AutoQA achieve accuracy below 65%, indicating that the dataset poses a substantial challenge regardless of model scale.",
+        "advice": "Не масштабируйте «просто большую VLM» как единственный QC-судья для consistency правок: на V-CAPE даже крупные модели остаются ниже 65% accuracy. Комбинируйте VLM с геометрическими/референсными проверками и человеческим ревью на спорных классах. Иначе автоматический accept будет пропускать критичные дефекты товара.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11033,
+    "source": "OpenAI News",
+    "arxiv_id": null,
+    "version": null,
+    "article": "An updated Model Spec for more capable and beneficial AI",
+    "authors": [],
+    "date": "2026-10-29",
+    "updated": "2026-10-29",
+    "topic": "Промпт-инжиниринг NLP (без vision тоже нужен)",
+    "topic_key": "nlp_pe",
+    "topic_keys": [
+      "nlp_pe"
+    ],
+    "topics": [
+      "Промпт-инжиниринг NLP (без vision тоже нужен)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "OpenAI’s updated Model Spec outlines five core values to guide more capable AI toward sound judgment, human agency, and faithfulness to human intent.",
+    "article_link": "https://openai.com/index/updated-model-spec",
+    "html_link": "https://openai.com/index/updated-model-spec",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": false,
+    "title_ru": "An updated Model Spec for more capable and beneficial AI",
+    "summary": "Заметка OpenAI: «An updated Model Spec for more capable and beneficial AI». Касается спецификации поведения модели или детекции misalignment, без фокуса на CV-разметке.",
+    "practical_use": "Может быть полезна команде, которая настраивает политики LLM/агентов; для сегментации и inpaint — косвенно.",
+    "_reason": "Слабая, но не нулевая связь с NLP/prompt-политиками отдела.",
+    "why_read": "Только если ведёте safety/spec для ассистентов. Иначе skim.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нет методов разметки изображений."
+    ],
+    "importance_stars": 2,
+    "importance_mark": "★★☆☆☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11034,
+    "source": "OpenAI News",
+    "arxiv_id": null,
+    "version": null,
+    "article": "How we detect frontier model misalignment",
+    "authors": [],
+    "date": "2026-10-29",
+    "updated": "2026-10-29",
+    "topic": "Промпт-инжиниринг NLP (без vision тоже нужен)",
+    "topic_key": "nlp_pe",
+    "topic_keys": [
+      "nlp_pe"
+    ],
+    "topics": [
+      "Промпт-инжиниринг NLP (без vision тоже нужен)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "OpenAI uses layered monitoring to detect frontier model misalignment and unauthorized agent behavior so responders can intervene before incidents escalate.",
+    "article_link": "https://openai.com/index/how-we-detect-frontier-model-misalignment",
+    "html_link": "https://openai.com/index/how-we-detect-frontier-model-misalignment",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": false,
+    "title_ru": "How we detect frontier model misalignment",
+    "summary": "Заметка OpenAI: «How we detect frontier model misalignment». Касается спецификации поведения модели или детекции misalignment, без фокуса на CV-разметке.",
+    "practical_use": "Может быть полезна команде, которая настраивает политики LLM/агентов; для сегментации и inpaint — косвенно.",
+    "_reason": "Слабая, но не нулевая связь с NLP/prompt-политиками отдела.",
+    "why_read": "Только если ведёте safety/spec для ассистентов. Иначе skim.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нет методов разметки изображений."
+    ],
+    "importance_stars": 2,
+    "importance_mark": "★★☆☆☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11035,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "October 22, 2026",
+    "authors": [],
+    "date": "2026-10-28",
+    "updated": "2026-10-28",
+    "topic": "Inpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 Image: Custom Output Sizes and Better Edits \n  POST /v1/flux-3-image  has two new size options:  width  and  height , and  resolution: \"match_input\"  for edits. Edits with one reference image are also more accurate. \n Key Features \n \n  Exact size:  send  width  and  height  for any size from 256px per side up to 16.8MP ( 4k ), at aspect ratios up to 8:1. With reference images, the limit is 4MP.  width  and  height  override  resolution  and  aspect_ratio  \n  Same size as input image:  with  resolution: \"match_input\" , an edit is the same size as the first reference image, up to 4MP. If  aspect_ratio  or your prompt sets an aspect ratio, the output uses it at a standard size \n  Better edits:  edits with one reference image follow the instruction more closely, especially whole-image changes such as weather, relighting, color grading, and restoration, plus text edits and camera moves. No request changes needed \n  No cropping:  with  aspect_ratio  at  auto , edits with one reference image use the whole image \n  Backward compatible:  requests without the new fields work as before and return  1k  \n \n Pricing \n Prices are unchanged. Custom and  match_input  sizes are billed at the smallest  resolution  with at least as many pixels. Anything above  2k  (about 4MP) is billed as  4k . \n Endpoint \n  FLUX 3 Image API reference  ",
+    "article_link": "https://docs.bfl.ml/release-notes#october-22-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#october-22-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL Release Notes (22 окт 2026): FLUX 3 Image — произвольные размеры и более точные правки",
+    "summary": "В release notes Black Forest Labs за 22 октября у FLUX 3 Image появились параметры width/height (от 256px до ~16.8MP / 4k, с референсами лимит 4MP) и режим resolution: match_input для правок в размере входного изображения. Отдельно улучшены edits с одним референсом: лучше следуют инструкции на whole-image изменениях (погода, relight, color grading, restoration), text edits и camera moves; при aspect_ratio=auto правки с одним референсом не кропают кадр. В той же ленте остаются ранее выпущенные FLUX 3 Image Klein (open weights 5.6B) и API FLUX 3 Image с bounding boxes.",
+    "practical_use": "Для продакшен-правок через BFL API проверьте match_input и кастомный размер на ваших референсах — это снижает лишние ресайзы и кропы в конвейере. Имеет смысл отдельно прогнать сценарии relight/restoration/text edit с одним референсом после обновления. Open-weights Klein по-прежнему кандидат для локального Diffusers/ComfyUI и LoRA на Klein Base.",
+    "_reason": "Прямое обновление инструмента, которым отдел может пользоваться для генерации и правки. Без исследовательской «воды»: конкретные поля API и поведение edits.",
+    "why_read": "CV-разработчику и руководителю пайплайна image editing — чтобы сразу внедрить новые размеры и match_input. Разметчику читать не обязательно.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Это product release notes, не научная оценка качества на публичном бенчмарке.",
+      "Цены и лимиты пикселей нужно сверять с актуальной документацией BFL."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "resolution: \"match_input\" for edits. Edits with one reference image are also more accurate.",
+        "advice": "В запросах правки явно задавайте width/height или resolution=match_input, чтобы выход совпадал с нужным холстом и первым референсом. Так вы уберёте лишний ресайз между API и вашим QC. Проверьте лимит 4MP при наличии референсов, чтобы не ловить неожиданные отказы.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "edits with one reference image follow the instruction more closely, especially whole-image changes such as weather, relighting, color grading, and restoration, plus text edits and camera moves.",
+        "advice": "После обновления перегоните регрессию на whole-image правках с одним референсом: relight, grading, restoration, text, camera move. Сравните со старым baseline по соответствию инструкции и сохранности неизменяемых областей. Если качество выросло, можно упростить ручной пост-QC на этих классах.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "FLUX 3 Image Klein is a 5.6B parameter version of FLUX 3 Image with open weights.",
+        "advice": "Для локальных экспериментов держите в стеке Klein Distilled (быстро) и Klein Base (LoRA/дообучение). Проверяйте те же брифы, что гоняете через API, чтобы понимать gap open vs hosted. Это снижает зависимость от облака на пилотах.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
   }
 ]
