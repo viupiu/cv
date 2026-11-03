@@ -419405,5 +419405,2445 @@
       }
     ],
     "attack_methods": []
+  },
+  {
+    "id": 11036,
+    "source": "arXiv",
+    "arxiv_id": "2611.00523",
+    "version": 1,
+    "article": "SASFormer: Stage-Aware Selective Attention Transformer for All-in-One Blind Image Restoration",
+    "authors": [
+      "Xiangpeng Tian, Mingyang Li, Fajing Liu, Xiaofeng Wang, Xiaohai He, Chao Ren"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv",
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV",
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "All-in-one image restoration aims to recover high-quality images from multiple degradation types using a single unified model. Recent methods improve unified restoration with hybrid attention, prompt learning, or routing mechanisms, but generally focus on enhancing degradation adaptivity while employing similar feature modeling strategies across network stages. Consequently, the distinct representation requirements of encoding and decoding under diverse degradations remain insufficiently explored. In this paper, we propose SASFormer, a Stage-Aware Selective Attention Transformer for all-in-one blind image restoration. SASFormer follows a stage-aware design principle: the encoder uses established hybrid channel-spatial attention to build robust content-preserving and degradation-aware representations, while the decoder employs adaptive selective attention for restoration-oriented reconstruction. To address the stage-specific requirements of decoder reconstruction, we develop Adaptive Selective Channel Self-Attention (ASCSA) and Adaptive Selective Spatial Self-Attention (ASSSA), enabling the decoder to dynamically identify restoration-relevant channel responses and spatial contexts. Specifically, ASCSA performs adaptive query-channel selection and attention masking, while ASSSA adaptively integrates spatial attention across multiple window sizes. Compact implicit prompts further modulate the selection process without requiring explicit degradation labels. Extensive experiments on 3-, 5-, and 11-degradation settings demonstrate that SASFormer achieves strong restoration performance with favorable parameter efficiency. Moreover, stage-wise representation analysis and ablation studies provide empirical support for the proposed stage-aware design and the effectiveness of decoder-side adaptive selection.",
+    "article_link": "https://arxiv.org/abs/2611.00523",
+    "html_link": "https://arxiv.org/html/2611.00523v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00523v1",
+    "doi": "10.1109/TCSVT.2026.3745786",
+    "html_available": true,
+    "title_ru": "SASFormer: stage-aware selective attention для all-in-one blind image restoration",
+    "summary": "All-in-one restoration часто усиливает adaptivity к деградации, но одинаково моделирует признаки на encode/decode. SASFormer в энкодере держит hybrid channel-spatial attention, а в декодере — Adaptive Selective Channel/Spatial Self-Attention с компактными implicit prompts без явных degradation labels. На настройках 3/5/11 деградаций метод силён по качеству при хорошей parameter efficiency.",
+    "practical_use": "Для единого restoration перед разметкой имеет смысл развести стратегии encode/decode и не требовать явный тип деградации от оператора. Implicit prompts удобны в проде, где тип искажения неизвестен. Сравните с текущим all-in-one baseline на своём смеси degradations.",
+    "_reason": "Blind restoration с prompt-подобной модуляцией близко к preprocessing и inpaint-adjacent пайплайнам.",
+    "why_read": "CV-разработчику — ASCSA/ASSSA и stage-aware дизайн. Руководителю — один модель на смесь искажений. Разметчику — меньше ручной классификации типа деградации.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Это restoration, не сегментация; польза для меток косвенная через очистку входа.",
+      "Нужна проверка на UAV/thermal доменах отдела."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "SASFormer follows a stage-aware design principle: the encoder uses established hybrid channel-spatial attention to build robust content-preserving and degradation-aware representations, while the decoder employs adaptive selective attention for restoration-oriented reconstruction.",
+        "advice": "В all-in-one restoration не копируйте один и тот же attention-блок на все стадии: энкодеру нужна устойчивость к деградации, декодеру — селективная сборка деталей. Разведите роли явно. Это простой архитектурный принцип для рефакторинга текущего unified restore.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Compact implicit prompts further modulate the selection process without requiring explicit degradation labels.",
+        "advice": "Не заставляйте оператора или разметчика указывать тип искажения, если можно обойтись implicit prompts. Это снижает трение в пайплайне и ошибки ручной классификации degradation. Для продакшена blind-режим обычно практичнее.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11037,
+    "source": "arXiv",
+    "arxiv_id": "2611.03120",
+    "version": 1,
+    "article": "KAUSTics-Net: Diffusion-Based Through-Water UAV Restoration with a Semi-Synthetic Dataset",
+    "authors": [
+      "Dario Scilla, Omar A. Lopez, Kasper Johansen, Brian O. Nieuwenhuis, Matthew F. McCabe"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation",
+      "inpaint_editing",
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Генеративная аугментация",
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Accurate mapping of shallow-water environments using unmanned aerial vehicle (UAV) imagery is challenged by water-induced distortions, including refraction, caustics, and wavelength-dependent attenuation. The scarcity of paired distorted and reference imagery further limits the development of supervised restoration methods. To address this challenge, we introduce KAUSTics, a semi-synthetic dataset combining 1,280 reference patches derived from 32 high-resolution UAV images with 12,800 degraded observations generated through Blender-based water-surface rendering and empirical color and blur augmentations. We further propose KAUSTics-Net, a pixel-space conditional diffusion framework integrating a multi-scale conditional encoder, feature-wise linear modulation (FiLM), cross-attention, and a composite reconstruction objective to restore shallow-water imagery. We evaluated the framework against eight image-restoration methods, complemented by architectural ablations and cross-dataset experiments. On KAUSTics, KAUSTics-Net achieved a mean peak signal-to-noise ratio (PSNR) of 31.715 +/- 0.439 dB, structural similarity index (SSIM) of 0.849 +/- 0.002, and learned perceptual image patch similarity (LPIPS) of 0.145 +/- 0.007 across three training seeds. On the independent Sea-Undistort dataset, sampler-aware fine-tuning improved restoration fidelity, reaching 19.469 +/- 0.332 dB PSNR and 0.554 +/- 0.005 SSIM under combined water-surface distortions, although perceptual trade-offs remained. Additional experiments on real UAV imagery examined feature preservation and segmentation behavior. These findings demonstrate the potential of semi-synthetic training and conditional diffusion for shallow-water image restoration while highlighting the importance of evaluating both reconstruction fidelity and downstream remote-sensing utility.",
+    "article_link": "https://arxiv.org/abs/2611.03120",
+    "html_link": "https://arxiv.org/html/2611.03120v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.03120v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "KAUSTics-Net: диффузионное восстановление UAV-снимков через воду и полусинтетический датасет KAUSTics",
+    "summary": "Съёмка мелководий с дрона портится рефракцией, каустиками и спектральным затуханием, а пар «искажённый кадр — чистый референс» почти нет. Авторы собирают KAUSTics: 1280 референсных патчей из 32 UAV-снимков и 12800 деградаций через Blender и эмпирические аугментации цвета и blur. KAUSTics-Net — условная pixel-space диффузия с multi-scale encoder, FiLM и cross-attention; на KAUSTics она даёт около 31.7 dB PSNR, а на Sea-Undistort после sampler-aware fine-tuning качество растёт, хотя перцептуальные компромиссы остаются.",
+    "practical_use": "Если отдел размечает или предобрабатывает UAV над водой, имеет смысл сначала проверить, насколько текущий пайплайн переживает каустики и цветной attenuation, и завести отдельный QC-срез таких кадров. Полусинтетическая схема Blender+эмпирика полезна как рецепт синтеза пар без дорогой полевой калибровки. Для восстановления можно взять conditional diffusion как baseline и отдельно смотреть сохранение признаков под сегментацию.",
+    "_reason": "Прямая UAV-задача с генеративной аугментацией и inpaint-подобным восстановлением — в ядре интересов отдела. Датасет и метод дают проверяемый путь, когда настоящих пар «до/после воды» нет.",
+    "why_read": "CV-разработчику — архитектура условной диффузии и схема синтеза KAUSTics. Руководителю — понять стоимость и пределы semi-synthetic обучения для водных UAV. Разметчику — какие артефакты воды стоит явно фиксировать в инструкциях QC.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Основной выигрыш измерен на полусинтетическом KAUSTics; на независимых данных нужен fine-tuning.",
+      "На Sea-Undistort остаются перцептуальные trade-off после sampler-aware дообучения."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "we introduce KAUSTics, a semi-synthetic dataset combining 1,280 reference patches derived from 32 high-resolution UAV images with 12,800 degraded observations generated through Blender-based water-surface rendering and empirical color and blur augmentations",
+        "advice": "Для водных UAV не ждите больших пар «чистая вода / искажение»: соберите небольшой пул чистых референсов и размножьте деградации рендером поверхности плюс цветовым и blur-шумом. Так получают десятки тысяч обучающих пар при скромном полевом бюджете. Отделу это даёт контролируемый корпус для обучения и регрессии restoration перед сегментацией.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "We further propose KAUSTics-Net, a pixel-space conditional diffusion framework integrating a multi-scale conditional encoder, feature-wise linear modulation (FiLM), cross-attention, and a composite reconstruction objective to restore shallow-water imagery.",
+        "advice": "Если пробуете диффузионное восстановление через воду, закладывайте явный conditioning искажённого входа (multi-scale encoder, FiLM, cross-attention), а не слепой unconditional denoising. Составной reconstruction objective помогает удерживать геометрию дна, а не только «красивую воду». Это снижает риск стереть тонкие объекты, важные для разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Additional experiments on real UAV imagery examined feature preservation and segmentation behavior.",
+        "advice": "После restoration обязательно прогоняйте тот же сегментатор/детекторы, что в проде, и смотрите не только PSNR, но и сохранение признаков и масок. Восстановление, которое «красит» кадр, но ломает границы водорослей или объектов, для отдела бесполезно. Зафиксируйте это как отдельный критерий приёмки.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11038,
+    "source": "arXiv",
+    "arxiv_id": "2611.00676",
+    "version": 1,
+    "article": "Smooth bounding box for object detection",
+    "authors": [
+      "Chao Zhou, Shenghua He, Fengchuang Xing, Han Yang, Qiangguo Yu"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Поиск ошибок разметки",
+    "topic_key": "label_error_detection",
+    "topic_keys": [
+      "label_error_detection"
+    ],
+    "topics": [
+      "Поиск ошибок разметки"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Deep learning-based object detection models are highly dependent on the quality of annotated training data. However, large-scale datasets often contain inevitable label noise, with bounding box localization errors being a prevalent and impactful form in object detection. While label noise handling techniques are well-studied for image classification, their adaptation to the more complex problem of bounding box errors remains underexplored. To address this, we propose a novel Smooth Bounding Box (SBB) strategy to mitigate the adverse effects of bounding box annotation inaccuracies. Our key insight is that annotation errors are often linked to annotator factors rather than specific image content, allowing for a statistical correction approach. Based on object size distribution within datasets, we implement the SBB strategy through two methods: 1) Global Scaling Correction (GSC), which applies a uniform scaling factor to estimate and correct a global average error; and 2) Interval Scaling Correction (ISC), which categorizes objects by size into intervals and estimates a dedicated correction factor for each, enabling more precise, fine-grained calibration. For efficient optimization of multiple parameters in ISC, we design a tailored model fine-tuning strategy. Furthermore, we introduce a Normalized Residual Fluctuation (NRF) metric to quantitatively assess the smoothing effect and training stability. Extensive experiments on multiple benchmarks demonstrate that our method consistently enhances detection accuracy across various model architectures. Both GSC and ISC achieve significant performance improvements over strong baselines, including the latest YOLOv11n, without adding inference overhead. The codes are available at https://github.com/Acui001/SBB.git.",
+    "article_link": "https://arxiv.org/abs/2611.00676",
+    "html_link": "https://arxiv.org/html/2611.00676v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00676v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Smooth Bounding Box: статистическая коррекция ошибок локализации боксов в детекции",
+    "summary": "На больших датасетах детекции часто шумят именно координаты боксов, а не только классы, и приёмы из classification сюда плохо переносятся. Smooth Bounding Box опирается на то, что ошибки чаще связаны с привычками разметчиков, чем с конкретным кадром, и предлагает Global Scaling Correction и Interval Scaling Correction по размерным интервалам объектов. На нескольких бенчмарках, включая YOLOv11n, оба варианта поднимают точность без накладных расходов на инференс; дополнительно введён NRF для оценки сглаживания и стабильности обучения.",
+    "practical_use": "Если QC видит систематический «недожим/пережим» боксов, попробуйте размерно-зависимую коррекцию боксов на этапе обучения вместо переразметки всего корпуса. ISC полезен, когда мелкие и крупные объекты ошибаются по-разному. Метрику NRF можно добавить в мониторинг стабильности fine-tune.",
+    "_reason": "Прямая работа с label noise боксов — ядро задач разметки и QC. Метод дешёвый и совместим с современными YOLO.",
+    "why_read": "CV-разработчику — GSC/ISC и схема fine-tune параметров. Руководителю — альтернатива дорогой полной переразметке. Разметчику — почему систематический bias размера бокса лечится статистикой, а не только «рисовать аккуратнее».",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Коррекция предполагает статистически устойчивый bias разметчиков; случайный хаос по кадрам не исправит.",
+      "Эффект показан на публичных бенчмарках; калибровку коэффициентов нужно повторить на данных отдела."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "large-scale datasets often contain inevitable label noise, with bounding box localization errors being a prevalent and impactful form in object detection",
+        "advice": "В аудите датасетов детекции отдельно считайте ошибки локализации боксов, а не только class noise. Именно координатный шум часто бьёт по mAP сильнее редких путаниц классов. Для QC заведите выборку с повторной разметкой боксов по размерам объектов.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "Our key insight is that annotation errors are often linked to annotator factors rather than specific image content, allowing for a statistical correction approach.",
+        "advice": "Если одни и те же разметчики систематически рисуют боксы туже или свободнее, лечите bias глобальной/интервальной коррекцией, а не точечными правками тысяч кадров. Сначала измерьте распределение ошибок по размеру объекта. Это быстрее полной кампании переразметки.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Interval Scaling Correction (ISC), which categorizes objects by size into intervals and estimates a dedicated correction factor for each, enabling more precise, fine-grained calibration",
+        "advice": "На проде внедряйте ISC: разбейте объекты по size-bins и оцените свой scale-factor на каждый интервал. Мелкие UAV-цели и крупные машины обычно требуют разной компенсации. Параметры можно подобрать коротким fine-tune без изменения инференса.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11039,
+    "source": "arXiv",
+    "arxiv_id": "2611.02305",
+    "version": 1,
+    "article": "Peripheral prototypical contrastive loss for supervised medical image segmentation",
+    "authors": [
+      "Takuro Shimaya, Ryosaku Shino, Masahiro Saiko"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Поиск ошибок разметки",
+    "topic_key": "label_error_detection",
+    "topic_keys": [
+      "label_error_detection"
+    ],
+    "topics": [
+      "Поиск ошибок разметки"
+    ],
+    "categories": [
+      "cs.CV",
+      "physics.med-ph"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Robust segmentation of biomedical images remains challenging primarily due to ill-defined object boundaries. Although several loss functions have recently been proposed to enhance object boundary recognition, concerns remain about the susceptibility to unstable annotations resulting from boundary ambiguities. Here, we introduce the Peripheral Prototypical Contrastive (PPC) loss, which leverages prototypical contrastive learning to improve boundary recognition and enable stable training even under noisy annotation conditions. The PPC loss utilizes prototype features obtained from local regions near object boundaries, focusing specifically on ambiguous areas that have been challenging for existing approaches. Extensive experiments across multiple datasets demonstrated that the PPC loss consistently improve segmentation performance even under conditions with noisy labels. A newly proposed strategy, which adaptively determines the local region for prototype calculation, enhanced robustness and outperformed existing methods. Our findings indicate the potential of the PPC loss in facilitating scalable and reliable medical image segmentation, including the development of foundation models with imperfect annotations.",
+    "article_link": "https://arxiv.org/abs/2611.02305",
+    "html_link": "https://arxiv.org/html/2611.02305v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.02305v1",
+    "doi": "10.1109/ISBI61048.2026.11515600",
+    "html_available": true,
+    "title_ru": "PPC loss: прототипный contrastive loss для границ в медицинской сегментации при шумных масках",
+    "summary": "В биомедицине границы объектов часто неоднозначны, и обычные boundary losses нестабильны на шумных аннотациях. Peripheral Prototypical Contrastive loss берёт прототипы из локальных областей у границы и усиливает распознавание неоднозначных зон; адаптивный выбор локального региона повышает устойчивость. На нескольких датасетах PPC стабильно улучшает сегментацию даже при noisy labels.",
+    "practical_use": "Для отдела статья скорее периферийная: домен medical. Идею prototype contrast около границы можно позаимствовать, если есть шумные маски с нечёткими краями, но прямой перенос на UAV/SAM не показан.",
+    "_reason": "Есть связь с label noise и границами, но медицинский фокус слабее ядра задач.",
+    "why_read": "Имеет смысл CV-разработчику, если paralleльно есть medical сегментация или сильно шумные границы. Остальным — опционально.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Эксперименты на biomedical датасетах.",
+      "Не показывает перенос на aerial/SAM пайплайны отдела."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11040,
+    "source": "arXiv",
+    "arxiv_id": "2602.02220",
+    "version": 4,
+    "article": "LangMap: A Human-Verified Benchmark for Hierarchical Open-Vocabulary Goal Navigation",
+    "authors": [
+      "Bo Miao, Weijia Liu, Jun Luo, Lachlan Shinnick, Jian Liu, Thomas Hamilton-Smith, Yuhe Yang, Zijie Wu, Vanja Videnovic, Feras Dayoub, Anton van den Hengel"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Платформы и процессы управления разметкой",
+    "topic_key": "annotation_management",
+    "topic_keys": [
+      "annotation_management",
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Платформы и процессы управления разметкой",
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.RO"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Language-conditioned goal navigation requires embodied agents to locate user-specified targets without step-by-step guidance. However, existing benchmarks largely focus on category-level goals or rely on instance descriptions generated by vision-language models, which often contain ambiguities and semantic errors, limiting systematic and reliable evaluation. We introduce HieraNav, an open-vocabulary navigation task with goals at four hierarchical semantic levels: scene, room, region, and instance. We present Language as a Map (LangMap), the first goal navigation benchmark to enrich real-world indoor 3D scans with human-verified semantic annotations supporting tasks across all four goal levels. Built on HM3D using a contrastive annotation protocol that compares same-scene regions and instances, LangMap provides region labels and discriminative region and instance descriptions covering 414 object categories and contains over 18K tasks. Each target has concise and detailed descriptions, enabling evaluation across instruction styles. Automated and human evaluations validate our annotation quality: our descriptions improve text-to-view matching accuracy over GOAT-Bench's by 23 points on all shared annotated instances, and an independent human audit yields 92.5% unique-and-correct matches. We also propose PlaNaVid, an RGB-only baseline that combines Bounded Diverse Memory with high-level planning to prime a reactive policy for multi-goal navigation, achieving top-tier success rates without depth, 3D scene representations, or object masks. Further analyses reveal that exploration and hierarchical disambiguation failures become more prominent at finer goal levels, while long-tail categories, small objects, distant targets, timely stopping, and multi-goal completion remain challenging. Benchmark and code: https://bo-miao.github.io/LangMap",
+    "article_link": "https://arxiv.org/abs/2602.02220",
+    "html_link": "https://arxiv.org/html/2602.02220v4",
+    "pdf_link": "https://arxiv.org/pdf/2602.02220v4",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "LangMap: human-verified бенчмарк иерархических open-vocabulary goal descriptions для навигации",
+    "summary": "Языковая goal navigation часто опирается на category goals или сырые VLM-описания с ошибками. LangMap обогащает HM3D human-verified аннотациями на уровнях scene/room/region/instance (414 категорий, >18K задач) через contrastive annotation protocol. Описания лучше GOAT-Bench на text-to-view matching (+23 пункта), human audit даёт 92.5% unique-and-correct; baseline PlaNaVid показывает сильные success rates без depth/3D/masks.",
+    "practical_use": "Если отдел пишет инструкции/описания для open-vocabulary задач, берите contrastive protocol сравнения region/instance в одной сцене. Храните concise и detailed формулировки одной цели. VLM-only описания без human verify не годятся как эталон.",
+    "_reason": "Качество человеческой семантической разметки и иерархия целей — близко к annotation management, хоть домен navigation.",
+    "why_read": "Разметчику — contrastive protocol. Руководителю — цифры качества аннотаций. CV-разработчику — иерархия goal levels в бенчмарке.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Домен — indoor navigation на HM3D, не aerial.",
+      "Польза для классической CV-разметки косвенная через практики описания."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Built on HM3D using a contrastive annotation protocol that compares same-scene regions and instances, LangMap provides region labels and discriminative region and instance descriptions covering 414 object categories and contains over 18K tasks.",
+        "advice": "Когда пишете discriminative описания объектов/регионов, сравнивайте их с соседями той же сцены, а не описывайте изолированно. Так меньше двусмысленностей. Внедрите это как шаг инструкции разметки.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "our descriptions improve text-to-view matching accuracy over GOAT-Bench’s by 23 points on all shared annotated instances, and an independent human audit yields 92.5% unique-and-correct matches",
+        "advice": "Эталонные языковые аннотации принимайте только после human audit на unique-and-correct, а не по факту генерации VLM. Целевой уровень качества можно калибровать по внешним бенчмаркам вроде LangMap. Руководителю это даёт KPI на текстовый слой разметки.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11041,
+    "source": "arXiv",
+    "arxiv_id": "2611.03382",
+    "version": 1,
+    "article": "ASCoR: Asymmetric Semantic-Spatial Learning for Remote Sensing Domain Generalization",
+    "authors": [
+      "Zitong Wang, Shuchang Lyu, Meng Li, Qiang Wang, Guangliang Cheng, Zhenwei Shi"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Source-only domain generalization (DG) for remote sensing semantic segmentation seeks reliable predictions in unseen domains without target-domain data during training. Although vision foundation models offer transferable knowledge, category recognition remains sensitive to source-specific visual cues, while task-specific adaptation may weaken pretrained transferability. We propose ASCoR, an asymmetric semantic-spatial framework built on SAM3. Its text-conditioned semantic branch uses class-name prompts to provide explicit category guidance. Probe-Once Dynamic Adaptive LoRA distributes a fixed adaptation budget across encoder blocks to limit source-specific specialization. A complementary task-specific dense branch learns multi-scale spatial representations using a separate frozen SAM3 image encoder. A lightweight reliability router integrates the two branches through bounded spatial correction based on local prediction reliability. All components are trained using source-domain supervision only. Experiments on the ISPRS, LoveDA, and OpenEarthMap benchmarks cover nine cross-domain transfers. ASCoR achieves a state-of-the-art mean IoU of 68.61% across six ISPRS transfers, outperforming the previous best method by 2.69 percentage points. It also achieves the best results on all three LoveDA/OpenEarthMap transfers, with 59.07%, 47.95%, and 49.38% mIoU on Rural-to-Urban, Urban-to-Rural, and Urban-to-OpenEarthMap, respectively. Ablation studies, feature visualizations, and spatial reliability analyses support the effectiveness and complementarity of the proposed components. Code: https://github.com/WangZitong42/ASCoR.",
+    "article_link": "https://arxiv.org/abs/2611.03382",
+    "html_link": "https://arxiv.org/html/2611.03382v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.03382v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "ASCoR: асимметричное semantic-spatial обучение на SAM3 для domain generalization в remote sensing",
+    "summary": "Source-only DG для сегментации ДЗЗ должна работать на невидимых доменах без target-данных. ASCoR строится на SAM3: text-conditioned semantic branch с class-name prompts и Probe-Once Dynamic Adaptive LoRA ограничивает source-specialization, а отдельная dense-ветка учит multi-scale геометрию на замороженном image encoder. Reliability router мягко смешивает ветки; на ISPRS средний mIoU 68.61%, плюс лучшие результаты на LoveDA/OpenEarthMap переносах.",
+    "practical_use": "Для aerial/RS предразметки имеет смысл опираться на SAM3 с class-name prompts и ограниченным LoRA-бюджетом, а не full fine-tune всего энкодера. Разделяйте семантическую и пространственную ветки и роутите правку по локальной надёжности. Это полезно, когда целевой регион съёмки недоступен на обучении.",
+    "_reason": "SAM3 и предразметка сегментации ДЗЗ — прямой интерес отдела. Статья даёт практичную схему адаптации foundation-модели без target labels.",
+    "why_read": "CV-разработчику — dual-branch на SAM3 и LoRA-бюджет. Руководителю — цифры DG без доступа к target. Разметчику — как class-name prompts помогают категориям при смене сенсора/региона.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нужен только source-domain supervision; качество class-name prompts критично.",
+      "Результаты на ISPRS/LoveDA/OpenEarthMap; перенос на узкие классы отдела нужно проверить."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We propose ASCoR, an asymmetric semantic-spatial framework built on SAM3. Its text-conditioned semantic branch uses class-name prompts to provide explicit category guidance.",
+        "advice": "В предразметке RS не полагайтесь только на визуальные прототипы source-домена: подавайте class-name prompts в SAM3-ветку. Так категории меньше прилипают к текстуре конкретного сенсора. Для отдела это дешёвый способ усилить open-vocabulary сегментацию.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Probe-Once Dynamic Adaptive LoRA distributes a fixed adaptation budget across encoder blocks to limit source-specific specialization.",
+        "advice": "При дообучении SAM3 под свой atlas ограничьте LoRA-бюджет и распределяйте его по блокам осознанно, а не адаптируйте всё подряд. Иначе модель переобучится под source и потеряет перенос. Зафиксируйте probe-once процедуру в playbook fine-tune.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "A lightweight reliability router integrates the two branches through bounded spatial correction based on local prediction reliability.",
+        "advice": "Смешивайте semantic и dense-предсказания через локальную надёжность, а не жёстким average. В зонах низкой уверенности давайте больше веса пространственной ветке или отправляйте кадр на ручной QC. Руководителю это даёт понятный триггер эскалации.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11042,
+    "source": "arXiv",
+    "arxiv_id": "2611.03533",
+    "version": 1,
+    "article": "CoLa3D: Composable Latent 3D Decomposition",
+    "authors": [
+      "Xudong Cai, Yongcai Wang, Deying Li, Chuanxia Zheng"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "We introduce CoLa3D, a simple and effective model for composable 3D scene decomposition that, given a single whole-scene latent from either a single image or an existing scene mesh as input, directly outputs a set of object meshes with consistent spatial layout that can be assembled back into a coherent scene. CoLa3D introduces a novel paradigm for 3D scene decomposition within a shared whole-scene latent, unlike alternatives that perform per-object generation in canonical spaces and then glue the objects back together with fragile pose and scale estimation. The network is a lightweight, flexible, and scalable query-based transformer that accepts various types of queries, including 2D masks, 3D points, and learnable queries, and learns to decompose the scene into objects in a compact latent space. On both synthetic and real-world datasets, CoLa3D achieves state-of-the-art performance on composable 3D scene decomposition, substantially improving global scene-level consistency and object-level quality while running 2 times faster and using less than 1% of SAM 3D's training data. Visible depth on par with MoGe2 further confirms that latent decomposition preserves accurate visible scene geometry while producing physically complete, decomposable object meshes.",
+    "article_link": "https://arxiv.org/abs/2611.03533",
+    "html_link": "https://arxiv.org/html/2611.03533v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.03533v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "CoLa3D: композируемая декомпозиция 3D-сцены в общем latent с запросами-масками",
+    "summary": "CoLa3D из одного whole-scene latent (изображение или mesh) сразу выдаёт набор object meshes с согласованной раскладкой, которые собираются обратно в сцену. В отличие от генерации объектов в канонических позах с хрупкой оценкой pose/scale, декомпозиция идёт внутри общего latent через query-based transformer (2D masks, 3D points, learnable queries). На синтетике и real-world авторы заявляют лучшую согласованность сцены при 2× большей скорости и менее 1% данных обучения SAM 3D.",
+    "practical_use": "Если отдел пробует object-level 3D из одного вида, CoLa3D показывает, что маски/точки как queries удобнее склейки канонических мешей. Имеет смысл сравнивать с SAM 3D по consistency и объёму данных. Для 2D-разметки польза скорее косвенная — через масочные запросы.",
+    "_reason": "Есть прямая связь с масками и SAM 3D, полезно команде, смотрящей 3D-декомпозицию и интерактивные prompts.",
+    "why_read": "CV-разработчику — latent decomposition vs per-object canonical generation. Руководителю — сравнение по данным/скорости с SAM 3D. Разметчику — какие 2D-маски имеют смысл как queries.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Фокус на 3D meshes, не на классической 2D-разметке.",
+      "Заявленное преимущество относительно SAM 3D нужно воспроизвести на своих сценах."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The network is a lightweight, flexible, and scalable query-based transformer that accepts various types of queries, including 2D masks, 3D points, and learnable queries",
+        "advice": "Для интерактивной 3D-декомпозиции проектируйте единый query-интерфейс под маски, точки и learnable queries, а не отдельные пайплайны. Разметчик тогда может стартовать с грубой 2D-маски. Это снижает порог входа относительно ручной расстановки объектов в каноне.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "substantially improving global scene-level consistency and object-level quality while running 2 × 2\\times faster and using less than 1 % 1\\% of SAM 3D’s training data",
+        "advice": "При выборе стека 3D-декомпозиции сравнивайте не только IoU объекта, но и global scene consistency, скорость и объём обучающих данных относительно SAM 3D. Экономия данных критична, если 3D-GT дорогой. Заложите эти три оси в decision matrix.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11043,
+    "source": "arXiv",
+    "arxiv_id": "2611.01578",
+    "version": 1,
+    "article": "Recoverability-Aware Evaluation of Diffusion Video Inpainting and Object Removal",
+    "authors": [
+      "Yanliang Qi, Jiacheng Ding, Cong Guo, Peihua Mai"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Объекты в видео — удаление и вставка (propagation / insertion)",
+    "topic_key": "video_object_propagation",
+    "topic_keys": [
+      "video_object_propagation"
+    ],
+    "topics": [
+      "Объекты в видео — удаление и вставка (propagation / insertion)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Video inpainting for object removal is scored over the whole hole, although the background behind the object is visible in other frames of the shot for some hole pixels and in no frame for others. A whole-hole score therefore mixes copying with generation and cannot show which of the two a remover does well. To separate the two, we propose recoverability-stratified evaluation, in which a point tracker run on the clean video labels each hole pixel by whether and how far away it is observed, so that fidelity and temporal stability can be reported per stratum against a copy reference. To reuse the observed content, we also propose evidence-guided sampling (EGS), which blends tracked colors into the clean-latent prediction of a video diffusion remover without training. On DAVIS, the perceptual advantage of three diffusion removers over flow propagation shrinks where the content is visible a few frames away (LPIPS difference-in-differences +0.046 to +0.056 against E2FGVI-HQ), and real paired captures show the same pattern for two of them. Their DAVIS hole warping error is two to four times that of ProPainter, and copying along clean-video tracks lowers their recoverable LPIPS by a quarter to two fifths. EGS closes 43% and 56% of the gap to this copy reference on held-out DAVIS when its colors come from clean-video tracks. With colors tracked on the masked input, a pre-registered confirmation finds no gain on MiniMax-Remover and a loss on ROSE. Diffusion removers thus leave observed content unused on DAVIS, and training-free reuse does not yet hold with tracked evidence.",
+    "article_link": "https://arxiv.org/abs/2611.01578",
+    "html_link": "https://arxiv.org/html/2611.01578v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.01578v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Оценка video inpainting и удаления объектов с учётом recoverability: когда фон уже виден в других кадрах",
+    "summary": "Обычный score по всей дыре смешивает копирование фона из других кадров и чистую генерацию, поэтому непонятно, в чём силён remover. Авторы предлагают recoverability-stratified evaluation: трекер по чистому видео помечает пиксели дыры по наблюдаемости и дальности, а метрики считают по стратам относительно copy-reference. Дополнительно evidence-guided sampling (EGS) без обучения вливает отслеженные цвета в clean-latent диффузионного remover; на DAVIS диффузионные методы плохо используют уже видимый контент, а EGS закрывает часть разрыва только с чистыми треками.",
+    "practical_use": "В QC удаления объекта из видео разделяйте зоны, где фон доступен по треку, и зоны, где нужна генерация: для первых требуйте копирование, для вторых — отдельную оценку артефактов. Не опирайтесь на один whole-hole LPIPS. Имеет смысл пилотировать EGS-подобную подмешку observed colors, но только если треки стабильны на masked входе.",
+    "_reason": "Прямая задача edit/remove и video inpainting. Статья даёт рабочую рамку приёмки, которой не хватает при сравнении ProPainter-подобных и диффузионных remover.",
+    "why_read": "CV-разработчику — схема стратификации и EGS. Руководителю — почему «средний score по дыре» вводит в заблуждение. Разметчику — как помечать recoverable vs generative области при эталонной приёмке.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Выигрыш EGS подтверждается на clean-video tracks; на masked-input треках прироста может не быть.",
+      "Основная демонстрация на DAVIS и отдельных paired captures, не на произвольном продовом корпусе."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "A whole-hole score therefore mixes copying with generation and cannot show which of the two a remover does well.",
+        "advice": "Перестаньте принимать video removal только по одной метрике на всю маску. Отдельно считайте качество там, где фон уже виден в других кадрах, и там, где его нет. Иначе модель, которая хорошо «рисует», но плохо копирует, выглядит лучше, чем есть.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "we propose recoverability-stratified evaluation, in which a point tracker run on the clean video labels each hole pixel by whether and how far away it is observed",
+        "advice": "Для бенчмарка удаления объекта прогоните трекер по чистому ролику и разметьте пиксели дыры по наблюдаемости и дальности. Сравнивайте remover по стратам с copy-reference. Так QC получает воспроизводимую шкалу вместо субъективного «дыру закрасили».",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we also propose evidence-guided sampling (EGS), which blends tracked colors into the clean-latent prediction of a video diffusion remover without training",
+        "advice": "Если уже стоит диффузионный remover, попробуйте без дообучения подмешивать цвета с надёжных треков в latent-предсказание. Это дешёвый способ заставить модель использовать видимый фон. Но сначала проверьте, что треки на masked входе не разваливаются — иначе EGS может ухудшить результат.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11044,
+    "source": "arXiv",
+    "arxiv_id": "2611.02862",
+    "version": 1,
+    "article": "Performance evaluation of super-resolution techniques for characterization and phenotyping of commodity crops using multispectral imagery",
+    "authors": [
+      "Abhiram Karukayil, Jo\\~ao F. C. Mota, Mateo V\\'asquez-Guevara, Tito Arevalo-Ramirez, Fernando Auat Cheein"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Multispectral imagery provides spectral information beyond the visible range for vegetation monitoring, but it typically suffers from limited spatial resolution, which can obscure fine crop structures and affect vegetation-index (VI) estimates.} This study evaluates whether single-image super-resolution (SISR) methods developed for red, green, and blue (RGB) imagery can enhance the spatial resolution of red, green, and near-infrared (RGN) crop images while preserving spectral fidelity. Eight pretrained methods are applied directly to RGN images without fine-tuning: bicubic and nearest-neighbor interpolation, Real-ESRGAN, HAT, HiT-SR, SRFormer, ResShift, and StableSR. Reconstruction at $4\\times$ and $16\\times$ is evaluated for whole images and manually segmented leaf regions. Reconstruction quality is assessed using mean absolute error (MAE), peak signal-to-noise ratio (PSNR), structural similarity index (SSIM), spectral angle mapper (SAM), and erreur relative globale adimensionnelle de synth\\`ese (ERGAS). Eight VIs, computed from reference and super-resolved images, are evaluated using MAE, PSNR, and SSIM. Transformer-based methods \\modification{significantly} outperform GAN- and diffusion-based approaches in both evaluation settings \\modification{($p < 0.001$)}, with \\modification{HAT, HiT-SR, and SRFormer forming the highest-performing statistical tier}. These findings indicate that RGB-trained SISR can enhance spatial detail in RGN crop imagery while maintaining spectral consistency and VI reliability for high-resolution crop phenotyping.",
+    "article_link": "https://arxiv.org/abs/2611.02862",
+    "html_link": "https://arxiv.org/html/2611.02862v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.02862v1",
+    "doi": "10.1002/aisy.70610",
+    "html_available": true,
+    "title_ru": "Оценка RGB-суперразрешения на RGN-снимках сельхозкультур без дообучения",
+    "summary": "Работа проверяет, можно ли брать pretrained RGB SISR (от интерполяций до Real-ESRGAN, HAT, HiT-SR, SRFormer, ResShift, StableSR) и применять к RGN сельхоз-снимкам, сохраняя спектральную верность и vegetation indices. На ×4 и ×16 смотрят целые кадры и вручную сегментированные листья; transformer-методы (HAT, HiT-SR, SRFormer) статистически лучше GAN/diffusion. Вывод: RGB-trained SISR может повышать детализацию RGN при сохранении VI.",
+    "practical_use": "Перед дообучением SR под мультиспектр прогоните сильные transformer RGB-модели zero-shot и меряйте не только SSIM, но SAM/ERGAS и ошибку VI. Ручная сегментация листьев полезна как отдельный QC-слой. GAN/diffusion baseline могут быть хуже по спектральной верности.",
+    "_reason": "Upscale и сохранность меток/индексов для агро — близко к теме отдела; есть явная ручная сегментация листьев.",
+    "why_read": "CV-разработчику — протокол zero-shot SISR на RGN. Руководителю — какие семейства SR брать в пилот. Разметчику — зачем эталонные leaf masks для оценки VI.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Модели не fine-tune под RGN; потолок качества может быть выше после дообучения.",
+      "Оценка на commodity crops авторов; другие сенсоры нужно проверить."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Eight pretrained methods are applied directly to RGN images without fine-tuning: bicubic and nearest-neighbor interpolation, Real-ESRGAN, HAT, HiT-SR, SRFormer, ResShift, and StableSR.",
+        "advice": "Стартуйте с zero-shot прогона сильных RGB SR на ваших RGN до дорогой переразметки/дообучения. Сравнивайте семейства методов в одном протоколе. Часто transformer уже даёт приемлемую деталь без fine-tune.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Eight VIs, computed from reference and super-resolved images, are evaluated using MAE, PSNR, and SSIM.",
+        "advice": "В приёмке агро-SR обязательно считайте vegetation indices до/после, а не только картиночные метрики. Иначе «красивый» upscale ломает агрономические индексы. Зафиксируйте VI-регрессию в QC checklist.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11045,
+    "source": "arXiv",
+    "arxiv_id": "2610.26183",
+    "version": 2,
+    "article": "HP-PnP-Flow: Hybrid Time Scheduling and Projection for Plug-and-Play Image Restoration via Flow Matching",
+    "authors": [
+      "Yong Li, Xiaojie Wang, Xiaoyan Zhang"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Image restoration is a fundamental inverse problem that seeks to recover high-quality images from degraded observations. Plug-and-Play (PnP) methods provide a flexible framework for integrating pretrained denoisers into iterative reconstruction, whereas flow matching offers an efficient generative modeling approach based on continuous-time ODE dynamics. Very recently, Martin et al.\\ (ICLR, 2025) developed a PnP-Flow method, which integrates the PnP framework with flow matching through a time-dependent denoiser constructed from a pretrained flow matching model.By incorporating a different time schedule and an additional pixel-space projection operator, this paper proposes a novel efficient PnP-Flow algorithm (HP-PnP-Flow) that enjoys rigorous convergence guarantees under mild assumptions, without imposing restrictive conditions on iterates required by the aforementioned work. Numerical experiments on CelebA and AFHQ-Cat demonstrate that the newly proposed HP-PnP-Flow algorithm significantly outperforms PnP-Flow on several restoration tasks such as denoising, deblurring, super-resolution, random inpainting, and box inpainting. Notably, our algorithm achieves comparable or better reconstruction quality with substantially fewer iterations, reducing the iteration count from $500$ to $100$ for deblurring and super-resolution on AFHQ-Cat.",
+    "article_link": "https://arxiv.org/abs/2610.26183",
+    "html_link": "https://arxiv.org/html/2610.26183v2",
+    "pdf_link": "https://arxiv.org/pdf/2610.26183v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "HP-PnP-Flow: ускоренный Plug-and-Play image restoration на flow matching с projection",
+    "summary": "Авторы улучшают PnP-Flow новым time schedule и pixel-space projection (HP-PnP-Flow) с гарантиями сходимости при мягких допущениях. На CelebA и AFHQ-Cat метод лучше PnP-Flow на denoising, deblurring, SR, random и box inpainting, часто при меньшем числе итераций (например, 100 вместо 500 на deblur/SR для AFHQ-Cat).",
+    "practical_use": "Если отдел уже смотрит flow-matching priors для restoration/inpaint, стоит заменить расписание и добавить projection. Это путь ускорить инференс без новой генеративной модели. Проверьте box/random inpainting на своих масках.",
+    "_reason": "Inpaint и upscale в PnP-постановке — прикладной интерес к editing/restoration.",
+    "why_read": "CV-разработчику — hybrid scheduling и projection. Руководителю — меньше итераций при том же качестве. Разметчику — косвенно через лучшее восстановление под QC.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Демонстрации на CelebA/AFHQ-Cat, не на aerial.",
+      "Нужен pretrained flow matching model как prior."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Numerical experiments on CelebA and AFHQ-Cat demonstrate that the newly proposed HP-PnP-Flow algorithm significantly outperforms PnP-Flow on several restoration tasks such as denoising, deblurring, super-resolution, random inpainting, and box inpainting.",
+        "advice": "В сравнительный набор restoration обязательно включите и random, и box inpainting вместе с SR/deblur. Алгоритм может быть силён не на всех дырах одинаково. Для отдела это честный протокол выбора PnP-метода.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "our algorithm achieves comparable or better reconstruction quality with substantially fewer iterations, reducing the iteration count from 500 500 to 100 100 for deblurring and super-resolution on AFHQ-Cat",
+        "advice": "Пересмотрите iteration budget PnP-Flow: с hybrid schedule и projection часто хватает заметно меньше шагов. Это прямо режет стоимость инференса. Замерьте latency на своих масках до/после смены расписания.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11046,
+    "source": "arXiv",
+    "arxiv_id": "2601.03526",
+    "version": null,
+    "article": "Physics-Constrained Cross-Resolution Enhancement Network for Optics-Guided Thermal UAV Image Super-Resolution",
+    "authors": [
+      "Zhicheng Zhao",
+      "Fengjiao Peng",
+      "Jinquan Yan",
+      "Wei Lu",
+      "Chenglong Li",
+      "Jin Tang"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2601.03526",
+    "html_link": "https://arxiv.org/html/2601.03526",
+    "pdf_link": "https://arxiv.org/pdf/2601.03526",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PCNet: физически ограниченный optics-guided super-resolution тепловых UAV-снимков",
+    "summary": "Обычный optics→thermal fusion сжимает оптические признаки до размерности тепловых и теряет high-frequency, плюс даёт физически несогласованные артефакты. PCNet делает cross-resolution mutual enhancement (CRME) и Physics-Driven Thermal Conduction Module с 2D теплопроводностью, а temperature consistency loss следит за регионами и границами. На VGTSR2.0 и DroneVehicle метод лучше SOTA по реконструкции и downstream semantic segmentation.",
+    "practical_use": "Для thermal UAV SR не сжимайте оптический гайд до теплового разрешения в лоб: держите двунаправленное cross-resolution взаимодействие и физический prior. В приёмке смотрите не только PSNR, но и сегментацию на восстановленных кадрах. Temperature consistency можно добавить в loss своих fusion-моделей.",
+    "_reason": "UAV thermal upscale с проверкой на downstream — прямая польза команде aerial.",
+    "why_read": "CV-разработчику — CRME и PDTM. Руководителю — связь SR с сегментацией. Разметчику — какие артефакты fusion помечать как брак.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нужна парная оптика+тепло; без оптического гайда метод не применяется.",
+      "Оценка на VGTSR2.0 и DroneVehicle."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "existing methods typically compress optical features to match thermal feature dimensions for cross-modal alignment and fusion, which not only causes the loss of high-frequency information that is beneficial for thermal super-resolution, but also introduces physically inconsistent artifacts",
+        "advice": "В optics-guided thermal SR не выравнивайте модальности простым downsample оптики под тепло. Сохраняйте высокочастотные оптические prior и проверяйте физическую согласованность границ. Иначе SR «рисует» текстуры, которых нет в тепловом сигнале.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we introduce a temperature consistency loss that enforces regional distribution consistency and boundary gradient smoothness to ensure generated thermal images align with real-world thermal radiation principles",
+        "advice": "Добавьте в обучение thermal SR loss на согласованность температурных регионов и гладкость границ. Это снижает нефизичные кромки после fusion. Для QC можно визуализировать те же региональные статистики на приёмке.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11047,
+    "source": "arXiv",
+    "arxiv_id": "2604.21801",
+    "version": null,
+    "article": "SyMTRS: Benchmark Multi-Task Synthetic Dataset for Depth, Domain Adaptation and Super-Resolution in Aerial Imagery",
+    "authors": [
+      "Safouane El Ghazouali",
+      "Nicola Venturi",
+      "Michael Rueegsegger",
+      "Umberto Michelucci"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2604.21801",
+    "html_link": "https://arxiv.org/html/2604.21801",
+    "pdf_link": "https://arxiv.org/pdf/2604.21801",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "SyMTRS: синтетический multi-task бенчмарк для depth, domain adaptation и super-resolution на aerial-снимках",
+    "summary": "Для aerial CV не хватает точной глубины, контролируемого освещения и согласованных multi-scale пар. SyMTRS — крупный синтетический корпус из urban simulation: RGB 2048×2048, pixel-perfect depth, ночные пары для domain adaptation и выровненные low-res варианты для SR ×2/×4/×8. Датасет задуман как единый бенчмарк для геометрии, кросс-доменной устойчивости и повышения разрешения, а не как однозадачный набор.",
+    "practical_use": "Если отдел учит depth, ночной transfer или aerial SR, SyMTRS удобен как контролируемый pretrain/абляция до дорогой реальной разметки. Можно отдельно гонять multi-task протоколы на одних и тех же сценах. Реальные UAV-данные всё равно нужны для финальной приёмки.",
+    "_reason": "Синтетика с сохранением меток и aerial upscale — прямые темы отдела. Единый multi-task корпус экономит сбор отдельных датасетов под каждую задачу.",
+    "why_read": "CV-разработчику — схема генерации и позиционирование относительно существующих RS-бенчмарков. Руководителю — где синтетика закрывает дыру в GT. Разметчику — какие слои (depth, night, SR-пары) вообще можно требовать от симулятора.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Датасет синтетический; перенос на реальные сенсоры и города нужно проверять отдельно.",
+      "Лицензия CC BY-NC-SA 4.0 ограничивает коммерческое использование."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The dataset provides high-resolution RGB aerial imagery ( 2048 × 2048 2048\\times 2048 ), pixel-perfect depth maps, night-time counterparts for domain adaptation, and aligned low-resolution variants for super-resolution at × 2 \\times 2 , × 4 \\times 4 , and × 8 \\times 8 scales.",
+        "advice": "При проектировании aerial-синтетики сразу кладите в один рендер RGB, идеальную глубину, ночной counterpart и выровненные low-res для нескольких масштабов SR. Это дешевле, чем собирать три отдельных корпуса. Для отдела такой стек закрывает pretrain depth, DA и upscale на согласованных сценах.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Unlike existing remote sensing datasets that focus on a single task or modality, SyMTRS is designed as a unified multi-task benchmark enabling joint research in geometric understanding, cross-domain robustness, and resolution enhancement.",
+        "advice": "В roadmap бенчмарков не плодите одноразовые датасеты под каждую метрику: заложите multi-task срез, где одни сцены обслуживают depth, ночь и SR. Так сравнение методов честнее и проще планировать ресурсы разметки. Руководителю это даёт один контрольный набор вместо трёх несвязанных.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11048,
+    "source": "arXiv",
+    "arxiv_id": "2608.09150",
+    "version": null,
+    "article": "OGG-FR: Orthogonal Gradient Gaming and Frequency Rectification for Unmanned Aerial Vehicle Infrared Image Super-Resolution",
+    "authors": [
+      "Yongsong Huang",
+      "Qingzhong Wang",
+      "Xiaofeng Liu",
+      "Tomo Miyazaki",
+      "Yaohou Fan",
+      "Shinichiro Omachi"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2608.09150",
+    "html_link": "https://arxiv.org/html/2608.09150",
+    "pdf_link": "https://arxiv.org/pdf/2608.09150",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "OGG-FR: plug-and-play оптимизация конфликтующих pixel/frequency loss для IR UAV super-resolution",
+    "summary": "Лёгкие IR UAV SR-модели часто учат сразу pixel и frequency objectives, но на низкоконтрастном тепле градиенты конфликтуют. OGG-FR раскладывает frequency-градиент на parallel и orthogonal компоненты относительно pixel-градиента и в конфликтном режиме использует MGDA плюс variance-rectified innovation. На UAV thermal бенчмарке метод даёт прирост при BI/BD деградациях на ×4 и ×8.",
+    "practical_use": "Если multi-loss SR на IR нестабилен, подключите OGG-FR как plug-and-play к существующему обучению без смены архитектуры. Особенно полезно для лёгких моделей на борту. Проверьте оба режима degradations (BI/BD) на своих тепловых данных.",
+    "_reason": "UAV infrared upscale и практичный optimizer-трюк без новой сети.",
+    "why_read": "CV-разработчику — conflict-aware update. Руководителю — зачем лечить loss-конфликт до смены backbone. Разметчику — косвенно: стабильнее SR для последующей разметки тонких тепловых структур.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Это оптимизационная оболочка; качество всё ещё ограничено backbone и данными.",
+      "Результаты на UAV thermal benchmark авторов."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "low contrast, limited high-frequency content, and sensor-specific noise often make their gradients weakly aligned or conflicting",
+        "advice": "На IR UAV не смешивайте pixel и frequency loss «вслепую»: следите за углом/конфликтом градиентов. При конфликте нужен safe base step, а не простой sum. Иначе обучение лёгкой SR-модели плывёт без видимой причины.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we propose Orthogonal Gradient Gaming and Frequency Rectification (OGG-FR), a plug-and-play optimization framework that decomposes the frequency gradient into a redundant parallel component and an orthogonal innovation component relative to the pixel gradient",
+        "advice": "Перед сменой архитектуры попробуйте plug-and-play разложение frequency-градиента на parallel/orthogonal относительно pixel. Это дёшево внедряется в текущий trainer. Для отдела — быстрый рычаг стабилизации IR SR.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11049,
+    "source": "arXiv",
+    "arxiv_id": "2610.24992",
+    "version": null,
+    "article": "MultiAltitudeSR: Multi-Altitude Agricultural UAV Image Super-Resolution via Physical Ground Sampling Distance Conditioning",
+    "authors": [
+      "Xintong Jiang",
+      "Yu Tian",
+      "Yixue Liu",
+      "Valerio Hoyos-Villegas",
+      "Viacheslav Adamchuk",
+      "Shangpeng Sun"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.24992",
+    "html_link": "https://arxiv.org/html/2610.24992",
+    "pdf_link": "https://arxiv.org/pdf/2610.24992",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "MultiAltitudeSR: суперразрешение сельхоз-UAV с условием по ground sampling distance",
+    "summary": "Сельхоз-UAV упирается в компромисс высота/разрешение, а классический SR сидит на синтетических деградациях и фиксированных integer scale. MultiAltitudeSR модулирует признаки по source/target GSD и одним обучением на реальных парах 10–70 м закрывает 21 пару высот (примерно 1.18×–6.03×). Реальные multi-altitude пары сильнее синтетического degradation pipeline; кейсы zero-shot сегментации намекают на экономию лётного времени за счёт съёмки выше.",
+    "practical_use": "Для агро-UAV SR собирайте реальные пары разных высот с известным GSD, а не только bicubic downsample. Учите одну модель на диапазон scale, conditioned на GSD. В бизнес-кейсе проверяйте, можно ли летать выше и восстанавливать деталь для сегментации культур.",
+    "_reason": "UAV upscale с физической привязкой к GSD — очень прикладная статья для aerial команды.",
+    "why_read": "CV-разработчику — GSD conditioning. Руководителю — потенциал экономии налёта. Разметчику — зачем хранить высоту/GSD в метаданных.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Обучение требует реальных multi-altitude пар; без них метод не раскрывается.",
+      "Выгода для сегментации task-dependent и показана case studies."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "This study proposes MultiAltitudeSR, a framework that conditions feature modulation and reconstruction on source and target ground sampling distances (GSDs).",
+        "advice": "В SR для дронов подавайте в сеть явные source/target GSD, а не только «scale×4». Тогда одна модель обслуживает разные высоты полёта. Метаданные высоты становятся обязательным полем датасета.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Experiments using the same architecture demonstrated the value of acquiring real-world multi-altitude UAV image pairs for SR training, with real-pair training achieving better average reconstruction performance across the 21 altitude pairs than training with the tested synthetic degradation pipeline.",
+        "advice": "Инвестируйте в реальные пары разных высот вместо бесконечной синтетики downsample. На одном backbone реальные пары выигрывают в среднем по всем переходам высот. Для руководителя это аргумент за отдельный лётный день под калибровку SR.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11050,
+    "source": "arXiv",
+    "arxiv_id": "2611.00245",
+    "version": 1,
+    "article": "SketchBloom: Training-Free Vector Sketch Outpainting with Stroke-Level Style Control",
+    "authors": [
+      "Quang-Thinh Nguyen, Duy-Khang Do, Tam V. Nguyen, Minh-Triet Tran, Trung-Nghia Le"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Outpainting sparse sketches while preserving contour coherence and stroke style remains challenging. We present SketchBloom, a training-free framework that combines pretrained raster outpainting and style-transfer guidance with per-instance vector optimization. Given a sketch, a scene prompt, and an optional reference style, it produces an editable Scalable Vector Graphic (SVG) composed of Bezier strokes. Adaptive latent blending balances content contours and reference texture without model retraining. A reference-derived stroke vocabulary initializes contour- and DINO-attention-guided strokes, which are optimized separately for structure and texture before contour-emphasizing multiply fusion. As in prior optimization-based vector sketching, no task-specific network is trained; our contribution is the synthesis design specialized to sketch outpainting. On LineArtOut-1K, comprising 1,024 input and style combinations, SketchBloom improves perceptual, semantic, and structural fidelity over the evaluated vector baselines when all methods vectorize the same outpainted raster. This protocol evaluates vector synthesis rather than end-to-end outpainting or reference-style superiority. Runtime is approximately six minutes per pair on a single NVIDIA H200 GPU. Project page: https://khangcntn123.github.io/SketchBloom/",
+    "article_link": "https://arxiv.org/abs/2611.00245",
+    "html_link": "https://arxiv.org/html/2611.00245v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00245v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "SketchBloom: training-free vector outpainting скетчей со stroke-level контролем стиля",
+    "summary": "SketchBloom без обучения комбинирует pretrained raster outpainting и style-transfer с per-instance vector optimization в SVG из Bézier strokes. Adaptive latent blending балансирует контуры и текстуру референса; stroke vocabulary инициализируется с DINO-attention. На LineArtOut-1K метод лучше vector baselines при общей растеризации outpainted результата; runtime около шести минут на H200.",
+    "practical_use": "Если нужно расширять скетчи/лайн-арт с сохранением редактируемого вектора, берите training-free связку raster outpaint → vector optimization. Для продакшена учитывайте минуты на инстанс. DINO-guided strokes полезны, когда важен stroke style референса.",
+    "_reason": "Outpainting и style control — в теме inpaint/outpaint отдела, хотя домен скетчей узкий.",
+    "why_read": "CV-разработчику — training-free pipeline и DINO-инициализация. Руководителю — стоимость runtime. Разметчику — когда требовать SVG, а не только растр.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Около шести минут на пару на H200; для массового батча дорого.",
+      "Протокол оценивает vector synthesis при общей растеризации, не end-to-end превосходство outpainting."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We present SketchBloom, a training-free framework that combines pretrained raster outpainting and style-transfer guidance with per-instance vector optimization.",
+        "advice": "Для скетч-outpainting не обязательно учить новую сеть: соберите raster outpaint + style guidance + векторную оптимизацию на инстанс. Так быстрее выйти на editable SVG. Подходит для пилотов без датасета пар.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "A reference-derived stroke vocabulary initializes contour- and DINO-attention-guided strokes, which are optimized separately for structure and texture before contour-emphasizing multiply fusion.",
+        "advice": "Оптимизируйте структуру штрихов и текстуру раздельно, затем сливайте с акцентом на контур. Иначе стиль референса размывает геометрию скетча. В QC отдельно смотрите контурную целостность и текстурный match.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11051,
+    "source": "arXiv",
+    "arxiv_id": "2611.00406",
+    "version": 1,
+    "article": "TAP-Out: Tracking Any Point in 360{\\deg} via Outpainting",
+    "authors": [
+      "Finlay G. C. Hudson, James A. D. Gardner, William A. P. Smith"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Tracking points that leave the camera's field of view (FoV) requires reasoning about unobserved scene dynamics, a fundamentally different problem from tracking visible correspondences. We present TAP-Out, an offline method that makes this out-of-view (OOV) reasoning explicit by leveraging generative video outpainting as a world-model prior. Given a narrow-FoV input video, TAP-Out outpaints a complete 360{\\deg} equirectangular video, locates target objects within the panoramic scene via video object segmentation, and synthesises object-centred perspective crops on which standard in-frame trackers operate. This decoupled design composes off-the-shelf foundation models without requiring task-specific architectural modifications. On the TAPVid360 benchmark, TAP-Out achieves state-of-the-art performance, improving OOV tracking accuracy by approximately 3x over the best prior method. We demonstrate its flexibility on out-of-frame object segmentation and detection and we provide detailed diagnostic analyses across motion regimes, static versus dynamic content, and hallucination quality, characterising when and why the approach succeeds or fails.",
+    "article_link": "https://arxiv.org/abs/2611.00406",
+    "html_link": "https://arxiv.org/html/2611.00406v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00406v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "TAP-Out: трекинг точек вне кадра через generative video outpainting в 360°",
+    "summary": "Точки, ушедшие из FoV, требуют рассуждения о невидимой динамике. TAP-Out outpaint’ит узкий ролик в 360° equirectangular, находит объекты через video object segmentation и режет object-centred perspective crops для обычных in-frame трекеров, композируя foundation-модели без спец-архитектуры. На TAPVid360 OOV-точность примерно в 3× выше лучшего prior; есть диагностика по motion regimes и качеству hallucination.",
+    "practical_use": "Для out-of-view tracking можно не писать новый трекер, а расширить сцену video outpainting + VOS + стандартный tracker. Обязательно аудируйте hallucination outpaint — от него зависит успех. Подход offline; для realtime нужен другой дизайн.",
+    "_reason": "Video outpainting как world prior и tracking — сильная 4★ тема editing/UAV-adjacent.",
+    "why_read": "CV-разработчику — композиция foundation-моделей. Руководителю — 3× на OOV. Разметчику — как эталонить уход объекта за край кадра.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод offline и зависит от качества generative outpainting.",
+      "Ошибки сильнее на сложных motion regimes и плохом hallucination."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "TAP-Out outpaints a complete 360{\\deg} equirectangular video, locates target objects within the panoramic scene via video object segmentation, and synthesises object-centred perspective crops on which standard in-frame trackers operate.",
+        "advice": "Для OOV tracking сначала расширьте FoV generative outpainting до панорамы, затем режьте object-centric кропы под обычный трекер. Не усложняйте сам ассоциатор, пока не исчерпан world-model prior. Это быстрый путь на готовых foundation-моделях.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we provide detailed diagnostic analyses across motion regimes, static versus dynamic content, and hallucination quality, characterising when and why the approach succeeds or fails",
+        "advice": "В приёмке outpaint-based tracking отдельно ломайте кейсы по motion regime и качеству hallucination. Средний score скрывает режимы полного отказа. Руководителю нужен такой срез до пилота в проде.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11052,
+    "source": "arXiv",
+    "arxiv_id": "2611.01990",
+    "version": 1,
+    "article": "Synthetic Realities: Evaluating Human Ability to Distinguish AIGenerated Videos from Real Footage",
+    "authors": [
+      "Danyal Sarfraz, Raja Mubashar Karim, KwanMyung Kim"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.HC"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Recent advances in generative AI have enabled multiple pathways for high-fidelity video synthesis: text-to-video, image-to-video animation, and video outpainting. Empirical side-by-side evaluations of how untrained viewers perceive and distinguish these outputs from real footage remain scarce. In this study, we systematically compare human detection accuracy across these three AI generation techniques within three thematic contexts: historical footage, film and media content, and natural environments. We constructed a balanced stimulus set comprising equal amounts of real and AI-generated videos (18 each). The AI clips were evenly distributed across the three generation methods using Google's Veo 3, Lightricks LTX Video, and Wan VACE. All videos were produced and standardized within the ComfyUI framework to ensure consistent quality and duration. 87 participants judged every clip in a binary forced-choice task (\"real\" vs. \"AI-generated\"). Participants correctly identified videos 60% of the time on average. Image-to-video clips were recognized most accurately (79%), followed by real footage (64%), outpainting (49%), and text-to-video (43%). Accuracy also varied by theme: film and historical scenes yielded higher detection rates than environmental clips, which were frequently mistaken for AI. Logistic regression confirmed significant effects of both technique and theme as well as their interaction (p < 0.001), indicating that detection success depends jointly on how the content was generated and what it depicts. Findings reveal a consistent bias toward assuming synthetic origins and highlight that perceptual realism in AI video is shaped more by context than by model type, underscoring the importance of media-literacy approaches and context-aware evaluation tools for navigating increasingly synthetic visual media.",
+    "article_link": "https://arxiv.org/abs/2611.01990",
+    "html_link": "https://arxiv.org/html/2611.01990v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.01990v1",
+    "doi": "10.21606/iasdr.2025.1050",
+    "html_available": false,
+    "title_ru": "Synthetic Realities: насколько люди отличают AI-видео (t2v, i2v, outpainting) от реального",
+    "summary": "87 участников оценивали 36 роликов (18 real / 18 AI) по трём техникам — text-to-video, image-to-video и video outpainting — в исторических, киношных и природных темах (Veo 3, LTX, Wan VACE в ComfyUI). Средняя точность 60%: i2v узнавали лучше всего (79%), outpainting около 49%, t2v 43%; тема тоже влияет, природные клипы чаще принимают за AI. Есть bias считать ролики синтетикой.",
+    "practical_use": "Для QC синтетики и outpainting не ждите, что люди стабильно ловят fake: outpainting особенно труден. Стройте автоматические detectors и context-aware протоколы, а не только human spot-check. В эталонах балансируйте техники и темы.",
+    "_reason": "Прямая оценка video outpainting и синтетики глазами людей — полезно для политики QC.",
+    "why_read": "Руководителю — пределы human detection. CV-разработчику — дизайн стимулов и ComfyUI стандартизация. Разметчику — почему outpainting легко пропустить.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Небольшая выборка клипов (18+18) и 87 участников.",
+      "Конкретные генераторы и темы ограничивают обобщение."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Image-to-video clips were recognized most accurately (79%), followed by real footage (64%), outpainting (49%), and text-to-video (43%).",
+        "advice": "В human QC синтетики не смешивайте техники в одну кучу: outpainting и t2v ловятся заметно хуже i2v. Для outpainting нужен отдельный протокол и, скорее, автоматика. Иначе «просмотрели глазами» создаёт ложное чувство контроля.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "Accuracy also varied by theme: film and historical scenes yielded higher detection rates than environmental clips, which were frequently mistaken for AI.",
+        "advice": "Набирая тестовый набор fake/real, балансируйте не только метод генерации, но и тему: природа обманывает сильнее кино/истории. Иначе метрики детектора будут оптимистичны. Разметчикам дайте явные квоты по темам.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11053,
+    "source": "arXiv",
+    "arxiv_id": "2601.06413",
+    "version": null,
+    "article": "GlobalPaint: Spatiotemporal Coherent Video Outpainting with Global Feature Guidance",
+    "authors": [
+      "Yueming Pan",
+      "Ruoyu Feng",
+      "Jianmin Bao",
+      "Chong Luo",
+      "Nanning Zheng"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2601.06413",
+    "html_link": "https://arxiv.org/html/2601.06413",
+    "pdf_link": "https://arxiv.org/pdf/2601.06413",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "GlobalPaint: пространственно-временной video outpainting с глобальным feature guidance",
+    "summary": "Video outpainting требует не только правдоподобия кадра, но и длинной temporal coherence при движении. GlobalPaint сначала outpaint’ит keyframes, затем интерполирует промежуточные кадры по готовым границам; backbone inpainting усиливают 3D windowed attention и global tokens из OpenCLIP по observed regions. На бенчмарках лучше реконструкция и естественнее motion, чем у prior.",
+    "practical_use": "Для длинного video outpainting используйте hierarchical keyframe→interpolation вместо чисто последовательного расширения. Глобальные CLIP-токены по видимым областям помогают держать стиль сцены. Сравнивайте temporal coherence под motion камеры.",
+    "_reason": "Сильная 4★ video outpaint статья для editing-пайплайнов.",
+    "why_read": "CV-разработчику — EST module и global guidance. Руководителю — зачем hierarchical pipeline. Разметчику — какие temporal артефакты ловить на приёмке границ.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Зависит от pretrained image inpainting backbone и OpenCLIP.",
+      "Демонстрации на стандартных video outpainting benchmarks."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Our approach adopts a hierarchical pipeline that first outpaints key frames and then completes intermediate frames via an interpolation model conditioned on the completed boundaries, reducing error accumulation in sequential processing.",
+        "advice": "Не outpaint’ите видео строго кадр-за-кадром: сначала ключевые кадры, потом интерполяция между готовыми границами. Так меньше накапливается дрейф на длинных роликах. Заложите это в pipeline editing до смены backbone.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "global feature guidance that distills OpenCLIP features from observed regions across all frames into compact global tokens using a dedicated extractor",
+        "advice": "Добавьте глобальные токены по observed regions всего ролика, чтобы края не «забывали» стиль сцены. Это дешёвый conditioning поверх image inpaint backbone. В QC смотрите согласованность текстур на противоположных границах кадра.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11054,
+    "source": "arXiv",
+    "arxiv_id": "2601.11048",
+    "version": null,
+    "article": "M3DDM+: An improved video outpainting by a modified masking strategy",
+    "authors": [
+      "Takuya Murakawa",
+      "Takumi Fukuzawa",
+      "Ning Ding",
+      "Toru Tamaki"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2601.11048",
+    "html_link": "https://arxiv.org/html/2601.11048",
+    "pdf_link": "https://arxiv.org/pdf/2601.11048",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "M3DDM+: video outpainting за счёт согласованной masking strategy на train и inference",
+    "summary": "M3DDM дешёв в compute, но плывёт при малом движении камеры или больших зонах outpaint. Причина — train/inference mismatch: на обучении маски по кадрам случайны по направлению и ширине, на инференсе направление постоянно. M3DDM+ учит единые direction/width маски по всем кадрам и fine-tune’ит pretrained M3DDM, заметно улучшая fidelity и temporal coherence в information-limited сценариях.",
+    "practical_use": "Перед сменой модели проверьте, совпадает ли masking на train с продовым outpaint (фиксированное направление). Часто хватает переразметки масок и короткого fine-tune. Держите M3DDM+ в виду как дешёвый baseline.",
+    "_reason": "Чёткий практический фикс video outpainting — полезен команде editing.",
+    "why_read": "CV-разработчику — train/inference mask mismatch. Руководителю — дешёвый путь улучшить текущий latent diffusion outpaint. Разметчику — как готовить маски расширения границ.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Улучшение фокусируется на information-limited сценариях.",
+      "Метод — fine-tune поверх M3DDM, не новая архитектура."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We identify the cause as a training-inference mismatch in the masking strategy: M3DDM’s training applies random mask directions and widths across frames, whereas inference requires consistent directional outpainting throughout the video.",
+        "advice": "Сверьте маски обучения с продовым сценарием: если в проде всегда расширяете одну сторону, не учите на случайных направлениях по кадрам. Такой mismatch даёт blur и temporal швы. Исправьте протокол масок до переписывания модели.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we propose M3DDM+ , which applies uniform mask direction and width across all frames during training, followed by fine-tuning of the pretrained M3DDM model",
+        "advice": "Сделайте короткий fine-tune с единым направлением и шириной маски на всех кадрах. Это часто поднимает temporal coherence без нового датасета с нуля. Код авторов можно взять как отправную точку.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11055,
+    "source": "arXiv",
+    "arxiv_id": "2605.17543",
+    "version": null,
+    "article": "HL-OutPaint: Coarse-to-Fine Video Outpainting for High-Resolution Long-Range Videos",
+    "authors": [
+      "Jeongeun Park",
+      "Janghyeok Han",
+      "Geonung Kim",
+      "Hyun-Seung Lee",
+      "Kyuha Choi",
+      "Youngseok Han",
+      "Sunghyun Cho"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.GR"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2605.17543",
+    "html_link": "https://arxiv.org/html/2605.17543",
+    "pdf_link": "https://arxiv.org/pdf/2605.17543",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "HL-OutPaint: coarse-to-fine video outpainting для длинных high-resolution роликов",
+    "summary": "Большинство методов плохо тянут одновременно широкое пространственное расширение и длинные последовательности. HL-OutPaint строит Global Coarse Guidance через global-local frame swapping (не просто downsample), затем делает high-res outpainting под этим гайдом. Разделение глобальной структуры и детального синтеза стабилизирует большие экстраполяции на длинных видео.",
+    "practical_use": "Для длинного widescreen outpainting сначала соберите coarse global guidance с обменом keyframes и local windows, затем синтезируйте детали. Не полагайтесь на naive downsample как на plan. Сравнивайте методы именно на wide+long стресс-кейсах.",
+    "_reason": "Сильный video outpaint paper под реальные display-format задачи.",
+    "why_read": "CV-разработчику — GCG и frame swapping. Руководителю — когда двухстадийный pipeline окупается. Разметчику — какие long-range швы ловить на приёмке.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Двухстадийность усложняет пайплайн и latency.",
+      "Выигрыш акцентирован на сложных wide/long сценариях."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "We first construct a Global Coarse Guidance (GCG), a low-resolution representation that captures global structure and dominant motion across the video.",
+        "advice": "Перед high-res video outpainting постройте отдельный coarse guidance с глобальной структурой и доминантным motion. Без него длинные ролики копят пространственный дрейф. Это обязательный stage для wide extrapolation.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Unlike na\"ive downsampling, the GCG is built via a novel global-local frame swapping mechanism that couples sparse global keyframes with local temporal windows and exchanges information during sampling.",
+        "advice": "Не заменяйте global plan простым downsample ролика: свяжите sparse keyframes с локальными окнами и обменивайтесь информацией на sampling. Так coarse слой держит и long-term, и short-term динамику. Имеет смысл перенести этот трюк в свой coarse stage.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11056,
+    "source": "arXiv",
+    "arxiv_id": "2607.06162",
+    "version": null,
+    "article": "High-Resolution Artwork Outpainting with Global Blueprint Guidance and Layout Control",
+    "authors": [
+      "Junha Kim",
+      "Hyunjoon Park",
+      "Donghyeon Cho"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2607.06162",
+    "html_link": "https://arxiv.org/html/2607.06162",
+    "pdf_link": "https://arxiv.org/pdf/2607.06162",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "High-res artwork outpainting с global blueprint, layout control и параллельным синтезом патчей",
+    "summary": "Прогрессивное расширение artwork ломается без global plan, плохо слушается layout и тормозит из-за sequential patches. Авторы делают two-stage diffusion: low-res blueprint с layout adapter (bounding boxes в SD inpainting), затем параллельный high-res синтез патчей с инициализацией из blueprint через low-frequency preservation forward diffusion. На artwork датасетах лучше fidelity, семантика и заметно ниже latency.",
+    "practical_use": "Для большого outpainting сначала рисуйте low-res blueprint с боксами объектов, потом параллельте патчи. Разметчикам/операторам дайте layout boxes как контрол. Sequential expansion оставляйте только как legacy baseline.",
+    "_reason": "Outpainting с layout control через боксы — прямая польза editing/QC.",
+    "why_read": "CV-разработчику — blueprint→parallel patches. Руководителю — снижение latency. Разметчику — как ставить layout boxes для управляемого расширения.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Фокус на artwork; фото-домен может вести себя иначе.",
+      "Нужен layout adapter и SD inpainting backbone."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "In Stage 1, we generate a low-resolution global blueprint using a layout adapter that injects bounding-box conditions into a Stable Diffusion inpainting backbone",
+        "advice": "Перед высоким разрешением outpainting соберите low-res blueprint с bounding-box условиями. Так появляется глобальный план и управляемое размещение объектов. Без этого progressive expansion копит структурный хаос.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "In Stage 2, we synthesize high-resolution local patches in parallel by injecting the blueprint-derived global guidance and initializing each patch from the blueprint using the low-frequency preservation property of forward diffusion",
+        "advice": "Инициализируйте high-res патчи из blueprint и генерируйте их параллельно, а не цепочкой. Это режет latency и сохраняет глобальную согласованность. Для продакшена artwork outpaint — главный рычаг скорости.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "limited spatial controllability beyond text prompts, making it difficult to place objects at user-specified locations",
+        "advice": "В интерфейсе outpainting дайте оператору/разметчику ставить боксы целевых объектов, а не только текст. Иначе «объект справа» не воспроизводится. Это простой UX-контроль поверх diffusion.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11057,
+    "source": "arXiv",
+    "arxiv_id": "2609.13251",
+    "version": null,
+    "article": "Preserving Subject-Clarity in Image Outpainting with Multiscale Wavelet Supervision",
+    "authors": [
+      "Abhilash Neog",
+      "Taewan Kim",
+      "Yi Wu",
+      "Xu Chen",
+      "Jian Jiao"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2609.13251",
+    "html_link": "https://arxiv.org/html/2609.13251",
+    "pdf_link": "https://arxiv.org/pdf/2609.13251",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Subject-clarity outpainting: VLM-conditioning и wavelet supervision против деградации главного объекта",
+    "summary": "В рекламных кадрах часты обрезанные субъекты и логотипы; обычный diffusion outpainting «дорисовывает» правдоподобно, но портит subject clarity. Авторы сочетают VLM-guided semantic conditioning с multiscale wavelet supervision и subject-centric curation пар. На четырёх бенчмарках снижают subject-centered DreamSim и FID относительно matched SFT и сильных SOTA.",
+    "practical_use": "Для outpainting продуктов/людей добавьте subject-centric пары и wavelet supervision на детали субъекта, а не только глобальный FID. VLM-conditioning помогает удержать семантику главного объекта. В QC введите subject-centered метрики.",
+    "_reason": "Outpainting с сохранением субъекта — частый прод-кейс editing.",
+    "why_read": "CV-разработчику — wavelet + VLM conditioning. Руководителю — subject metrics vs общий FID. Разметчику — как курировать subject-intersecting пары.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Цифры прироста — средние по четырём бенчмаркам авторов.",
+      "Нужна subject-centric data curation."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "existing diffusion-based outpainting methods often produce visually plausible completions while degrading subject fidelity through structural inconsistencies, semantic drift, or loss of fine-grained detail",
+        "advice": "Не принимайте outpainting только по «красивости» расширенных полей: отдельно проверяйте целостность главного субъекта, текста и логотипа. Правдоподобный фон при сломанном субъекте — брак. Внесите subject fidelity в чеклист QC.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "we propose a subject clarity outpainting framework that combines vision-language model (VLM)-guided semantic conditioning with multiscale wavelet supervision for subject-localized detail preservation",
+        "advice": "Добавьте VLM-семантику субъекта и wavelet-loss на его детали к обычному diffusion outpaint objective. Это бьёт по structural drift без удорожания инференса. Подходит для рекламных и product-кадров отдела.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we develop a subject-centric data curation pipeline that constructs subject-intersecting outpainting pairs from advertising and natural images",
+        "advice": "Собирайте обучающие пары так, чтобы субъект пересекал границу crop, а не только «пустое» расширение фона. Иначе модель не учится достраивать главный объект. Это требование к curation, а не к архитектуре.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11058,
+    "source": "arXiv",
+    "arxiv_id": "2611.00077",
+    "version": 1,
+    "article": "AegisBench: Auditing Aerial Search-and-Rescue Person Detection Under the Conditions It Is Deployed In",
+    "authors": [
+      "Amogh Vinaykumar",
+      "Prem Kamasani"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Drone-based person detection is being adopted by emergency-management agencies to find missing people faster than ground teams can. The benchmarks behind that adoption were collected in calm, clear daylight, while the missions that trigger deployment happen in floods, wildfires, storms, and at night. AegisBench measures that gap. It applies nine physically motivated corruptions from four disaster families, each at three severities monotone in a declared image statistic or physical quantity, to two aerial search-and-rescue datasets, HERIDAL and SARD. Three architecturally distinct detectors (Faster R-CNN, YOLOv11, RT-DETR) are scored across 168 conditions by one shared evaluator, at confidence thresholds frozen on clean validation data as a fielded system would run. Robustness is highly uneven. Low light is the extreme case: a 4.5-stop exposure loss drives recall to exactly zero for all three detectors on both datasets, a result that holds under threshold-free mAP and across three training seeds, and is mirrored on 300 real night drone images, where 2 of 759 people are found. Surviving detections largely stay on target, so the failure is silent: an empty frame looks the same as one whose occupants the system cannot see. Fine-tuning on milder low-light levels recovers 0.06 to 0.19 recall at the held-out severity, at an architecture-dependent cost on other conditions, and does not transfer to real night imagery. Spatial corruptions rank differently on the two datasets, which we cannot attribute to altitude alone because their parameters scale with frame size rather than person size. We release the corruption engine, evaluation pipeline, and all per-condition results as an audit instrument for anyone evaluating these systems.",
+    "article_link": "https://arxiv.org/abs/2611.00077",
+    "html_link": "https://arxiv.org/html/2611.00077v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00077v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "AegisBench: аудит aerial person detection в условиях реальных ЧС, а не только при ясной погоде",
+    "summary": "Детекторы людей с дрона часто принимают по спокойным дневным бенчмаркам, хотя выезды бывают в потопах, пожарах, штормах и ночью. AegisBench накладывает девять физически мотивированных corruption из четырёх семейств ЧС на HERIDAL и SARD и гоняет Faster R-CNN, YOLOv11 и RT-DETR на 168 условиях с порогами, замороженными на clean validation. Низкий свет особенно жёсток: потеря экспозиции на 4.5 стопа обнуляет recall у всех трёх моделей; fine-tune на мягком low-light слабо переносится на реальную ночь.",
+    "practical_use": "Перед внедрением SAR/UAV-детекции добавьте corruption-аудит с замороженными порогами «как в поле». Отдельно тестируйте ночь и low-light — пустой кадр может маскировать полный провал. Не рассчитывайте, что лёгкий low-light fine-tune закроет реальную ночную съёмку.",
+    "_reason": "UAV-детекция людей и честный field QC — прямая тема. Статья показывает опасность принятия по clean-only бенчмаркам.",
+    "why_read": "CV-разработчику — corruption engine и протокол 168 условий. Руководителю — риск silent failure ночью. Разметчику — какие условия съёмки надо включать в эталонные сеты.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Corruption синтетические, хоть и физически мотивированные; ночной перенос на 300 реальных кадров всё равно плохой.",
+      "Ранжирование spatial corruptions зависит от датасета и не объясняется одной высотой."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The benchmarks behind that adoption were collected in calm, clear daylight, while the missions that trigger deployment happen in floods, wildfires, storms, and at night.",
+        "advice": "Не принимайте aerial person detector только по ясному дню. В приёмочный набор обязательно кладите сценарии ЧС и ночи, иначе полевой провал будет сюрпризом. Для руководителя это требование к составу тест-сета, а не «ещё одна метрика».",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "a 4.5-stop exposure loss drives recall to exactly zero for all three detectors on both datasets",
+        "advice": "Добавьте в регрессию явный low-light stress-тест с большой потерей экспозиции и смотрите recall, а не только mAP. Полный ноль recall при «тихом» пустом выводе — silent failure. Пороги держите замороженными с clean validation, как в поле.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Fine-tuning on milder low-light levels recovers 0.06 to 0.19 recall at the held-out severity, at an architecture-dependent cost on other conditions, and does not transfer to real night imagery.",
+        "advice": "Не считайте мягкий low-light fine-tune решениемной ночной съёмки: прирост на held-out severity скромный и плохо переносится на real night. Планируйте отдельные ночные данные и калибровку. Иначе команда потратит циклы обучения без полевого эффекта.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11059,
+    "source": "arXiv",
+    "arxiv_id": "2611.00105",
+    "version": 1,
+    "article": "Detector-Integrated Multi-Cue Association for Occlusion-Aware UAV Multi-Object Tracking",
+    "authors": [
+      "Shu-Hung Chou, Trong-An Bui, Wei-Ming Chen, Hsin-Piao Lin"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV",
+      "eess.IV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Multi-object tracking (MOT) in unmanned aerial vehicle (UAV) imagery is challenging because vehicles are small, visually similar, and frequently occluded, which leads to identity switches (IDSW). Appearance-based trackers such as DeepSORT rely on a standalone re-identification (ReID) network, whose per-target inference limits runtime speed, while the appearance of small or occluded vehicles remains unreliable. This paper proposes a detector-integrated multi-cue tracking framework. Lightweight projection heads are attached to the neck of the YOLOv8n detector to extract target embeddings through ROIAlign, producing detections and embeddings in a single forward pass. A multi-cue association cost then combines motion, IoU, and appearance distances with weights determined through ablation, complemented by low-score rescue and appearance-memory protection. On the UAVDT benchmark, the proposed method achieves a MOTA of 28.33, a HOTA of 31.16, and an IDF1 of 38.18 at 82.59 FPS, the best among the compared trackers in all three metrics, and reduces IDSW by 58.4\\% compared with DeepSORT.",
+    "article_link": "https://arxiv.org/abs/2611.00105",
+    "html_link": "https://arxiv.org/html/2611.00105v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00105v1",
+    "doi": null,
+    "html_available": false,
+    "title_ru": "Детекторно-интегрированная multi-cue ассоциация для UAV multi-object tracking при окклюзиях",
+    "summary": "На UAV мелкие похожие машины и частые окклюзии дают ID switch, а отдельный ReID в DeepSORT тормозит и плохо работает на мелких целях. Авторы вешают лёгкие projection heads на neck YOLOv8n и достают эмбеддинги через ROIAlign за один проход, а ассоциацию строят из motion, IoU и appearance с low-score rescue и protection appearance-memory. На UAVDT метод лучший среди сравнений по MOTA/HOTA/IDF1 при 82.59 FPS и режет IDSW на 58.4% относительно DeepSORT.",
+    "practical_use": "Для UAV tracking предпочтите detector-integrated embeddings вместо тяжёлого standalone ReID. В cost ассоциации комбинируйте motion/IoU/appearance и держите memory protection для окклюзий. Это ускоряет пайплайн и снижает ID switch на мелких целях.",
+    "_reason": "UAV multi-object tracking — прямая тема. Практичный рецепт быстрее DeepSORT на дроне.",
+    "why_read": "CV-разработчику — ROIAlign heads и multi-cue cost. Руководителю — FPS и снижение IDSW. Разметчику — какие ошибки ID стоит размечать в эталоне окклюзий.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Цифры на UAVDT; перенос на другие высоты/сенсоры нужно проверить.",
+      "Веса multi-cue подобраны абляцией на этом бенчмарке."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Lightweight projection heads are attached to the neck of the YOLOv8n detector to extract target embeddings through ROIAlign, producing detections and embeddings in a single forward pass.",
+        "advice": "Встраивайте ReID-эмбеддинги в detector neck через ROIAlign, чтобы не гонять отдельную сеть на каждый бокс. На UAV это критично по FPS и по мелким целям. Для отдела — простой путь ускорить текущий YOLO-трекер.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "A multi-cue association cost then combines motion, IoU, and appearance distances with weights determined through ablation, complemented by low-score rescue and appearance-memory protection.",
+        "advice": "Не ассоциациируйте треки только по appearance: смешивайте motion, IoU и внешность, плюс low-score rescue и защиту appearance-memory при окклюзии. Так меньше ломаются ID на плотных стоянках. Зафиксируйте веса по короткой абляции на своём UAV-сете.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11060,
+    "source": "arXiv",
+    "arxiv_id": "2611.00763",
+    "version": 1,
+    "article": "The MASSIMAL Dataset: UAV Hyperspectral Images and Ground Truth Observations for Coastal Habitat Mapping in Norway",
+    "authors": [
+      "Martin Hansen Skjelvareid, Eli Rinde, Kasper Hancke, Katalin Blix, Galice Guillaume Hoarau, Nicolo Grometto, Maia R{\\o}st Kile"
+    ],
+    "date": "2026-11-03",
+    "updated": "2026-11-03",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "eess.IV",
+      "cs.CV"
+    ],
+    "primary_category": "eess.IV",
+    "abstract_en": "The MASSIMAL dataset was collected in an effort to develop new remote sensing methods for mapping shallow water coastal habitats, such as kelp forests, seagrass meadows and maerl beds. The main component of the dataset is a set of hyperspectral images collected using a unmanned aerial vehicle (UAV). Images were collected during 45 UAV flights performed at 4 main areas along the Norwegian coast, spanning across a wide latitude range, from 59 to 67 degrees north. The ground sampling distance of the hyperspectral images is 3.5 cm, and the spectral range is 400-1000 nm, sampled across 300 spectral bands. During acquisition, push-broom imagery was automatically split into images with a maximum along-track length of 2000 lines. Out of approximately 1000 hyperspectral images, 221 have been annotated, using segmentation masks and a hierarchical taxonomy. An open source image processing pipeline has been developed as part of the dataset preparation, enabling efficient generation of reflectance images and glint-corrected images based on published radiance images. The dataset also includes color images (RGB) and multispectral images collected using UAV, and georeferenced image mosaics constructed from these. Ground truth data supporting the remote sensing images include hours of underwater video, thousands of geotagged underwater images, and tens of kilometers of single-beam sonar data. The data provide a foundation for assessing habitat distribution, tracking changes, and evaluating ecosystem services, thus supporting evidence-based management in Norwegian coastal environments.",
+    "article_link": "https://arxiv.org/abs/2611.00763",
+    "html_link": "https://arxiv.org/html/2611.00763v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.00763v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "MASSIMAL: UAV-гиперспектр и ground truth для картирования прибрежных местообитаний Норвегии",
+    "summary": "Датасет MASSIMAL собран для remote sensing мелководий: водоросли, морские травы, maerl. Ядро — гиперспектр с UAV (GSD 3.5 см, 400–1000 нм, 300 каналов) с 45 полётов в четырёх районах Норвегии; из ~1000 сцен 221 размечена segmentation masks по иерархической таксономии. Есть RGB/мультиспектр мозаики, подводное видео/фото и single-beam sonar, плюс open-source пайплайн reflectance и glint correction.",
+    "practical_use": "Если отдел делает coastal/UAV сегментацию, MASSIMAL — готовый источник иерархических масок и сопутствующего GT. Пайплайн reflectance/glint можно перенять для своих push-broom данных. Иерархическую таксономию стоит копировать в инструкции разметки.",
+    "_reason": "UAV-датасет с реальной сегментационной разметкой и открытым preprocessing — ценен для aerial команд.",
+    "why_read": "CV-разработчику — структура данных и preprocessing. Руководителю — масштаб корпуса и покрытие широт. Разметчику — иерархическая таксономия прибрежных классов.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Размечена только часть гиперспектральных сцен (221 из ~1000).",
+      "Домен — норвежское побережье; перенос на другие воды/сезоны не гарантирован."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Out of approximately 1000 hyperspectral images, 221 have been annotated, using segmentation masks and a hierarchical taxonomy.",
+        "advice": "При публикации UAV-гиперспектра сразу закладывайте иерархическую таксономию и маски хотя бы на приоритетном подмножестве сцен. Полная разметка тысяч кубов не обязательна на старте. Отделу проще наращивать слои классов, чем переписывать плоский словарь.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "An open source image processing pipeline has been developed as part of the dataset preparation, enabling efficient generation of reflectance images and glint-corrected images based on published radiance images.",
+        "advice": "До обучения сегментатора зафиксируйте open пайплайн radiance→reflectance и glint correction и храните оба продукта. Иначе модели учатся на бликах, а не на классах дна. Это обязательный шаг QC для водных UAV.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11061,
+    "source": "arXiv",
+    "arxiv_id": "2610.24182",
+    "version": null,
+    "article": "Precision Cotton Disease Management: Leveraging UAV Imagery and Custom YOLO Deep Learning Framework for Enhanced Detection",
+    "authors": [
+      "1. Anwar Iqbal*1 aiqbal.rime23smme@student.nust.edu.pk 2. Kunwar Faraz Ahmad Khan1 kunwar.faraz@smme.nust.edu.pk 3. Shahbaz Khan1 shahbaz.khan@smme.nust.edu.pk 4. Khawaja Fahad Iqbal1 fahad.iqbal@smme.nust.edu.pk 5. Sara Ali1",
+      "2 sara.baber@smme.nust.edu.pk 6. Saqib Nazir1 saqib.nazir@smme.nust.edu.pk 7. Muhammad Azhar Javed3 muhammadazhar6231@gmail.com 1 Department of Robotics",
+      "Artificial Intelligence",
+      "SMME",
+      "National University of Science",
+      "Technology",
+      "Islamabad",
+      "Pakistan 2 Suzhou Industrial Park Monash Research Institute of Science",
+      "Technology",
+      "Suzhou",
+      "PR China 3 Department of Plant Pathology",
+      "Bahauddin Zakriya University",
+      "Multan",
+      "Pakistan"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Cotton sustains the textile economies of over 80 countries with an annual yield of 113 million bales, yet 30-60% of yield losses are still attributed to viral, bacterial, and fungal diseases that remain undetected until manual field scouting. To address this critical issue, the integration of Unmanned Aerial Vehicle (UAV) imagery with deep learning offers a scalable early-warning system; however, existing models suffer from low early-stage accuracy, poor transferability, and high computational cost. In this paper, we propose Cotton-Vision, a fully convolutional single-stage detector that synergizes three lightweight architectural innovations: Ghost Bottleneck modules for a 20% parameter reduction, Efficient Channel Attention (ECA) for adaptive feature recalibration, and Cross-Stage Partial (CSP) fusion for enriched gradient flow. The network is trained on a novel dataset collected across seven cotton fields in the Punjab province of Pakistan, comprising over 2,700 high-resolution drone images. Extensive data augmentation (rotation, shear, exposure, and saturation) expands the dataset to 11,704 training samples. On a held-out test set, Cotton-Vision achieves a precision of 97.7%, a recall of 77.7%, an mAP@50 of 85.6%, and an mAP@50-95 of 76.6%.",
+    "article_link": "https://arxiv.org/abs/2610.24182",
+    "html_link": "https://arxiv.org/html/2610.24182",
+    "pdf_link": "https://arxiv.org/pdf/2610.24182",
+    "doi": null,
+    "html_available": false,
+    "title_ru": "Cotton-Vision: лёгкий YOLO-детектор болезней хлопка по UAV-снимкам",
+    "summary": "Авторы собирают UAV-корпус болезней хлопка по семи полям в Пенджабе (>2700 кадров, после аугментаций 11704 train) и обучают Cotton-Vision — single-stage детектор с Ghost Bottleneck, ECA и CSP. На held-out тесте заявлены precision 97.7%, recall 77.7%, mAP@50 85.6% и mAP@50-95 76.6%, с приростом к линейке YOLO/RT-DETR/RF-DETR. Акцент на раннем обнаружении при ограниченном compute.",
+    "practical_use": "Для агро-UAV детекции болезней полезен рецепт лёгкой YOLO-модификации и полевой сбор по нескольким площадкам. Отдельно смотрите разрыв precision/recall: высокий precision при более скромном recall типичен для early-warning. Аугментации exposure/saturation стоит включить в агро-пайплайн.",
+    "_reason": "UAV aerial detection с прикладным полевым датасетом. Близко к задачам отдела по дронам, хотя домен — хлопок.",
+    "why_read": "CV-разработчику — Ghost/ECA/CSP связка. Руководителю — цифры относительно современных детекторов. Разметчику — зачем разнообразить поля и экспозицию при сборе болезней.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Локальный полный текст в прогоне отсутствовал; карточка опирается на абстракт arXiv.",
+      "Домен ограничен хлопком Пенджаба; перенос на другие культуры не показан."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The network is trained on a novel dataset collected across seven cotton fields in the Punjab province of Pakistan, comprising over 2,700 high-resolution drone images.",
+        "advice": "Собирая агро-UAV датасет болезней, покрывайте несколько полей, а не один участок: иначе модель выучит фон поля. Даже 2–3 тысячи кадров с разносом площадок полезнее узкого идеального сета. Для QC зафиксируйте поле как метаданные кадра.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Extensive data augmentation (rotation, shear, exposure, and saturation) expands the dataset to 11,704 training samples.",
+        "advice": "В обучении агро-детекторов обязательно аугментируйте exposure и saturation вместе с геометрией: освещение поля гуляет сильнее студийных датасетов. Это дешёвый способ поднять устойчивость early-stage детекции. Не ограничивайтесь только flip/rotate.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11062,
+    "source": "arXiv",
+    "arxiv_id": "2610.26312",
+    "version": null,
+    "article": "CARNet: End-to-End Coupled Association-Recognition Network for Fine-Grained Multi-Drone Collaborative Detection",
+    "authors": [
+      "Zhao Zhang",
+      "Ruigang Fu",
+      "Yu Zhang",
+      "Jiajun Xiang",
+      "Zixuan Xiao",
+      "Ping Zhong"
+    ],
+    "date": "",
+    "updated": "",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "",
+    "article_link": "https://arxiv.org/abs/2610.26312",
+    "html_link": "https://arxiv.org/html/2610.26312",
+    "pdf_link": "https://arxiv.org/pdf/2610.26312",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "CARNet: совместные association и recognition для multi-drone collaborative detection",
+    "summary": "Двухстадийные схемы «сначала соответствие между видами, потом fusion» копят необратимые ошибки ассоциации. CARNet оптимизирует association и recognition end-to-end через общее target-pair представление, усиливает spatial cues и добавляет causal-inspired interventions для путающих пар и неполной видимости. Представлен MDMT-CD — fine-grained расширение MDMT с детальными категориями транспорта для multi-drone детекции.",
+    "practical_use": "Если отдел смотрит multi-view/multi-drone детекцию, учите соответствие и класс совместно, а не каскадом. В датасете закладывайте fine-grained категории на уже размеченных треках. Interventions на confusing pairs полезны для QC плотных сцен.",
+    "_reason": "UAV multi-drone detection и расширение датасета с детальными метками — в теме отдела.",
+    "why_read": "CV-разработчику — coupled association-recognition. Руководителю — ценность MDMT-CD. Разметчику — как обогащать существующий MOT-корпус категориями.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Код и MDMT-CD заявлены к публикации на GitHub; доступность на момент чтения нужно проверить.",
+      "Выигрыш показан в multi-drone setting; для single-view польза ограничена."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "we propose the Coupled Association-Recognition Network (CARNet), a unified framework that jointly optimizes cross-view target association and recognition fusion through a shared target-pair representation",
+        "advice": "Не ставьте жёсткий каскад «матчинг → классификация» для multi-drone: ошибка первого шага не лечится вторым. Учите пару видов и класс через общее представление. Это снижает необратимые ID/class сбои в плотных сценах.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we present MDMT-CD, a fine-grained extension of the MDMT dataset that enriches the original vehicle annotations with detailed category labels",
+        "advice": "Имея multi-drone треки, дешевле добавить fine-grained категории поверх существующих аннотаций, чем собирать новый корпус. Такой слой сразу открывает collaborative recognition. Разметчикам дайте словарь детальных классов транспорта и правила неоднозначности.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11063,
+    "source": "Hugging Face Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Bringing Nunchaku 4-bit Diffusion Inference to Diffusers",
+    "authors": [],
+    "date": "2026-07-23",
+    "updated": "2026-07-23",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://huggingface.co/blog/nunchaku-diffusers",
+    "html_link": "https://huggingface.co/blog/nunchaku-diffusers",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Nunchaku 4-bit (SVDQuant) inference теперь в Diffusers",
+    "summary": "Пост Hugging Face про интеграцию Nunchaku W4A4 SVDQuant в Diffusers: квантованные diffusion transformer грузятся через from_pretrained без локальной CUDA-компиляции. В отличие от weight-only backend, ускоряется denoising loop, а не только экономится VRAM.",
+    "practical_use": "Если отдел гоняет большие diffusion на consumer GPU, стоит попробовать Nunchaku checkpoints в Diffusers. Для разметки польза косвенная — быстрее локальные превью генерации/редактирования.",
+    "_reason": "Инфра для diffusion; короткий keep без советов по разметке.",
+    "why_read": "CV-разработчику инференса. Разметчику не обязательно.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нужны совместимые Nunchaku checkpoints.",
+      "Не про качество разметки."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11064,
+    "source": "Hugging Face Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Introducing Modular Diffusers - Composable Building Blocks for Diffusion Pipelines",
+    "authors": [],
+    "date": "2026-03-05",
+    "updated": "2026-03-05",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://huggingface.co/blog/modular-diffusers",
+    "html_link": "https://huggingface.co/blog/modular-diffusers",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Modular Diffusers: композируемые блоки для diffusion pipelines",
+    "summary": "Hugging Face представляет Modular Diffusers — сборку пайплайнов из reusable blocks вместо монолитного DiffusionPipeline, с примером на FLUX.2 Klein 4B и интеграцией Mellon. Удобнее собирать кастомные editing workflows.",
+    "practical_use": "Имеет смысл, если собираете нестандартные diffusion/editing графы. Для чистой разметки — низкий приоритет.",
+    "_reason": "Инструментальный пост Diffusers; короткий keep.",
+    "why_read": "Инженеру пайплайнов генерации.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Не содержит методов QC/разметки."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11065,
+    "source": "Hugging Face Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "PRX Part 3 — Training a Text-to-Image Model in 24h!",
+    "authors": [],
+    "date": "2026-03-03",
+    "updated": "2026-03-03",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://huggingface.co/blog/Photoroom/prx-part3",
+    "html_link": "https://huggingface.co/blog/Photoroom/prx-part3",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PRX Part 3: сборка training recipe text-to-image за 24 часа",
+    "summary": "Photoroom описывает 24-hour speedrun обучения T2I на 32×H200 (~$1500), складывая удачные трюки прошлых постов, и открывает training code. Полезно как engineering logbook, не как метод разметки.",
+    "practical_use": "Если отдел сам учит генеративные модели, рецепт и код ускоряют эксперименты. К SAM/QC связи нет.",
+    "_reason": "Короткий keep для генеративного трека.",
+    "why_read": "Только команде training diffusion.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нет практик разметки изображений."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11066,
+    "source": "Hugging Face Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Training Design for Text-to-Image Models: Lessons from Ablations",
+    "authors": [],
+    "date": "2026-02-03",
+    "updated": "2026-02-03",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://huggingface.co/blog/Photoroom/prx-part2",
+    "html_link": "https://huggingface.co/blog/Photoroom/prx-part2",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Training Design для T2I: уроки абляций (PRX Part 2)",
+    "summary": "Вторая часть серии Photoroom: экспериментальный журнал training tricks для text-to-image (сходимость, throughput, комбинации идей) перед финальным speedrun. Архитектура PRX уже была в Part 1.",
+    "practical_use": "Полезно исследователям генерации; для annotation/QC — нет прямых действий.",
+    "_reason": "Короткий keep без advice.",
+    "why_read": "CV-разработчику генеративных моделей.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Не про разметку и UAV."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11067,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "October 15, 2026",
+    "authors": [],
+    "date": "2026-10-15",
+    "updated": "2026-10-15",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 Image Klein \n FLUX 3 Image Klein is a 5.6B parameter version of FLUX 3 Image with open weights. It supports the same features: text to image, image editing, multi reference, and bounding boxes. Run it through the API, download the weights from Hugging Face, or load it in ComfyUI. \n Key Features \n \n  Same request as FLUX 3 Image:   prompt ,  images ,  aspect_ratio ,  resolution , and the bounding box format are unchanged. A FLUX 3 Image request runs on Klein by switching the endpoint \n  Two variants:  Klein (Distilled) runs 16 steps at CFG 1 for fast inference. Klein Base runs 50 steps at CFG 3.5 and is the model for fine-tuning and LoRA training \n  Open weights:  both variants are on Hugging Face under the FLUX Kommunity License and run on consumer GPUs, down to an RTX 3090 \n  Up to 4K output:   resolution  from  768sq  to  4k , with up to ten reference images per request \n  LoRA training:  train on Klein Base with AI Toolkit ( arch: flux3 ) or Diffusers. The trained LoRA also loads into Klein (Distilled) \n \n Pricing \n Per image, by  resolution . Text to image and image editing cost the same. \n \n \n \n  resolution  \n Price \n \n \n \n \n  768sq  \n $0.008 \n \n \n  1k  \n $0.009 \n \n \n  1.5k  \n $0.011 \n \n \n  2k  \n $0.014 \n \n \n  4k  \n $0.036 \n \n \n \n Endpoint \n  FLUX 3 Image Klein API reference  \n Weights \n \n  FLUX 3 Image Klein  (Distilled) \n  FLUX 3 Image Klein Base  \n  ComfyUI weights  and the  ComfyUI Klein workflow  \n \n Start with the  FLUX 3 Image Klein overview . ",
+    "article_link": "https://docs.bfl.ml/release-notes#october-15-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#october-15-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX 3 Image Klein — открытые веса 5.6B для генерации и редактирования",
+    "summary": "Релиз FLUX 3 Image Klein: 5.6B-версия FLUX 3 Image с open weights, теми же возможностями text-to-image, editing, multi-reference и bounding boxes. Есть Distilled (16 steps, CFG 1) и Base (50 steps, CFG 3.5) для fine-tune/LoRA; веса на Hugging Face, до 4K и до десяти референсов. Запуск через API, HF или ComfyUI.",
+    "practical_use": "Для локальных пилотов editing/outpaint-подобных правок имеет смысл поставить Klein Base под LoRA и Distilled под быстрый просмотр. Bounding boxes и multi-reference полезны в контролируемой правке макетов. Следите за лицензией FLUX Kommunity.",
+    "_reason": "Открытые веса сильной image/edit модели BFL — практичный инструмент отдела.",
+    "why_read": "CV-разработчику — Distilled vs Base и LoRA. Руководителю — стоимость API по resolution. Разметчику — как готовить box-условия и референсы.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Цена и лимиты зависят от resolution в API.",
+      "Нужно соблюдать FLUX Kommunity License."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Two variants: Klein (Distilled) runs 16 steps at CFG 1 for fast inference. Klein Base runs 50 steps at CFG 3.5 and is the model for fine-tuning and LoRA training",
+        "advice": "Разведите контуры: Distilled для быстрых итераций оператора, Base — для обучения LoRA. Не fine-tune’ите Distilled как основной teacher. Так дешевле держать и интерактив, и кастомный стиль отдела.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "It supports the same features: text to image, image editing, multi reference, and bounding boxes.",
+        "advice": "В пилотах правки сразу закладывайте multi-reference и bounding boxes, а не только текстовый prompt. Это ближе к продовым брифам с раскладкой. Разметчикам дайте шаблон боксов под типовые макеты.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11068,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "October 1, 2026",
+    "authors": [],
+    "date": "2026-09-30",
+    "updated": "2026-09-30",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 Image \n FLUX 3 Image gives you maximum control over every pixel. Generate an image\nfrom a prompt, edit specific parts of an image, and combine up to ten references, all through\none endpoint. \n Key Features \n \n  Bounding boxes in the prompt:  place every element of a layout, such as a headline, a face in a crowd, or each panel of a grid. Add a JSON list of boxes to the end of  prompt ; there is no separate parameter \n  Pixel-exact local edits:  mark the element to change and keep the rest of the image as it was. Recolor, replace, move, resize, or remove several elements in one request \n  Up to ten references:  name each image by its position in the prompt to restyle an image or combine references into a new composition \n  Up to 4K output:   resolution  goes from  768sq  for fast previews to  4k  (about 16 megapixels), at 15 aspect ratios \n  One endpoint:  the prompt decides whether to generate or edit. There is no  mode  field \n \n Pricing \n Per image, by  resolution : \n \n \n \n  resolution  \n Price \n \n \n \n \n  768sq  \n $0.041 \n \n \n  1k  \n $0.048 \n \n \n  2k  \n $0.100 \n \n \n  4k  \n $0.607 \n \n \n \n Endpoint \n  FLUX 3 Image API reference  \n Start with the  FLUX 3 Image overview , see the box\nformat in  FLUX 3 Image Editing , or follow the\n Bounding boxes  tutorial. ",
+    "article_link": "https://docs.bfl.ml/release-notes#october-1-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#october-1-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX 3 Image — генерация и пиксельные правки с боксами и до десяти референсов",
+    "summary": "FLUX 3 Image объединяет генерацию и editing в одном endpoint: bounding boxes в конце prompt, пиксельно-точные локальные правки, до десяти референсов и вывод до 4K. Режим не выбирается отдельным полем — поведение задаёт prompt. Полезно как единый инструмент layout-controlled редактирования.",
+    "practical_use": "Для отделочных правок макетов и локального recolor/replace стоит перейти на один endpoint с JSON-боксами в prompt. Храните референсы по позиции в промпте. Сравнивайте 768sq для превью и 2k/4k для финала.",
+    "_reason": "Прямой editing/outpaint-adjacent инструмент с контролем раскладки.",
+    "why_read": "CV-разработчику — формат boxes и one-endpoint API. Руководителю — ценовая сетка resolution. Разметчику — как размечать элементы под локальные правки.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Стоимость 4K заметно выше превью-разрешений.",
+      "Качество локальных правок зависит от аккуратности боксов и референсов."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Bounding boxes in the prompt: place every element of a layout, such as a headline, a face in a crowd, or each panel of a grid. Add a JSON list of boxes to the end of prompt ; there is no separate parameter",
+        "advice": "Научите пайплайн дописывать JSON-боксы в конец prompt по единому шаблону. Так layout control становится воспроизводимым, а не «устным» описанием. Для разметки заведите словарь элементов макета.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Pixel-exact local edits: mark the element to change and keep the rest of the image as it was. Recolor, replace, move, resize, or remove several elements in one request",
+        "advice": "В QC локальных правок проверяйте неизменность вне бокса: фон и соседние элементы не должны плыть. Один запрос может менять несколько элементов — фиксируйте список ожидаемых правок. Это снижает скрытый drift кадра.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11069,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "September 10, 2026",
+    "authors": [],
+    "date": "2026-09-10",
+    "updated": "2026-09-10",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 Video — 2K and 4K Output \n  resolution  on  POST /v1/flux-3-video  now takes  qhd  and  uhd  alongside  hd  and  fhd , so a 2K or 4K clip comes back from a single request instead of a generation followed by a separate upscale call. \n Key Features \n \n   qhd   — 2560 × 1440 at 16:9 \n   uhd   — 3840 × 2176 at 16:9 \n  Same generation, larger canvas  — every class above  hd  runs the same generation and differs only in the canvas the video upsampler renders, so the shot does not change with the resolution you pick \n  Available on  draft_enhance  too  — commit a draft straight to 2K or 4K. Drafts themselves still render at  hd  \n \n Pricing \n Per second of output, in addition to the existing  hd  and  fhd  rates: \n \n \n \n Mode \n  qhd  \n  uhd  \n \n \n \n \n Text to Video ( t2v ) \n $0.40/s \n $0.80/s \n \n \n Image to Video ( i2v ) \n $0.40/s \n $0.80/s \n \n \n Video Continuation ( v2v ) \n $0.65/s \n $0.95/s \n \n \n \n Endpoint \n  POST /v1/flux-3-video  \n Delivered dimensions for every aspect ratio are in the  FLUX 3 video documentation , and full rates on the  pricing page . ",
+    "article_link": "https://docs.bfl.ml/release-notes#september-10-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#september-10-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX 3 Video — нативный вывод 2K/4K без отдельного upscale",
+    "summary": "У POST /v1/flux-3-video появились resolution qhd и uhd (2560×1440 и 3840×2176 при 16:9) рядом с hd/fhd. Генерация та же, меняется canvas upsampler; draft_enhance тоже может коммитить сразу в 2K/4K. Это убирает отдельный шаг upscale после генерации.",
+    "practical_use": "Для видеоподготовок сразу запрашивайте нужный canvas вместо связки generate→upscale. Draft оставляйте в hd, финал — qhd/uhd. Пересчитайте стоимость $/s в смете.",
+    "_reason": "Video upscale/output resolution — практичный релиз для video editing пайплайнов.",
+    "why_read": "CV-разработчику — новые resolution enum. Руководителю — прайсинг qhd/uhd. Разметчику — когда эталонить на финальном canvas.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Drafts по-прежнему рендерятся в hd.",
+      "Выше hd растёт цена за секунду."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "resolution on POST /v1/flux-3-video now takes qhd and uhd alongside hd and fhd , so a 2K or 4K clip comes back from a single request instead of a generation followed by a separate upscale call",
+        "advice": "Уберите из пайплайна лишний video-upscale step, если нужен просто больший canvas того же шота. Один запрос с qhd/uhd проще в оркестрации. Оставьте отдельный upscale только когда меняете creativity/detail политики.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11070,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "August 20, 2026",
+    "authors": [],
+    "date": "2026-08-25",
+    "updated": "2026-08-25",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX Video Upscale — 1080p, 2K, and 4K Video Super-Resolution \n FLUX Video Upscale brings FLUX 3 powered super-resolution to video. Send a clip of up to 20 seconds and get it back at up to 4K, with the original audio track preserved. \n Key Features \n \n  1.5×–3× upscaling  —  upscale_factor  scales relative to the source resolution; the output keeps the source aspect ratio, capped at about 14.4 megapixels per frame \n  Two modes  —  creativity: 0  (precise) preserves the source exactly and sharpens it, ideal for faces, products, and brand assets;  creativity: 1  (creative, default) restores and invents fine detail for generated footage, textures, and scenery \n  Optional  prompt   — describe the clip's content to steer the enhanced detail in creative mode \n  Source limits  — up to 20 seconds, 50MB, and 2560 × 1440; rejected clips are not charged \n  Pay for delivered output only  — $0.07 (precise) / $0.10 (creative) per megapixel-second \n \n Endpoint \n  POST /v1/flux-tools/video-upscale-v1  \n See the  FLUX Video Upscale documentation  to get started, and the  pricing page  for per-resolution rates. ",
+    "article_link": "https://docs.bfl.ml/release-notes#august-20-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#august-20-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX Video Upscale — суперразрешение роликов до 4K с режимами precise/creative",
+    "summary": "FLUX Video Upscale поднимает клипы до 20 с до 4K (1.5×–3×), сохраняя аудио. Режим creativity 0 максимально бережёт исходник (лица, продукты), creativity 1 дорисовывает детали; можно добавить prompt. Лимиты 50MB и до 2560×1440 на входе; оплата за megapixel-second выхода.",
+    "practical_use": "Для продуктовых/размеченных роликов включайте precise (creativity 0); для синтетики — creative. Не отдавайте на upscale клипы сверх лимитов — отклонённые не тарифицируются, но ломают батч. Сравнивайте с нативным qhd/uhd генерации.",
+    "_reason": "Прямой video upscale инструмент — в теме отдела.",
+    "why_read": "CV-разработчику — режимы и лимиты API. Руководителю — биллинг megapixel-second. Разметчику — когда нельзя «додумывать» детали лица/бренда.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Вход до 20 с / 50MB / 2560×1440.",
+      "Creative режим может изобретать детали, нежелательные для точного QC."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Two modes — creativity: 0 (precise) preserves the source exactly and sharpens it, ideal for faces, products, and brand assets; creativity: 1 (creative, default) restores and invents fine detail for generated footage, textures, and scenery",
+        "advice": "Для кадров с лицами, продуктами и брендами принудительно ставьте creativity 0. Default creative может дорисовать то, чего не было в разметке. Зафиксируйте правило режима в playbook upscale.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Send a clip of up to 20 seconds and get it back at up to 4K, with the original audio track preserved.",
+        "advice": "Режьте батч на сегменты ≤20 с до отправки и проверяйте сохранность аудиодорожки после upscale. Иначе длинные ролики будут отклоняться. Это простой operational constraint пайплайна.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11071,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "August 17, 2026",
+    "authors": [],
+    "date": "2026-08-19",
+    "updated": "2026-08-19",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 — Video Continuation Duration Limit \n The maximum duration for video continuation ( v2v ) requests is now  15 seconds . Text-to-video, image-to-video, and draft enhance are unchanged at up to 20 seconds. ",
+    "article_link": "https://docs.bfl.ml/release-notes#august-17-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#august-17-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: лимит video continuation (v2v) снижен до 15 секунд",
+    "summary": "Для FLUX 3 video continuation максимальная длительность запроса теперь 15 секунд; text-to-video, image-to-video и draft enhance остаются до 20 секунд. Короткая заметка об API-лимите.",
+    "practical_use": "Обновите клиентские валидации v2v на 15 с и режьте продолжения на чанки. Не смешивайте лимиты t2v/i2v с continuation.",
+    "_reason": "Операционный лимит API, нужен командам на FLUX Video.",
+    "why_read": "Только тем, кто уже шлёт v2v в проде.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Только изменение duration cap, без новых качеств модели."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11072,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "August 11, 2026",
+    "authors": [],
+    "date": "2026-08-19",
+    "updated": "2026-08-19",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX MCP Server — Video Generation \n The  FLUX MCP server  now generates video with FLUX 3, directly from Claude, Cursor, Codex, Windsurf, or any MCP-compatible client. \n Key Features \n \n   generate_video   — Text to video, image to video from keyframes, and video continuation, with a prompt plus optional  duration  (5–20 seconds),  aspect_ratio , and  resolution . Up to 4 clips per call, audio on by default \n   enhance_video   — Re-render a finished draft at full quality with the same composition, seed, and prompt plan: the commit step of the draft-then-enhance loop \n \n See the  MCP integration documentation  for setup and the full tool reference. ",
+    "article_link": "https://docs.bfl.ml/release-notes#august-11-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#august-11-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX MCP Server научился генерировать видео FLUX 3",
+    "summary": "FLUX MCP server добавляет generate_video (t2v/i2v/continuation, до 4 клипов, audio on) и enhance_video для commit draft→full quality из Claude/Cursor и других MCP-клиентов. Это интеграционный релиз, не новая модель.",
+    "practical_use": "Если отдел уже сидит в MCP-клиентах, можно дергать FLUX 3 video без отдельного UI. Имеет смысл для быстрых прототипов, не для тяжёлого батча разметки.",
+    "_reason": "Удобный доступ к video gen из IDE; к CV-ядру косвенно.",
+    "why_read": "Инженеру пайплайна агентов/MCP. Разметчику не обязательно.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Нет новых алгоритмов качества, только MCP tools."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11073,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "August 7, 2026",
+    "authors": [],
+    "date": "2026-08-19",
+    "updated": "2026-08-19",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX 3 Video Agent Skills \n Six new Agent Skills teach coding agents like Claude Code, Cursor, and Windsurf how to direct FLUX 3 video generations. \n \n   flux-3-video   — Routes a request to the skills it needs \n   flux-3-prompt-doctor   — Catches the decisions that change the payload before anything is generated \n   flux-3-cinematic-inserts   — Shot craft for text-to-video \n   flux-3-keyframes-continuation   — Building from supplied images or extending an existing clip \n   flux-3-audio-dialogue   — Ambience, effects, and speech \n   flux-3-generate   — Submitting, polling, drafts, and downloads \n \n Install from the  black-forest-labs/skills  repository — see the  Agent Skills documentation  for per-client instructions. ",
+    "article_link": "https://docs.bfl.ml/release-notes#august-7-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#august-7-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: Agent Skills для управления генерацией FLUX 3 Video",
+    "summary": "Шесть Agent Skills (prompt-doctor, cinematic-inserts, keyframes-continuation, audio-dialogue, generate и router) учат coding-агентов корректно собирать FLUX 3 video запросы. Репозиторий black-forest-labs/skills.",
+    "practical_use": "Полезно, если видеоген дергают агенты: поставьте skills, чтобы меньше ломать payload. Для классической разметки — низкий приоритет.",
+    "_reason": "Инструментальный релиз вокруг FLUX Video.",
+    "why_read": "Только командам с agentic video generation.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Не меняет саму модель, только подсказки агентам."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11074,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "July 23, 2026",
+    "authors": [],
+    "date": "2026-08-19",
+    "updated": "2026-08-19",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " Announcing FLUX 3 \n FLUX 3 is our new multimodal foundation model: one model jointly trained across image, video, and audio, built toward real-world visual intelligence. Read the  announcement . \n Capabilities \n \n  Video with native audio  — up to 20 seconds per generation, from text, images, or a reference clip, with multilingual dialogue \n  Keyframe control  — pin images at chosen moments for controlled transitions \n  Broad stylistic range  — from candid footage to animation and cinematics, with strong typography and animated designs \n  Image synthesis and editing  — from the same underlying model \n \n Rollout \n Capabilities become available in phases, each after an early access period: video generation and editing first, action prediction with selected partners, image synthesis and editing, and open-weight access to a multimodal backbone. ",
+    "article_link": "https://docs.bfl.ml/release-notes#july-23-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#july-23-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: анонс FLUX 3 — мультимодальная модель image/video/audio",
+    "summary": "FLUX 3 заявлен как совместно обученный multimodal foundation model для изображения, видео и аудио. На старте — video с native audio до 20 с, keyframe control, широкий стиль, плюс image synthesis/editing из той же модели; rollout поэтапный с early access.",
+    "practical_use": "Имеет смысл заложить FLUX 3 в roadmap video+image editing и следить за фазами доступа. Keyframe control полезен для управляемых переходов в синтетике. Open-weight backbone обещан позже — планируйте отдельно.",
+    "_reason": "Стратегический релиз генеративного стека BFL для editing/video.",
+    "why_read": "Руководителю — фазы rollout. CV-разработчику — capabilities keyframe/audio. Разметчику — какие контроли появятся в брифах.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Часть возможностей открывается поэтапно после early access.",
+      "Open weights multimodal backbone — в будущих фазах."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Keyframe control — pin images at chosen moments for controlled transitions",
+        "advice": "В сценариях синтетического видео сразу проектируйте keyframe-брифы: фиксированные кадры на выбранных моментах. Это снижает хаос переходов относительно чистого text-to-video. Разметчикам удобно готовить такие опоры как эталон.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "Video with native audio — up to 20 seconds per generation, from text, images, or a reference clip, with multilingual dialogue",
+        "advice": "Учитывайте лимит 20 с и наличие native audio при проектировании тестовых роликов. Для длиннее — continuation/склейка. Не стройте демо, которые API заведомо не примет одним запросом.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11075,
+    "source": "Black Forest Labs Release Notes",
+    "arxiv_id": null,
+    "version": null,
+    "article": "June 9, 2026",
+    "authors": [],
+    "date": "2026-06-09",
+    "updated": "2026-06-09",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": " FLUX Outpainting — New Fast Mode \n FLUX Outpainting now supports a  mode  parameter that trades quality for speed. \n Key Features \n \n   mode: \"fast\"   — Significantly faster extension, well-suited for landscapes, backgrounds, textures, and products. Typically lower cost. \n   mode: \"high\"  (default)  — Unchanged highest-fidelity path; recommended when fine detail, prompt adherence, or consistency with complex source content matters. \n  Same contract  — Both modes share the same request fields and response format; omit  mode  to keep the existing  high  behavior. \n \n Endpoint \n  POST /v1/flux-tools/outpainting-v1  \n See  Choosing a mode  in the FLUX Outpainting documentation. ",
+    "article_link": "https://docs.bfl.ml/release-notes#june-9-2026",
+    "html_link": "https://docs.bfl.ml/release-notes#june-9-2026",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "BFL: FLUX Outpainting — режим fast рядом с high",
+    "summary": "У FLUX Outpainting появился параметр mode: fast для быстрых расширений (пейзажи, фоны, текстуры, продукты) и прежний high по умолчанию для сложного контента. Контракт запроса тот же; без mode поведение high.",
+    "practical_use": "В батчах фона/текстур включайте fast; для лиц, тонких объектов и жёсткого prompt adherence оставляйте high. A/B по mode добавьте в QC outpaint.",
+    "_reason": "Прямой outpainting релиз — в ядре интересов.",
+    "why_read": "CV-разработчику — параметр mode. Руководителю — стоимость/скорость. Разметчику — когда fast недопустим.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Fast обычно жертвует детализацией и сложной согласованностью.",
+      "Рекомендации по сценам качественные, без универсальной метрики."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "mode: \"fast\" — Significantly faster extension, well-suited for landscapes, backgrounds, textures, and products. Typically lower cost.",
+        "advice": "Для массового расширения фонов и текстур ставьте mode=fast и отдельный QC-сэмпл. Не гоните так портреты и тонкие структуры. Это простой рычаг стоимости outpaint-батчей.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "mode: \"high\" (default) — Unchanged highest-fidelity path; recommended when fine detail, prompt adherence, or consistency with complex source content matters.",
+        "advice": "Если в кадре важны мелкие объекты, текст или сложная геометрия source, оставляйте high. Fast здесь экономит минуты и ломает приёмку. Зафиксируйте правило в инструкции оператора.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11076,
+    "source": "Google DeepMind Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Start building with Nano Banana 2 Lite and Gemini Omni Flash",
+    "authors": [],
+    "date": "2026-06-30",
+    "updated": "2026-06-30",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://deepmind.google/blog/start-building-with-nano-banana-2-lite-and-gemini-omni-flash/",
+    "html_link": "https://deepmind.google/blog/start-building-with-nano-banana-2-lite-and-gemini-omni-flash/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Nano Banana 2 Lite и Gemini Omni Flash доступны разработчикам",
+    "summary": "Google открывает Nano Banana 2 Lite (быстрый дешёвый image) и Gemini Omni Flash (video generation/conversational editing) в AI Studio, Gemini API и Enterprise. Связка image→video для итеративных мультимедиа-пайплайнов.",
+    "practical_use": "Для прототипов синтеза и conversational video edit — полезный API-вход. Advice по разметке не требуется.",
+    "_reason": "Короткий keep по image/video API.",
+    "why_read": "Инженеру интеграций генеративных API.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Продуктовый анонс без метрик на CV-бенчмарках отдела."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11077,
+    "source": "Google DeepMind Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Introducing Gemini Omni",
+    "authors": [],
+    "date": "2026-05-17",
+    "updated": "2026-05-17",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "",
+    "article_link": "https://deepmind.google/blog/introducing-gemini-omni/",
+    "html_link": "https://deepmind.google/blog/introducing-gemini-omni/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Gemini Omni: мультимодальная генерация, старт с video и conversational edit",
+    "summary": "Gemini Omni (первый Flash) принимает image/audio/video/text и генерирует видео с опорой на знания Gemini, с правками через диалог и консистентностью персонажей. Раскатка в Gemini app, Flow и YouTube Shorts; image/audio output обещаны позже.",
+    "practical_use": "Интересно как conversational video editor для прототипов. Для промышленной разметки — наблюдать, не строить критичный QC.",
+    "_reason": "Короткий keep по video model.",
+    "why_read": "Продуктовым/CV-инженерам генеративного видео.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Пока акцент на video output; детали API ограничены анонсом."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11078,
+    "source": "Google DeepMind Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Nano Banana 2: Combining Pro capabilities with lightning-fast speed",
+    "authors": [],
+    "date": "2026-02-26",
+    "updated": "2026-02-26",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Our latest image generation model offers advanced world knowledge, production ready specs, subject consistency and more, all at Flash speed.",
+    "article_link": "https://deepmind.google/blog/nano-banana-2-combining-pro-capabilities-with-lightning-fast-speed/",
+    "html_link": "https://deepmind.google/blog/nano-banana-2-combining-pro-capabilities-with-lightning-fast-speed/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Nano Banana 2: быстрая image-модель Google с Pro-возможностями",
+    "summary": "DeepMind выпускает Nano Banana 2 — image generation/editing с world knowledge, subject consistency и скоростью Flash. Раскатка по Gemini/Search и усиление SynthID/C2PA для маркировки AI-контента.",
+    "practical_use": "Можно пробовать как быстрый image editor/generator в превью. Для разметки — скорее источник синтетики, чем метод QC.",
+    "_reason": "Короткий keep по image model release.",
+    "why_read": "Тем, кто выбирает внешние image API.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Мало технических деталей обучения в анонсе."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11079,
+    "source": "Google DeepMind Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Project Genie: Experimenting with infinite, interactive worlds",
+    "authors": [],
+    "date": "2026-01-29",
+    "updated": "2026-01-29",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Google AI Ultra subscribers in the U.S. can try out Project Genie, an experimental research prototype that lets you create and explore worlds.",
+    "article_link": "https://deepmind.google/blog/project-genie-experimenting-with-infinite-interactive-worlds/",
+    "html_link": "https://deepmind.google/blog/project-genie-experimenting-with-infinite-interactive-worlds/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Project Genie: экспериментальные интерактивные миры для Ultra (США)",
+    "summary": "Google открывает research prototype Project Genie на базе Genie 3 Ultra-подписчикам в США: создание и исследование интерактивных миров по тексту/картинкам. Ограничения реализма и контроля персонажей признаны.",
+    "practical_use": "К задачам разметки/UAV почти не относится; разве что дальний горизонт world models.",
+    "_reason": "Периферийный research анонс.",
+    "why_read": "Опционально.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Доступ ограничен; не про CV annotation."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11080,
+    "source": "Google DeepMind Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Veo 3.1 Ingredients to Video: More consistency, creativity and control",
+    "authors": [],
+    "date": "2026-01-13",
+    "updated": "2026-01-13",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Our latest Veo update generates lively, dynamic clips that feel natural and engaging — and supports vertical video generation.",
+    "article_link": "https://deepmind.google/blog/veo-3-1-ingredients-to-video-more-consistency-creativity-and-control/",
+    "html_link": "https://deepmind.google/blog/veo-3-1-ingredients-to-video-more-consistency-creativity-and-control/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Veo 3.1 Ingredients to Video: вертикаль, consistency и upscale до 4K",
+    "summary": "Обновление Veo 3.1 усиливает image-to-video: выразительность, консистентность персонажей/фона, native 9:16 и upscaling до 1080p/4K. Доступ в Gemini app, Shorts, Flow, API, Vertex, Vids.",
+    "practical_use": "Для синтеза вертикальных роликов из ингредиент-изображений и финального upscale. К разметке — как источник синтетики.",
+    "_reason": "Короткий keep по Veo.",
+    "why_read": "Команде video synthesis.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Продуктовый анонс без научного протокола оценки."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
   }
 ]
