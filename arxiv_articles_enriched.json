@@ -421845,5 +421845,1812 @@
     "from_collector": true,
     "advice_items": [],
     "attack_methods": []
+  },
+  {
+    "id": 11081,
+    "source": "arXiv",
+    "arxiv_id": "2611.05994",
+    "version": null,
+    "article": "FedIA: Instance-Aware Cross-Modal Representations for Federated Prompt Learning",
+    "authors": [
+      "Xuanjing Zhang",
+      "Qi Guo",
+      "Yanan Qiao",
+      "Yong Han",
+      "Junge Bo"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.LG"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Federated Prompt Learning (FPL) enables parameter-efficient adaptation of pre-trained Vision-Language Models across decentralized clients without exchanging raw data. To cope with cross-client heterogeneity, existing FPL methods typically pair a globally shared prompt with a client-specific local prompt. However, this design personalizes only at the client level: the same local prompt is applied to all samples of a client, and the global and local prompts are combined in an input-agnostic, fixed manner. Consequently, it overlooks the substantial visual variations among samples within the same client and cannot adjust the balance between shared and personalized knowledge to each input. To address these limitations, we propose Federated Prompt Learning with Instance-Aware Cross-Modal Representations (FedIA), an FPL framework that learns instance-aware cross-modal representations. Specifically, FedIA first uses global text prompts as client-invariant semantic anchors to select image patches most relevant to each candidate class, suppressing distracting regions. The selected visual evidence then conditions the generation of instance-aware local text representations. Finally, an adaptive global–local fusion module calibrates the contributions of local and global text representations for each image–class pair. In this way, FedIA shifts personalization in FPL from the client level to the instance level while preserving the semantic knowledge shared across clients. Extensive experiments under domain shift, pathological label skew, and Dirichlet-based label skew show that FedIA outperforms FPL baselines, with maximum accuracy gains of 1.44%–4.37% over the latest baseline across the three settings. Ablation studies and analyses further verify the complementary contributions of instance-aware representation generation and adaptive global–local fusion.",
+    "article_link": "https://arxiv.org/abs/2611.05994",
+    "html_link": "https://arxiv.org/html/2611.05994",
+    "pdf_link": "https://arxiv.org/pdf/2611.05994",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "FedIA: персонализация визуально-языковых промптов для каждого изображения",
+    "summary": "FedIA адаптирует федеративное обучение промптов к различиям не только между клиентами, но и между отдельными изображениями. Метод выбирает релевантные классу патчи, строит по ним локальное текстовое представление и для каждой пары «изображение — класс» смешивает его с глобальным промптом. На нескольких вариантах неоднородного распределения данных авторы сообщают преимущество над сравниваемыми методами.",
+    "practical_use": "Подход полезен как архитектурная идея для распределённого обучения CV-моделей на закрытых наборах разных подразделений. Для текущей разметки это скорее ориентир на будущую персонализацию предразметки, а не готовый компонент конвейера.",
+    "_reason": "Работа показывает, как визуальный контекст можно встроить в обучаемый промпт на уровне конкретного примера. Это близко к задачам адаптации VLM к неоднородным доменам, но не решает непосредственно сегментацию или контроль разметки.",
+    "why_read": "Читать стоит разработчику, который исследует prompt tuning для CLIP-подобных моделей и федеративное обучение. Руководителю достаточно знать общую схему и заявленный выигрыш.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод проверен на задачах классификации, а не на производственной предразметке или сегментации."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "FedIA first uses global text prompts as client-invariant semantic anchors to select image patches most relevant to each candidate class, suppressing distracting regions.",
+        "advice": "При адаптации VLM на неоднородных данных можно ранжировать визуальные патчи по соответствию классовому промпту и отбрасывать отвлекающие области. Такой механизм стоит проверять как способ сделать предсказания менее зависимыми от фона.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11082,
+    "source": "arXiv",
+    "arxiv_id": "2611.04262",
+    "version": null,
+    "article": "Sketch-Omni: Instance-Level Sketch-Based Visual Prompting for Perception MLLMs",
+    "authors": [
+      "Dongyu Wang",
+      "Dar-Yen Chen",
+      "Zhiming Hong",
+      "Arkaprabha Basu",
+      "Yi-Zhe Song"
+    ],
+    "date": "2026-11-04",
+    "updated": "2026-11-04",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Promptable perception, from GroundingDINO to Rex-Omni, puts one model behind one prompt interface and returns coordinates for any localisation task. Every model in that line was built for photographs; none has been given a sketch. We present Sketch-Omni , to our knowledge the first perception MLLM built to work on sketches and from them. On a sketch, the sketch is the image, and text prompts detect, point, resolve object and spatial referring expressions, and ground affordances in it. From a sketch, the sketch is the prompt, and a drawing of one object localises that object in a photograph, even among several of the same category, a query that neither a category name nor a photo exemplar can pose. Two obstacles stand in the way. A photo-trained model’s attention is tuned to colour and texture, which a sketch does not have, and no dataset pairs a drawing with the one instance it depicts among others of its kind. We build the training data instead of collecting it. An edge detector turns every labelled photograph into a sketch-like drawing that keeps the photograph’s labels, and two constructions produce sketch-to-photo instance pairs from existing data. On top of this, photo-guided relation alignment passes each photograph and its edge sketch through the same model and trains the sketch pass to reproduce how the photograph pass relates phrases to patches and patches to each other. Not one training label is drawn by hand. Sketch-Omni reaches 91.4 F1 on sketch-prompted localisation against 81.8 for the strongest general-purpose MLLM, with a lead that doubles when the photograph holds several instances of the queried category, and it is best in 39 of 40 evaluation cells across six tasks. Code, model, and a hand-annotated benchmark of 2754 sketch-to-photo links will be released.",
+    "article_link": "https://arxiv.org/abs/2611.04262",
+    "html_link": "https://arxiv.org/html/2611.04262",
+    "pdf_link": "https://arxiv.org/pdf/2611.04262",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Sketch-Omni: эскиз как визуальный промпт для поиска объекта",
+    "summary": "Sketch-Omni переносит promptable perception с фотографий на эскизы и позволяет использовать рисунок конкретного объекта как запрос к фотографии. Авторы синтетически получают обучающие пары из размеченных фотографий при помощи выделения границ и согласуют отношения «фраза — патч» между фото и его эскизом. На собственном тесте метод заметно превосходит указанную авторами универсальную MLLM, особенно когда в кадре несколько объектов одного класса.",
+    "practical_use": "Эскизный запрос может дать разметчику более точный способ указать нужный экземпляр, чем название класса или фотография-пример. Команде стоит рассмотреть этот интерфейс для поиска редких форм, повторяющихся объектов и быстрого визуального задания эталона.",
+    "_reason": "Это прямое развитие визуальных промптов и автоматической локализации объектов. Особенно ценна идея строить обучение без ручного рисования, сохраняя исходные координатные метки.",
+    "why_read": "Работу стоит читать разработчикам предразметки и тем, кто проектирует интерфейс визуальных подсказок. Она даёт и модельную схему, и практический способ синтеза обучающих данных.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Заявленный benchmark невелик и специально собран для связи эскизов с фотографиями.",
+      "Код, модель и benchmark на момент статьи только обещаны к выпуску."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "An edge detector turns every labelled photograph into a sketch-like drawing that keeps the photograph’s labels, and two constructions produce sketch-to-photo instance pairs from existing data.",
+        "advice": "Для обучения эскизным промптам можно автоматически преобразовать уже размеченные фотографии в контурные изображения, сохранив исходные боксы и другие метки. Это позволяет масштабировать датасет без отдельного ручного рисования.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "From a sketch, the sketch is the prompt, and a drawing of one object localises that object in a photograph, even among several of the same category, a query that neither a category name nor a photo exemplar can pose.",
+        "advice": "В интерфейсе предразметки стоит протестировать эскиз конкретного экземпляра как запрос, когда текстовый класс слишком общий. Такой промпт особенно полезен при нескольких похожих объектах одного класса.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11083,
+    "source": "arXiv",
+    "arxiv_id": "2611.07123",
+    "version": 1,
+    "article": "PromptOps: Iterative Prompt Optimization for LLM-as-a-Judge Systems",
+    "authors": [
+      "Sven Kleinkop, Tam\\'as Janusko, Ricardo Bochnia, Gunnar Hempel, Steffen Tomschke, J\\\"urgen Anke, Maik Thiele"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Промпт-инжиниринг NLP (без vision тоже нужен)",
+    "topic_key": "nlp_pe",
+    "topic_keys": [
+      "nlp_pe"
+    ],
+    "topics": [
+      "Промпт-инжиниринг NLP (без vision тоже нужен)"
+    ],
+    "categories": [
+      "cs.AI",
+      "cs.LG"
+    ],
+    "primary_category": "cs.AI",
+    "abstract_en": "Large language models (LLMs) are increasingly used as automated judges for evaluating the behavior of chatbots and other AI systems. In deployment, however, their agreement with the intended human evaluation policy may degrade as user interactions and score distributions change. Existing automatic prompt optimization methods are primarily studied as one-shot procedures on static development sets and therefore provide limited guidance for maintaining LLM judges over time. We frame this problem as judge drift and introduce PromptOps, a closedloop framework for monitoring and iteratively recalibrating LLM-as-a-Judge (LLMaaJ) systems. PromptOps separates four operational decisions: when to optimize, which optimization procedure to apply, which feedback records to use, and how to update the judge prompt. We instantiate the framework with five prompt optimization methods: GEPA, SIMBA, Rubric Synthesis, and exemplar selection using either simulated annealing or a Tree-structured Parzen Estimator. Our experiments demonstrate that iterative prompt optimization can recalibrate LLM judges and recover performance after controlled shifts in the referencescore distribution. However, effective maintenance is inherently contextdependent: neither optimization algorithm choice nor update timing generalizes universally across settings. These findings establish prompt optimization for deployed LLM judges as an inherently iterative maintenance problem and demonstrate that PromptOps provides a practical abstraction for studying and implementing this process.",
+    "article_link": "https://arxiv.org/abs/2611.07123",
+    "html_link": "https://arxiv.org/html/2611.07123v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07123v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PromptOps: итеративное обслуживание LLM-судьи",
+    "summary": "PromptOps рассматривает ухудшение LLM-судьи при изменении входов и распределения оценок как отдельную эксплуатационную проблему. Фреймворк разделяет мониторинг момента обновления, выбор оптимизатора, отбор обратной связи и замену промпта. Эксперименты показывают возможность восстановить качество после контролируемого сдвига, но универсального алгоритма и расписания авторы не находят.",
+    "practical_use": "Идею можно перенести на LLM-проверку текстовых атрибутов и отчётов QC: качество судьи нужно измерять во времени и регулярно сверять с людьми. Для чисто визуальной разметки работа даёт процессную рамку, а не готовый валидатор.",
+    "_reason": "Карточка полезна как напоминание, что один раз настроенный LLM-критик со временем расходится с политикой оценки. Прямая связь с CV ограничена.",
+    "why_read": "Читать стоит тому, кто поддерживает автоматизированный текстовый контроль качества или Kimi-проверки. Остальным достаточно краткого вывода о необходимости постоянной калибровки.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Ни метод оптимизации, ни момент обновления не обобщаются на все исследованные условия."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "PromptOps separates four operational decisions: when to optimize, which optimization procedure to apply, which feedback records to use, and how to update the judge prompt.",
+        "advice": "Для LLM-проверяющего нужно отдельно зафиксировать четыре решения: когда переобучать промпт, каким методом, на какой обратной связи и как вводить новую версию. Это превращает разовую настройку QC в контролируемый процесс.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11084,
+    "source": "arXiv",
+    "arxiv_id": "2611.07652",
+    "version": 1,
+    "article": "Don't Prompt Your Agents. Equip Them: Skillware as a Modular Standard for Sovereign, Auditable, and Deterministic Capability Execution for Logical Systems",
+    "authors": [
+      "Vladimiros Peilivanidis"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Промпт-инжиниринг NLP (без vision тоже нужен)",
+    "topic_key": "nlp_pe",
+    "topic_keys": [
+      "nlp_pe"
+    ],
+    "topics": [
+      "Промпт-инжиниринг NLP (без vision тоже нужен)"
+    ],
+    "categories": [
+      "cs.AI",
+      "cs.SE"
+    ],
+    "primary_category": "cs.AI",
+    "abstract_en": "Current autonomous logical systems rely on a fragile assumption: that language models should dynamically write code, guess API payloads, and memorize operational constraints through prompt engineering. In practice, this burns massive context windows, inflates API bills, and produces brittle agents that fail unpredictably in production. In this work, we present Skillware, an open architectural framework and capability registry that formally separates what an agent wants to do from how that task is executed. Instead of prompting models with loose text instructions or markdown files baptized as 'skills', Skillware equips them with modular, versioned software capability bundles. Much like skill hotkeys in video games that execute deterministically under fixed world rules, each bundle combines a typed JSON input contract, deterministic Python code, task directives, bundled datasets, and automated unit tests. In-process adapters translate these capabilities into native tool declarations for any model, from frontier cloud APIs to local open-weight runtimes with zero network latency. Evaluating 23 frontier and open-weight models across 368 benchmark conditions, we show that small local models (3B to 8B parameters) equipped with Skillware consistently outperform unequipped frontier models on complex multi-step workflows. They cut token usage by up to 84.8%, slash inference costs by up to 97.3%, and eliminate parameter errors entirely. True agent reliability does not come from larger models or longer prompts, but from equipping logical systems with verified, deterministic software. Finally, we articulate the trajectory of capability bundles across an invariant continuum of information processing systems: from digital logical systems today, to IoT, drones, and embodied robotics tomorrow, establishing a foundation for auditable, real-time capability execution.",
+    "article_link": "https://arxiv.org/abs/2611.07652",
+    "html_link": "https://arxiv.org/html/2611.07652v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07652v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Skillware: проверяемые программные навыки вместо длинных промптов",
+    "summary": "Skillware предлагает отделять намерение агента от детерминированного исполнения через версионируемые пакеты возможностей. Пакет объединяет типизированный JSON-контракт, Python-код, инструкции, данные и тесты, а адаптер представляет его модели как инструмент. В заявленных экспериментах небольшие локальные модели с такими пакетами обходят более крупные модели без них на многошаговых сценариях.",
+    "practical_use": "Для агента, который готовит карточки или запускает CV-конвейер, повторяемые операции лучше оформлять как тестируемые инструменты с жёсткими схемами входа. Это уменьшает риск того, что модель импровизирует формат команды или нарушит порядок этапов.",
+    "_reason": "Работа относится к инженерии агентов, а не к компьютерному зрению, но её принципы полезны для надёжного запуска разметочных и QC-операций. Цифры следует оценивать в контексте авторского benchmark.",
+    "why_read": "Читать стоит разработчику внутренних агентов и руководителю автоматизации. Для разметчиков практической пользы почти нет.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Выводы получены на авторском наборе многошаговых задач и не проверяют CV-конвейеры."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "each bundle combines a typed JSON input contract, deterministic Python code, task directives, bundled datasets, and automated unit tests.",
+        "advice": "Повторяемые операции агента следует упаковывать вместе со схемой входа, детерминированным кодом и автотестами. Для разметочного конвейера это особенно важно в шагах экспорта, проверки форматов и запуска моделей.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11085,
+    "source": "arXiv",
+    "arxiv_id": "2611.07553",
+    "version": 1,
+    "article": "Improving Long-Tail Detection via Layout-Instruction Conditioned Diffusion Synthesis",
+    "authors": [
+      "Xinyu Zhang, Xiaodi Wang, Yanpeng Sun, Lingfeng Yang, Jingdong Wang, Lingqiao Liu"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Synthetic data from diffusion models can improve object detection, but long-tail performance is still limited by scarce rare classes and inflexible conditioning (e.g., text-only or layout-only inputs). In this paper, we propose Tail-SD, a layout-instruction conditioned stable diffusion framework that supports text, layouts, or their hybrid, enabling controllable synthesis from boxes, masks, and/or prompts to better cover the long-tail objects. To train a single model across heterogeneous conditions, we introduce a multi-task cross-attention module and multi-task embedding tokens, improving generation quality and diversity. Extensive experiments on COCO and LVIS demonstrate that diffusion synthesis with hybrid conditioning consistently benefits detection, e.g., on LVIS val, it achieves +4.89% / +5.68% rare Box/Mask AP, highlighting strong potential for addressing long-tail challenges.",
+    "article_link": "https://arxiv.org/abs/2611.07553",
+    "html_link": "https://arxiv.org/html/2611.07553v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07553v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Tail-SD: управляемый синтез редких объектов по боксам, маскам и тексту",
+    "summary": "Tail-SD генерирует данные для long-tail детекции, принимая текст, раскладку объектов или их сочетание. Единая diffusion-модель поддерживает управление боксами, масками и промптами, а многозадачный cross-attention согласует разные типы условий. На COCO и LVIS авторы показывают, что гибридное управление повышает качество детекции редких классов.",
+    "practical_use": "Команда может использовать боксы и маски из существующей разметки как условия для синтеза дополнительных сцен с редкими классами. Синтетические изображения нужно добавлять только после проверки сохранности геометрии и отдельной оценки на реальных данных.",
+    "_reason": "Это сильная и непосредственно применимая работа по генеративной аугментации с сохранением разметочных условий. Она предлагает более гибкий вариант, чем генерация только по тексту.",
+    "why_read": "Читать стоит разработчикам детекции и владельцу датасета с длинным хвостом классов. Руководителю важен вывод о возможности масштабировать редкие категории без ручной разметки с нуля.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Результаты показаны на COCO и LVIS; перенос на доменные данные отдела требует отдельной проверки."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Tail-SD, a layout-instruction conditioned stable diffusion framework that supports text, layouts, or their hybrid, enabling controllable synthesis from boxes, masks, and/or prompts to better cover the long-tail objects.",
+        "advice": "Для редких классов стоит синтезировать изображения под контролем существующих боксов или масок, при необходимости добавляя текстовое описание сцены. Такой гибрид лучше сохраняет нужную структуру, чем свободная генерация только по тексту.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "diffusion synthesis with hybrid conditioning consistently benefits detection",
+        "advice": "Синтетическую выборку следует оценивать по влиянию на целевую детекцию, а не только по визуальной привлекательности. Сравните текстовое, геометрическое и гибридное управление на одном реальном holdout.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11086,
+    "source": "arXiv",
+    "arxiv_id": "2611.06113",
+    "version": null,
+    "article": "Semantic Prior-Guided Incomplete Cross-Modal Retrieval with Noisy Labels",
+    "authors": [
+      "Jiali Chen",
+      "Ruitao Pu",
+      "Yingke Chen",
+      "Dezhong Peng"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Поиск ошибок разметки",
+    "topic_key": "label_error_detection",
+    "topic_keys": [
+      "label_error_detection"
+    ],
+    "topics": [
+      "Поиск ошибок разметки"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Cross-modal retrieval (CMR) aims to bridge the semantic gaps between modalities by learning shared representations. Unfortunately, due to the dynamism and inconsistencies in real-world data acquisition, multimodal datasets frequently encounter severe modality incompleteness. Existing incomplete CMR methods adhere to a label-driven paradigm, relying heavily on categorical annotations as the semantic benchmark. However, label noise is difficult to avoid and often coexists with modality incompleteness. To address this challenge, we propose a novel semantic prior-guided framework for incomplete cross-modal retrieval with noisy labels, termed SPIRN. Specifically, SPIRN uses fixed semantic priors as a consistent reference for robust representation learning, noisy-label handling, and missing-modality completion. Based on this reference, Semantic Priors Guidance (SPG) establishes a stable category-level semantic space, Quality-aware Robust Learning (QRL) dynamically evaluates sample quality to distinguish clean samples from noisy ones and handles noise via reverse learning, Prior-guided Global Label Calibration (PGLC) rectifies corrupted annotations for refined supervision, and Confidence-driven Selective Imputation (CSI) recovers missing modalities from a cross-modal memory bank while filtering unreliable imputations with an increasing threshold. To the best of our knowledge, this is the first framework to jointly tackle the dual challenges of modality incompleteness and label noise in the CMR community. Extensive experiments on four widely used benchmark datasets demonstrate that SPIRN outperforms 11 state-of-the-art methods in various scenarios involving both missing modalities and noisy labels. 1 College of Computer Science, Sichuan University, Chengdu 610065, China 2 Tianfu Jincheng Laboratory, Chengdu 610093, China 3 Department of Computer and Information Sciences, Northumbria University, Newcastle upon Tyne NE1 8ST, UK chenjiali27.clark@gmail.com, ruitaopu@gmail.com, yke.chen@gmail.com, pengdz@scu.edu.cn Figure 1: The motivation of SPIRN. Conventional ICMR methods rely heavily on labels and are vulnerable to noisy supervision, which may lead to semantic confusion. In contrast, SPIRN filters and exploits high-quality imputed data, thereby alleviating the impact of noisy labels. Figure 2: The framework of SPIRN consists of four core components: Semantic Priors Guidance (SPG), Quality-aware Robust Learning (QRL), Prior-guided Global Label Calibration (PGLC), and Confidence-driven Selective Imputation (CSI).",
+    "article_link": "https://arxiv.org/abs/2611.06113",
+    "html_link": "https://arxiv.org/html/2611.06113",
+    "pdf_link": "https://arxiv.org/pdf/2611.06113",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "SPIRN: поиск шумных меток при неполных мультимодальных данных",
+    "summary": "SPIRN совместно решает проблему пропущенных модальностей и ошибочных классов в кросс-модальном поиске. Фиксированные семантические прототипы служат опорой для оценки качества примеров, исправления меток и выборочного восстановления пропусков. На четырёх benchmark-наборах метод превосходит сравниваемые подходы в сценариях с шумом и неполнотой.",
+    "practical_use": "Идею можно адаптировать к QC: сравнивать метку с устойчивым прототипом класса и направлять на ревью примеры с низкой согласованностью. Автоматически исправлять метки без просмотра человека не следует.",
+    "_reason": "Работа полезна для поиска ошибок разметки, хотя исходная задача — retrieval, а не детекция или сегментация. Ценность в объединении доверия к метке и доверия к восстановленным данным.",
+    "why_read": "Читать стоит разработчику data-centric QC. Руководителю достаточно идеи приоритизации подозрительных примеров по качеству и семантическому несоответствию.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод оценён в кросс-модальном поиске; эффективность для боксов и масок не показана."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Quality-aware Robust Learning (QRL) dynamically evaluates sample quality to distinguish clean samples from noisy ones and handles noise via reverse learning",
+        "advice": "Добавьте оценку качества каждого примера и используйте её для очереди ручного ревью, отделяя вероятно чистые записи от шумных. Исправления модели должны оставаться предложениями, пока их не подтвердит разметчик.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Confidence-driven Selective Imputation (CSI) recovers missing modalities from a cross-modal memory bank while filtering unreliable imputations with an increasing threshold.",
+        "advice": "При восстановлении недостающих атрибутов принимайте только варианты выше порога уверенности и повышайте строгость по мере обучения. Ненадёжные восстановления лучше оставлять пустыми, чем превращать в ложные метки.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11087,
+    "source": "arXiv",
+    "arxiv_id": "2611.08091",
+    "version": 1,
+    "article": "ATHAAR: A Medieval Scientific Arabic Manuscript Dataset for Handwritten Text Recognition",
+    "authors": [
+      "Ismail El Jamiy, Khadija Msalek, Guillaume Loizelet, Farah Benamara, Nabil Hathout"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Платформы и процессы управления разметкой",
+    "topic_key": "annotation_management",
+    "topic_keys": [
+      "annotation_management"
+    ],
+    "topics": [
+      "Платформы и процессы управления разметкой"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.CL"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Despite recent progress in handwritten text recognition, medieval Arabic scientific manuscripts remain an open challenge for current vision-language models (VLMs) due to cursive ligatures, variable diacritization, and more importantly the lack of training data. This paper aims to address this gap, by proposing the first annotation guidelines dedicated to the transcription of scientific Arabic manuscripts inspired by textual criticism, a well-established approach to historical text editing. We then propose, ATHAAR, a new dataset manually annotated following this guideline. Unlike previous resources in the field, ATHAAR varies both witnesses of the same text, calligraphic styles, and content to deal with texts but also numerals. Relying on state-of-the-art VLMs, we finally design a set of experiments to study models transfer across scripts, chapters, and treatises. Our findings highlight the limitations of current systems when faced with the specificities of ancient scientific texts.",
+    "article_link": "https://arxiv.org/abs/2611.08091",
+    "html_link": "https://arxiv.org/html/2611.08091v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.08091v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "ATHAAR: правила транскрипции средневековых арабских рукописей",
+    "summary": "ATHAAR объединяет специализированные правила транскрипции средневековых арабских научных рукописей и размеченный по ним набор данных. В выборке варьируются списки одного текста, каллиграфические стили, содержание и числовые записи. Эксперименты с VLM показывают, что старые научные тексты остаются сложными для современных систем.",
+    "practical_use": "Работа полезна как пример того, что для сложного визуального домена сначала нужны явные правила спорных случаев, а затем разнообразие источников. Прямое применение ограничено OCR и рукописями.",
+    "_reason": "Статья показывает качественную организацию специализированной разметки, но медицинские и промышленные CV-задачи отдела она не решает. Поэтому это материал для беглого чтения.",
+    "why_read": "Читать стоит методологу разметки, который готовит инструкции для сложного домена. CV-разработчику достаточно обзора датасета.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Домен ограничен средневековыми арабскими научными рукописями."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "the first annotation guidelines dedicated to the transcription of scientific Arabic manuscripts inspired by textual criticism",
+        "advice": "Для сложного домена следует подготовить отдельные правила транскрипции, опирающиеся на практику профильных экспертов, а не переносить общую OCR-инструкцию без изменений. Спорные символы, диакритика и числа должны быть явно разобраны в руководстве.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11088,
+    "source": "arXiv",
+    "arxiv_id": "2611.06791",
+    "version": null,
+    "article": "A Frame-Level View and Image-Quality Annotation Tool for Fetal Echocardiography: Comparison with Spreadsheet Annotation",
+    "authors": [
+      "Mohamed Azzam",
+      "Ziyang Xu",
+      "Quinlan Couch",
+      "Zoe Keese",
+      "Andrea Cadlo",
+      "Christine Sedze-DeWolf",
+      "Micaiah Uhrmacher",
+      "Madelyn Graff",
+      "Catherine Fox",
+      "Lauren Vatter",
+      "Paige Jeffryes",
+      "Jason Christensen",
+      "Neil Hamill",
+      "Shibiao Wan",
+      "Ling Li",
+      "Jieqiong Wang"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Платформы и процессы управления разметкой",
+    "topic_key": "annotation_management",
+    "topic_keys": [
+      "annotation_management"
+    ],
+    "topics": [
+      "Платформы и процессы управления разметкой"
+    ],
+    "categories": [
+      "cs.HC",
+      "eess.IV"
+    ],
+    "primary_category": "cs.HC",
+    "abstract_en": "Objective: To develop the Cardiologist Annotation Tool (CAT) for frame-level cardiac view and image-quality annotation in fetal echocardiography and compare it with spreadsheet-based annotation. Methods: CAT provides cine playback, frame navigation, and keyboard-based labeling without manual frame-range entry. Experts annotated 25 studies using both methods, and spreadsheet annotations were audited for predefined data-entry errors. In a randomized crossover study, six medical students annotated two normal studies, one with each method, against an expert reference. Results: Among 1,746 spreadsheet-annotated files, 6.2% contained major or critical data-entry errors, more frequently in congenital heart disease than normal studies (10.9% vs 3.4%). CAT yielded more annotated view segments per clip (3.6 vs 1.5). Rates of labeled and correctly labeled frames per minute were 1.77 and 1.68 times those with spreadsheets, respectively (both P = 0.031), with gains in all six students. No detectable difference in view-label accuracy was observed. Conclusion: CAT eliminates manual frame-range entry and enables finer-grained, structured annotation of fetal echocardiography, providing a practical approach to preparing datasets for AI research.",
+    "article_link": "https://arxiv.org/abs/2611.06791",
+    "html_link": "https://arxiv.org/html/2611.06791",
+    "pdf_link": "https://arxiv.org/pdf/2611.06791",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "CAT: покадровая разметка видео вместо таблиц",
+    "summary": "CAT предоставляет воспроизведение клипов, переход по кадрам и клавиатурную разметку видов и качества без ручного ввода диапазонов. В сравнении с таблицами инструмент устранил класс ошибок ввода диапазонов, ускорил разметку и дал более дробные сегменты при сопоставимой точности меток. Исследование выполнено на видео fetal echocardiography.",
+    "practical_use": "Для покадровой разметки отделу стоит использовать специализированный видеоплеер с горячими клавишами и структурированными сегментами, а не электронные таблицы. Перед внедрением нужно повторить замер скорости и ошибок на собственных роликах.",
+    "_reason": "Несмотря на медицинский домен, работа напрямую сравнивает два процесса разметки и даёт измеримые операционные выводы. Это сильный пример того, как интерфейс уменьшает ошибки и повышает гранулярность.",
+    "why_read": "Читать стоит руководителю разметки и разработчику платформы. Разметчикам полезен итог о преимуществах покадрового интерфейса.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Исследование проведено на fetal echocardiography и небольшом числе участников сравнительного эксперимента."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "CAT provides cine playback, frame navigation, and keyboard-based labeling without manual frame-range entry.",
+        "advice": "Видеоплатформа должна объединять просмотр, точный переход по кадрам и горячие клавиши, автоматически формируя диапазоны. Ручной ввод номеров кадров в таблицу следует исключить как источник ошибок.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "spreadsheet annotations were audited for predefined data-entry errors.",
+        "advice": "Перед миграцией процесса составьте перечень типовых ошибок ввода и проведите аудит старых табличных меток по этому перечню. Затем сравните новый интерфейс с таблицами по скорости, корректности и числу найденных сегментов.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11089,
+    "source": "arXiv",
+    "arxiv_id": "2611.07711",
+    "version": 1,
+    "article": "Fast and Accurate Hand Estimation in Pixels, Interaction and World Space",
+    "authors": [
+      "Jinkun Cao"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.RO"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Monocular hand mesh estimators commonly predict rig parameters and project the mesh to obtain 2D keypoints. We find that directly predicted 3D joints agree better with 2D predictions, and fitting a mesh to predicted points reduces mesh error. We present FAH (Fast and Accurate Hand Estimation), a family of models built on SAM 3D Body's hand branch through fine-tuning and feature distillation. The models predict corresponding 2D and 3D joints and surface points, fit MANO or MHR-Hand, and optionally estimate anatomical parts and contact without object geometry at inference. Causal refinement reduces acceleration error, and camera estimation places the hands in world space. Experiments show improvements in image-space alignment, hand geometry, contact estimation and world-space tracking over the evaluated baselines. The default ViT-L model runs at 65 fps with mesh fitting on an RTX 4070 Ti SUPER, or 49 fps with parts and contact enabled. The smallest ViT-S model reaches 125 fps without mesh fitting, parts or contact. Code: https://github.com/noahcao/FAH.",
+    "article_link": "https://arxiv.org/abs/2611.07711",
+    "html_link": "https://arxiv.org/html/2611.07711v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07711v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "FAH: быстрая оценка кистей на базе SAM 3D Body",
+    "summary": "FAH дообучает и дистиллирует ветвь кистей SAM 3D Body, чтобы совместно предсказывать 2D- и 3D-точки, поверхность и параметры mesh. Дополнительно модель может оценивать анатомические части, контакт и положение в мировых координатах. Авторы сообщают улучшение геометрии и трекинга при высокой скорости нескольких вариантов модели.",
+    "practical_use": "Для задач с руками модель можно использовать как источник предразметки ключевых точек, mesh и контактов. Перед интеграцией необходимо проверить устойчивость на собственных ракурсах, перекрытиях и типах камер.",
+    "_reason": "Работа расширяет семейство SAM в сторону специализированной геометрической предразметки. Она особенно полезна проектам, где одной 2D-маски недостаточно.",
+    "why_read": "Читать стоит CV-разработчику, который размечает руки или взаимодействие с объектами. Руководителю важно оценить, соответствуют ли выходы модели текущей схеме меток.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Модель специализирована на кистях и не является универсальным средством сегментации."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "The models predict corresponding 2D and 3D joints and surface points, fit MANO or MHR-Hand, and optionally estimate anatomical parts and contact without object geometry at inference.",
+        "advice": "Если проект размечает руки, используйте модель для предварительного заполнения 2D/3D-точек, поверхности и контактов, а человеку оставьте проверку сложных перекрытий. Сначала согласуйте эти выходы с форматом целевой разметки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "The smallest ViT-S model reaches 125 fps without mesh fitting, parts or contact.",
+        "advice": "Для массовой предразметки сравните быстрый вариант без дополнительных выходов с полной моделью. Выбирайте конфигурацию по реально нужным меткам, чтобы не платить временем за неиспользуемую геометрию.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11090,
+    "source": "arXiv",
+    "arxiv_id": "2611.07836",
+    "version": 1,
+    "article": "THG-Omni: Traceable Human-Centric Graph Supervision for Video Reasoning",
+    "authors": [
+      "Jisheng Dang, Kai Wei, Ronghao Lin, Bimei Wang, Hong Peng, Wei-Shi Zheng, Bin Hu, Qi Tian, Tat-Seng Chua"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Omni-modal models can answer questions about video, but their predictions rarely show which participant, event, or interval supports an answer. Moreover, answer-level supervision alone does not teach a model to interpret structured video evidence. To systematically mitigate this issue, we present THG-Omni, a human-centric graph-supervision framework that links Segment Anything Model~3 participant tracks with temporally grounded Qwen3-VL annotations. Candidate semantic claims are checked against the source video and available audio before they are used to construct training questions, while track geometry provides explicit spatial and temporal supervision. The resulting questions teach an omni-modal reasoning model to interpret participant attributes, actions, affect, interactions, and their timing from a structured graph. At inference, THG-Omni uses a predicted graph constructed from the evaluation video. Experiments on IntentBench show consistent improvements over the unadapted backbone across social reasoning, emotion understanding, and deception perception. On NExT-QA, THG-Omni achieves 89.54\\% accuracy with the matched graph, compared with 85.10\\% without graph input. Further validation experiments show that compact graph input achieves 78.22\\% accuracy, compared with 78.02\\% using the full graph and 77.58\\% without graph input. A complementary diagnostic demonstrates that the predicted graph preserves evidence useful for answering questions even without the source video and audio. Together, these findings show that THG-Omni improves human-centric video reasoning while grounding its evidence in identifiable participants and events. Our codes are available at https://anonymous.4open.science/r/review-n94hhfcwp5666/",
+    "article_link": "https://arxiv.org/abs/2611.07836",
+    "html_link": "https://arxiv.org/html/2611.07836v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07836v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "THG-Omni: проверяемая графовая разметка участников видео",
+    "summary": "THG-Omni связывает треки участников от SAM 3 с временно привязанными аннотациями Qwen3-VL и превращает их в граф событий. Семантические утверждения проверяются по видео и аудио до построения обучающих вопросов, а геометрия треков задаёт пространственно-временную опору. Такая супервизия улучшает результаты на задачах понимания действий, эмоций и взаимодействий.",
+    "practical_use": "Для разметки видео можно строить структурированный слой поверх треков SAM 3: участники, интервалы, действия и связи. Автоматические утверждения VLM следует принимать только после проверки по исходному видео и аудио.",
+    "_reason": "Работа напрямую соединяет SAM 3, VLM-аннотации и контролируемую верификацию, поэтому хорошо соответствует задачам предразметки. Граф также делает происхождение ответа модели более прозрачным.",
+    "why_read": "Читать стоит разработчикам видеопредразметки и руководителю QC. Особенно полезен процесс проверки кандидатов до превращения их в обучение.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Оценка сосредоточена на человекоцентричном понимании видео и не покрывает произвольные классы объектов."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Candidate semantic claims are checked against the source video and available audio before they are used to construct training questions, while track geometry provides explicit spatial and temporal supervision.",
+        "advice": "Перед использованием VLM-утверждений как обучающих меток сверяйте их с исходным видео и доступным аудио. Геометрию треков храните как явную пространственно-временную опору для проверки.",
+        "audience": "разметчик"
+      },
+      {
+        "quote": "links Segment Anything Model~3 participant tracks with temporally grounded Qwen3-VL annotations.",
+        "advice": "Свяжите треки SAM 3 с временными атрибутами от VLM вместо хранения двух независимых наборов результатов. Это упрощает поиск расхождений между объектом, интервалом и описанием действия.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11091,
+    "source": "arXiv",
+    "arxiv_id": "2611.08441",
+    "version": 1,
+    "article": "Edge-Assisted Crowdsensing for Explainable Cyclist Safety Perception",
+    "authors": [
+      "Hongsen Cao, Chia-Yen Chiang, Mona Jaber, Meihui Wang, Yasmin Fathy"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel",
+      "dataset_quality"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)",
+      "Оценка качества датасетов (data-centric, confident learning)"
+    ],
+    "categories": [
+      "cs.CV",
+      "eess.IV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Cyclist fatality rates remain high despite policy support for active travel, and autonomous vehicles add complexity to mixed traffic. Neither crash statistics nor multi-model detection pipelines scale to continuous monitoring of perceived safety along a route. We present an edge-assisted crowdsensing system: handlebar cameras supply street-level frames, a vision-language model (VLM) turns each frame into structured traffic attributes through a single prompt, and an explainable boosting machine (EBM) combines them with OpenStreetMap road infrastructure and on-bike kinematics to predict a crowdsourced 1-9 safety score. Extraction belongs at the network edge: the fastest self-hosted model needs 2.49 s per frame and scoring takes 0.4 ms on a CPU. On 1,362 annotated frames from two London routes, the EBM regressor reaches 72.2 percent binary accuracy and a mean absolute error of 1.011 under five-fold cross-validation. It is within one accuracy point of black-box ensembles. Its per-feature shape functions give exact attribution: physical lane separation is worth +0.97 rating points, a painted lane +0.70 and a construction site -0.65. Planners can therefore price an infrastructure change in rating points, and the results enter cost-benefit analysis directly. We also report inter-annotator agreement (alpha = 0.4695), an attribute audit, and a sensitivity analysis linking attribute error to accuracy. With re-encoding, a 20 s sampling interval serves 1,000 riders at 54 Mbit/s at a cost of 1.4 accuracy points, making continuous monitoring practical.",
+    "article_link": "https://arxiv.org/abs/2611.08441",
+    "html_link": "https://arxiv.org/html/2611.08441v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.08441v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Оценка безопасности велосипедиста по кадрам и дорожным данным",
+    "summary": "Система преобразует кадры с велосипедной камеры в структурированные дорожные признаки при помощи VLM, а затем объединяет их с картой и кинематикой для оценки воспринимаемой безопасности. Авторы отдельно анализируют скорость, согласие аннотаторов и чувствительность итоговой модели к ошибкам признаков. Исследование ограничено двумя маршрутами в Лондоне.",
+    "practical_use": "Полезен общий шаблон: VLM извлекает атрибуты, а интерпретируемая модель принимает итоговое решение и показывает вклад признаков. Для задач отдела прямое применение узкое и потребует новой схемы атрибутов.",
+    "_reason": "Статья затрагивает видео с дороги и аудит автоматических атрибутов, но не предлагает новый метод детекции или сегментации. Поэтому она подходит для беглого просмотра.",
+    "why_read": "Читать стоит разработчику, который строит объяснимые оценки поверх VLM-признаков. Для основной команды это второстепенный материал.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Данные собраны на двух лондонских маршрутах.",
+      "Согласие аннотаторов по субъективной оценке было умеренным."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "a vision-language model (VLM) turns each frame into structured traffic attributes through a single prompt",
+        "advice": "Если VLM используется для предразметки, просите у него фиксированную структуру атрибутов, а не свободный текст. Затем отдельно измеряйте ошибки каждого атрибута и их влияние на итоговую модель.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11092,
+    "source": "arXiv",
+    "arxiv_id": "2610.31166",
+    "version": 2,
+    "article": "Memory before Goal: Role of Pre-History Memory for Humanoid Loco-Manipulation",
+    "authors": [
+      "Chenyuan Chen, Ran Ding, Lechen Zhang, Zewen He, Yoshihiko Nakamura"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.RO",
+      "cs.CV",
+      "cs.LG"
+    ],
+    "primary_category": "cs.RO",
+    "abstract_en": "Humanoid loco-manipulation in dynamic scenes is non-Markovian: cues vanish as objects change or are hidden, or leave the view as the robot turns and walks, yet whole-body vision-language-action (VLA) policies see only the present. We present WholeBodyMem, an object-guided perceptual memory that keeps the pre-history of object events seen before the robot acts on its goal. SAM3 tracks the task objects, and their events causally select key frames within an adaptive budget, which the action expert reads by cross-attention together with object tokens encoding appearance, geometry and time. We also contribute HuMeGo, a humanoid memory benchmark with six simulated and six real-world Unitree G1 tasks. Keeping the right frames rather than more frames, WholeBodyMem surpasses memoryless and uniform-memory baselines, raising its base policy's success from 29.1% to 72.6% in simulation and from 36.7% to 88.3% on the real robot, while also improving the standard SIMPLE tasks (70.2% to 86.9%).",
+    "article_link": "https://arxiv.org/abs/2610.31166",
+    "html_link": "https://arxiv.org/html/2610.31166v2",
+    "pdf_link": "https://arxiv.org/pdf/2610.31166v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "WholeBodyMem: память событий объектов на треках SAM 3",
+    "summary": "WholeBodyMem сохраняет историю событий объектов до выполнения роботом целевого действия. SAM 3 ведёт треки, а изменения объектов выбирают информативные ключевые кадры в пределах адаптивного бюджета; модель действий читает кадры вместе с токенами внешнего вида, геометрии и времени. На симуляции и реальном роботе такая выборка превосходит отсутствие памяти и равномерное сохранение кадров.",
+    "practical_use": "В длинном видео не обязательно размечать или передавать модели все кадры: события на треках могут выбирать моменты, где объект появился, изменился или исчез. Эту стратегию стоит проверить для сокращения ручной проверки треков.",
+    "_reason": "Работа даёт практичную схему использования SAM 3 для событийной выборки видео. Хотя целевая задача робототехническая, принцип «нужные кадры, а не больше кадров» полезен для разметки.",
+    "why_read": "Читать стоит разработчикам SAM 3-трекинга и видеоконвейеров. Руководителю полезен вывод о возможной экономии проверки длинных последовательностей.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод оценён в задачах управления гуманоидным роботом, а не в разметочной платформе."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "SAM3 tracks the task objects, and their events causally select key frames within an adaptive budget",
+        "advice": "Используйте события на треках SAM 3 для выбора ключевых кадров, а не равномерную выборку по времени. В очередь разметчика должны попадать появления, исчезновения, перекрытия и заметные изменения объекта.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Keeping the right frames rather than more frames, WholeBodyMem surpasses memoryless and uniform-memory baselines",
+        "advice": "При проектировании видеопроверки измеряйте качество событийной выборки против равномерной при одинаковом бюджете кадров. Увеличивать число кадров без отбора не всегда полезно.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11093,
+    "source": "arXiv",
+    "arxiv_id": "2611.06143",
+    "version": null,
+    "article": "PTQ4SAM3: Semantics-Preserving Post-Training Quantization for Segment Anything Model 3",
+    "authors": [
+      "Xi Xiao",
+      "Yunbei Zhang",
+      "Lin Zhao",
+      "Janet Wang",
+      "Xinru Jiang",
+      "Yanshu Li",
+      "Chenrui Ma",
+      "Pan Wang",
+      "Tianyang Wang",
+      "Xiao Wang"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Автоматическая предразметка (SAM, DINO, VLM)",
+    "topic_key": "auto_prelabel",
+    "topic_keys": [
+      "auto_prelabel"
+    ],
+    "topics": [
+      "Автоматическая предразметка (SAM, DINO, VLM)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Segment Anything Model 3 (SAM 3) can segment objects from text prompts and track them across video, but its memory and computation costs make deployment difficult. Post-training quantization (PTQ) reduces these costs by using fewer bits. However, a quantized model can select the wrong object or lose track of its target across frames. We call this prompt-alignment drift. Controlled tests show that perturbing low-variance feature directions strongly affects target selection. We propose Semantics-Preserving Quantization (SPQ), which gives more calibration weight to concept-sensitive parameters, preserves residual features, and corrects the mean error in video memory. Fixed text concepts guide calibration without task annotations. All three components operate offline and add no inference operators. With a W4A8 image encoder, SPQ improves RefCOCO Pr@0.5 from 42.1 to 72.5 over PTQ4SAM while retaining 54.8 COCO mask AP. Experiments on LVIS, RefCOCO variants, and SA-V show consistent gains. A CLIP study also shows improved image–text retrieval. Figure 1 : SPQ preserves prompt grounding after quantization. Under the same text prompt, standard W4A8 quantization can select the wrong objects (left, red crosses). SPQ calibrates the model with text concepts, preserves residual features, and corrects memory bias (right). The latent-feature diagram illustrates features moving closer to the FP16 reference during offline calibration. † † footnotetext: © 2027 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.",
+    "article_link": "https://arxiv.org/abs/2611.06143",
+    "html_link": "https://arxiv.org/html/2611.06143",
+    "pdf_link": "https://arxiv.org/pdf/2611.06143",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PTQ4SAM3: квантование SAM 3 без потери привязки к промпту",
+    "summary": "PTQ4SAM3 исследует ошибку, при которой квантованный SAM 3 выбирает не тот объект по текстовому промпту или теряет его в видео. SPQ усиливает при калибровке чувствительные к концептам параметры, сохраняет остаточные признаки и корректирует среднюю ошибку памяти. Все изменения выполняются офлайн и не добавляют операторов при инференсе.",
+    "practical_use": "Если SAM 3 нужно запускать на ограниченном железе, квантование следует проверять не только по mask AP, но и по правильности выбора объекта и сохранению трека. Калибровку можно проводить фиксированными текстовыми концептами без целевых аннотаций.",
+    "_reason": "Работа напрямую закрывает практический риск дешёвого развёртывания SAM 3. Важен отдельный показатель prompt-alignment drift, который обычная метрика масок может скрыть.",
+    "why_read": "Читать стоит разработчикам предразметки и edge-инференса. Руководителю полезно знать, что экономия памяти может менять семантику выбранного объекта.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Показанные результаты относятся к конкретным наборам LVIS, RefCOCO и SA-V; доменное квантование требует проверки."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "a quantized model can select the wrong object or lose track of its target across frames.",
+        "advice": "После квантования обязательно тестируйте, остаётся ли выбран правильный объект и не теряется ли он между кадрами. Одной общей метрики качества масок для приёмки недостаточно.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Fixed text concepts guide calibration without task annotations.",
+        "advice": "Для первичной калибровки квантованной модели можно использовать набор фиксированных текстовых концептов без новой ручной разметки. Включите в него близкие и неоднозначные классы, характерные для вашего домена.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11094,
+    "source": "arXiv",
+    "arxiv_id": "2611.06870",
+    "version": null,
+    "article": "PixelSpline: Continuous Space-Time Video Super-Resolution via Endpoint-Anchored Shared Pixel Trajectories",
+    "authors": [
+      "Wanqi Yuan",
+      "Nianyi Li"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Апскейл и супер-резолюция (фото и видео)",
+    "topic_key": "image_upscaling",
+    "topic_keys": [
+      "image_upscaling"
+    ],
+    "topics": [
+      "Апскейл и супер-резолюция (фото и видео)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Existing continuous space-time video super-resolution methods often infer motion from only two endpoint frames and model the two motion directions independently, making them vulnerable to ambiguous correspondence and inconsistent trajectories. We introduce a continuous STVSR framework that combines long-context encoding, continuous HR feature lifting, and an endpoint-anchored PixelSpline. Long-range observations provide more reliable endpoint representations, while continuous upsampling constructs detailed appearance features directly on the requested HR grid. PixelSpline explicitly models each pixel’s motion as a single continuous trajectory shared by both endpoints. Using this trajectory, our method warps endpoint colors into a coarse intermediate frame and aligns the HR features for residual reconstruction. Experiments across spatial and temporal upsampling settings demonstrate that the proposed framework offers a favorable quality–efficiency trade-off. Our project page is: https://wanqiyuan.github.io/PixelSpline/",
+    "article_link": "https://arxiv.org/abs/2611.06870",
+    "html_link": "https://arxiv.org/html/2611.06870",
+    "pdf_link": "https://arxiv.org/pdf/2611.06870",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "PixelSpline: непрерывный апскейл видео во времени и пространстве",
+    "summary": "PixelSpline восстанавливает видео на произвольной временной и пространственной сетке, используя длинный контекст и единую траекторию пикселя между крайними кадрами. Общая траектория согласует оба направления движения, после чего признаки высокого разрешения уточняют промежуточный кадр. Авторы заявляют удачный баланс качества и эффективности на нескольких режимах апскейла.",
+    "practical_use": "Метод стоит тестировать для видео, где одновременно нужны увеличение разрешения и вставка промежуточных кадров. При оценке важно проверять стабильность тонких объектов и меток во времени, а не только среднюю визуальную метрику.",
+    "_reason": "Работа напрямую относится к видеоапскейлу и предлагает способ уменьшить несогласованность движения. Для отдела особенно важна возможность исследовать, сохраняются ли контуры объектов после преобразования.",
+    "why_read": "Читать стоит разработчику обработки видео и владельцу задач с низким разрешением. Разметчику достаточно знать, что апскейл требует повторного QC геометрии.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Абстракт не приводит численные результаты и не оценивает сохранность разметки."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "PixelSpline explicitly models each pixel’s motion as a single continuous trajectory shared by both endpoints.",
+        "advice": "Для временного апскейла выбирайте методы с общей траекторией движения между крайними кадрами, чтобы два направления не расходились. На тестах отдельно проверяйте мерцание и смещение границ.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "continuous upsampling constructs detailed appearance features directly on the requested HR grid.",
+        "advice": "Генерируйте признаки сразу на целевой сетке высокого разрешения, если нужно сохранить локальные детали. После обработки повторно валидируйте боксы, маски и тонкие структуры.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11095,
+    "source": "arXiv",
+    "arxiv_id": "2611.07543",
+    "version": 1,
+    "article": "OptIMerge: Optimization-Based Merging of Diffusion Models",
+    "authors": [
+      "Viraj Shah, Ashwini Pokle, Peyman Milanfar, Mauricio Delbracio, Hossein Talebi"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "The arithmetic merging of weights from multiple task-specific models fine-tuned from a shared base model, commonly known as model souping, has emerged as a popular strategy for multi-task learning without the computational overhead of joint retraining. However, naive scalar weight averaging frequently leads to severe performance degradation when the constituent models learn structurally divergent feature representations, leading to destructive parameter interference. We study this problem in a largely unexplored setting: merging image-to-image (I2I) diffusion models fine-tuned for dense, pixel-accurate tasks such as image restoration. Unlike the large language models (LLMs) and text-to-image (T2I) diffusion models for which most merging methods were developed, I2I experts encode conflicting spatial priors (e.g., anisotropic motion-blur vs. isotropic defocus-blur) in their convolutional filters, where both naive soup and LLM-style element-wise merging introduce visible artifacts. We introduce OptIMerge, a gradient-based optimization framework: instead of relying on heuristic scalars, OptIMerge learns highly expressive, yet parameter-efficient merger coefficients by minimizing a multi-task diffusion loss over a small set of 100-500 images. OptIMerge parameterizes the merge with architecture-aware transformations: for attention layers, a structured low-rank feature alignment with explicit channel biases; for convolutional layers, per-kernel merger coefficients, and a low-rank Cayley transform that aligns channels by orthogonal rotation without distorting the filters. By keeping the experts frozen and optimizing only these lightweight merger parameters (equivalent to <0.4% of the network footprint), OptIMerge achieves simultaneous multi-task capabilities that rival computationally expensive joint training and decisively outperform zero-shot model soups.",
+    "article_link": "https://arxiv.org/abs/2611.07543",
+    "html_link": "https://arxiv.org/html/2611.07543v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07543v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "OptIMerge: объединение diffusion-моделей восстановления без совместного обучения",
+    "summary": "OptIMerge объединяет несколько image-to-image diffusion-экспертов, обученных от общей базы, и избегает артефактов простого усреднения весов. Метод оптимизирует лёгкие коэффициенты слияния на небольшой выборке, отдельно учитывая attention- и convolution-слои. Итоговая модель приближается к дорогому совместному обучению на нескольких задачах восстановления.",
+    "practical_use": "Если отдел поддерживает отдельные модели для blur, defocus и других деградаций, метод даёт путь к единому сервису без полного переобучения. Перед внедрением нужно проверять каждую задачу и смешанные деградации на одном наборе реальных изображений.",
+    "_reason": "Это полезная инженерная работа по универсальному восстановлению изображений. Она не является inpainting в узком смысле, но относится к производственному объединению редакторов и реставраторов.",
+    "why_read": "Читать стоит разработчикам image-to-image моделей. Руководителю важны требования к калибровочной выборке и риск артефактов при наивном слиянии.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод требует общей исходной модели у объединяемых экспертов.",
+      "Оценка относится к восстановлению изображений, а не к произвольному редактированию."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "OptIMerge learns highly expressive, yet parameter-efficient merger coefficients by minimizing a multi-task diffusion loss over a small set of 100-500 images.",
+        "advice": "Не усредняйте веса специализированных реставраторов напрямую: обучите компактные коэффициенты слияния на небольшой репрезентативной выборке. В неё должны входить все поддерживаемые типы деградаций.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "both naive soup and LLM-style element-wise merging introduce visible artifacts.",
+        "advice": "При объединении image-to-image моделей проводите визуальный аудит артефактов отдельно для каждой задачи. Методы слияния, удачные для LLM, нельзя переносить без проверки на пространственно точные изображения.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11096,
+    "source": "arXiv",
+    "arxiv_id": "2611.07632",
+    "version": 1,
+    "article": "TRACEMARK: Editor-Aware Watermarking for User Attribution in Text-Guided Image Editing",
+    "authors": [
+      "Xiaodong Wu, Xiangman Li, Jianbing Ni, Rongxing Lu"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "An image editing service records which user requests each edit, but the edited image itself does not contain this account information. Once the image is downloaded and shared, the service cannot identify the requesting user from the image alone. Embedding a user-specific watermark could enable such attribution, but semantic editing may erase the signal. We propose Tracemark, an editor-aware watermarking framework for identifying users from edited images. A shared encoder embeds a user-specific signal before editing, and a shared detector recovers the user by comparing features of the edited image with learned reference vectors. Both components are trained jointly through an editor with fixed parameters. User identification errors encourage the encoder to produce watermarks that survive editing, while fidelity losses limit changes to the input image and intended edit. Each image domain and editing instruction uses a separately trained model shared across registered users. Experiments on three image domains show that editor-aware training improves user recovery with both reference-vector matching and binary watermark decoding. Separately trained models reach 87.5% mean identification accuracy among 500 users. When tested with a different editor without retraining, the watermark modules still recover user information. These results demonstrate that learning watermarks through the editing process enables user attribution without modifying the editor.",
+    "article_link": "https://arxiv.org/abs/2611.07632",
+    "html_link": "https://arxiv.org/html/2611.07632v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07632v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Tracemark: водяной знак, устойчивый к текстовому редактированию",
+    "summary": "Tracemark встраивает пользовательский сигнал до редактирования и обучает детектор восстанавливать его после прохождения через фиксированный редактор. Совместное обучение балансирует идентификацию пользователя и сохранение качества изображения и самого редактирования. В экспериментах сигнал частично переносится даже на другой редактор.",
+    "practical_use": "Для производственного сервиса редактирования подход интересен как средство атрибуции, но не улучшает разметку или качество правки. Его применение потребует отдельной оценки юридических и приватностных рисков.",
+    "_reason": "Работа касается инфраструктуры редактора и происхождения изображения, а не inpainting-качества. Поэтому достаточно беглого ознакомления.",
+    "why_read": "Читать стоит владельцу сервиса генерации изображений или специалисту по provenance. Команде разметки статья не приоритетна.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Для каждого домена изображений и инструкции обучается отдельная модель.",
+      "Основные результаты получены при известном редакторе."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Both components are trained jointly through an editor with fixed parameters.",
+        "advice": "Если нужна атрибуция результатов редактора, обучайте кодировщик и детектор через замороженную версию самого редактора. Затем отдельно проверьте перенос на другие версии модели, потому что производственный редактор меняется.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11097,
+    "source": "arXiv",
+    "arxiv_id": "2611.07922",
+    "version": 1,
+    "article": "StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing",
+    "authors": [
+      "Qin Guo, Dan Xu"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Text-guided image editing with diffusion models struggles with spatial edits (e.g. manipulating objects, changing viewpoints, manipulating occlusions) that depend on the 3D structure understanding of a scene. Marigold and follow-up work demonstrate that a pretrained diffusion backbone already harbors strong geometric priors that can be activated for depth estimation, yet how to redirect these priors toward editing remains unresolved. Through per-layer gradient probing, we discover that the editing and depth objectives are compatible in early transformer layers but actively conflict in late layers, explaining why naive depth-conditioned editing either ignores geometry or degrades visual quality. We present StitchEdit, which first activates the backbone's geometric capability via a lightweight depth-denoising adapter, then selectively fine-tunes this adapter for editing using a probe-guided per-layer learning rate schedule that preserves depth knowledge where it helps and prunes it where it conflicts. On the proposed StitchEditBench, a benchmark of 150 geometry-dependent edits spanning spatial transformation, occlusion manipulation, and viewpoint change, StitchEdit consistently surpasses both instruction-based and depth-conditioned baselines on perceptual quality and geometric fidelity.",
+    "article_link": "https://arxiv.org/abs/2611.07922",
+    "html_link": "https://arxiv.org/html/2611.07922v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07922v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "StitchEdit: сохранение геометрии при текстовом редактировании",
+    "summary": "StitchEdit исследует, где геометрические priors depth-модели совместимы с целью редактирования. Авторы находят согласие в ранних слоях и конфликт в поздних, поэтому активируют depth-способность лёгким адаптером и задают послойный темп обучения по результатам gradient probing. На benchmark геометрически зависимых правок метод улучшает визуальное качество и геометрическую точность.",
+    "practical_use": "Для перемещения объектов, смены ракурса и редактирования перекрытий стоит подключать depth-prior из той же diffusion-базы, но не заставлять все слои следовать ему одинаково. QC должен отдельно оценивать глубину, окклюзии и сохранность нецелевых областей.",
+    "_reason": "Это сильная работа по правке изображений, где обычные текстовые редакторы часто ломают сцену. Послойная диагностика даёт практический способ сохранить полезную геометрию.",
+    "why_read": "Читать стоит разработчикам inpainting и instruction editing. Руководителю полезен перечень геометрически сложных сценариев для тестового набора.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Авторский benchmark содержит 150 геометрически зависимых правок."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "the editing and depth objectives are compatible in early transformer layers but actively conflict in late layers",
+        "advice": "При добавлении depth-сигнала не применяйте одинаковую силу обучения ко всем слоям редактора. Сначала измерьте послойный конфликт целей и сохраните геометрические признаки там, где они действительно помогают.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "geometry-dependent edits spanning spatial transformation, occlusion manipulation, and viewpoint change",
+        "advice": "В benchmark редактора обязательно включите перемещение объектов, изменение перекрытий и смену ракурса. Эти случаи следует оценивать отдельно по геометрической правдоподобности и сохранности исходной сцены.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11098,
+    "source": "arXiv",
+    "arxiv_id": "2611.07909",
+    "version": 1,
+    "article": "EDGAR: Efficient Diffusion-Driven Gaussian Avatar Refinement via Synthetic Failure",
+    "authors": [
+      "Kwan Yun, Minhyeok Bang, Colette Suhjung Koo, Junyong Noh"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.GR",
+      "cs.CV",
+      "cs.LG",
+      "cs.MM"
+    ],
+    "primary_category": "cs.GR",
+    "abstract_en": "Recent advances in Gaussian splatting have enabled efficient and photorealistic head avatar reconstruction, yet monocular video-based or image-based methods still suffer from under-constrained geometry and texture, leading to artifacts such as blurring, stretching, and temporal instability. We present EDGAR (Efficient Diffusion-Driven Gaussian Avatar Refinement), a conditional diffusion framework designed to enhance the quality of Gaussian avatars by correcting artifacts while preserving identity fidelity. To train EDGAR, we construct EDGAR-SET, a hybrid triplet dataset composed of real-captured and synthetic-rendered samples, which simulates realistic Gaussian avatar failure cases by pairing degraded renderings with ground-truth and reference images. EDGAR refines degraded frames through a fusion block that injects identity features extracted by the self-supervised Sapiens model into a one-step diffusion backbone, enabling effective artifact removal without sacrificing efficiency. Our EDGAR model incorporates a Mixture-of-Experts (MoE) architecture to address diverse degradation types and severity levels. The refined multi-view renderings are subsequently used as pseudo-targets to optimize a single underlying Gaussian avatar, so that the final avatar can be rendered without applying EDGAR to every output frame. Experiments on three different Gaussian avatar reconstruction methods, each evaluated under three different settings, show improvements in both perceptual and reconstruction measures over the raw outputs and an SDEdit-style refinement baseline. In addition, cross-view evaluation demonstrates improved calibrated consistency, while tests under large yaw and open-mouth expressions verify robustness under extreme settings. These results collectively indicate a useful operating regime for recoverable appearance artifacts. The code is available at https://kwanyun.github.io/edgar/",
+    "article_link": "https://arxiv.org/abs/2611.07909",
+    "html_link": "https://arxiv.org/html/2611.07909v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07909v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "EDGAR: исправление артефактов Gaussian-аватаров синтетическими сбоями",
+    "summary": "EDGAR обучает однопроходный diffusion-рефайнер исправлять размытие, растяжение и временную нестабильность Gaussian-аватаров, сохраняя личность. Для обучения создаётся гибридный набор реальных и синтетических примеров с имитацией типичных сбоев, а исправленные виды служат псевдоцелями для оптимизации исходного аватара. Это позволяет не запускать рефайнер на каждом финальном кадре.",
+    "practical_use": "Полезная идея состоит в синтезе именно характерных отказов системы и обучении корректора на парах «испорчено — эталон». Однако домен аватаров узкий, поэтому для общего редактирования перенос не гарантирован.",
+    "_reason": "Работа даёт хороший шаблон генерации ошибок и последующего восстановления, но не связана напрямую с SAM или разметкой. Её можно читать выборочно.",
+    "why_read": "Читать стоит разработчику 3D-аватаров или коррекции артефактов. Основной CV-команде достаточно краткого обзора.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод ориентирован на Gaussian-аватары головы и исправимые артефакты внешнего вида."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "simulates realistic Gaussian avatar failure cases by pairing degraded renderings with ground-truth and reference images.",
+        "advice": "Для обучения корректора собирайте пары, которые имитируют реальные типы отказов текущей системы, а не произвольные деградации. Сохраняйте рядом эталон и референс, чтобы отдельно контролировать исправление и идентичность.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11099,
+    "source": "arXiv",
+    "arxiv_id": "2507.17892",
+    "version": 2,
+    "article": "DiNAT-IR: Exploring Dilated Neighborhood Attention for High-Quality Image Restoration",
+    "authors": [
+      "Hanzhou Liu, Binghan Li, Chengkai Liu, Mi Lu"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Transformers, with their self-attention mechanisms for modeling long-range dependencies, have become a dominant paradigm in image restoration tasks. However, the high computational cost of self-attention limits scalability to high-resolution images, making efficiency-quality trade-offs a key research focus. To address this, Restormer employs channel-wise self-attention, which computes attention across channels instead of spatial dimensions. While effective, this approach may overlook localized artifacts that are crucial for high-quality image restoration. To bridge this gap, we explore Dilated Neighborhood Attention (DiNA) as a promising alternative, inspired by its success in high-level vision tasks. DiNA balances global context and local precision by integrating sliding-window attention with mixed dilation factors, effectively expanding the receptive field without excessive overhead. However, our preliminary experiments indicate that directly applying this global-local design to the classic deblurring task hinders accurate visual restoration, primarily due to the constrained global context understanding within local attention. To address this, we introduce a channel-aware module that complements local attention, effectively integrating global context without sacrificing pixel-level precision. The proposed DiNAT-IR, a Transformer-based architecture specifically designed for image restoration, achieves competitive results across multiple benchmarks, offering a high-quality solution for diverse low-level computer vision problems.",
+    "article_link": "https://arxiv.org/abs/2507.17892",
+    "html_link": "https://arxiv.org/html/2507.17892v2",
+    "pdf_link": "https://arxiv.org/pdf/2507.17892v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "DiNAT-IR: локально-глобальное внимание для восстановления изображений",
+    "summary": "DiNAT-IR применяет разреженное dilated neighborhood attention к задачам восстановления изображений. Авторы отмечают, что прямой перенос локального внимания ухудшает deblurring из-за недостатка глобального контекста, и добавляют channel-aware модуль. Полученная архитектура конкурирует с существующими решениями на нескольких low-level CV benchmark.",
+    "practical_use": "При восстановлении высокого разрешения стоит сочетать локальную обработку дефектов с отдельным каналом глобального контекста. На собственных данных нужно проверять тонкие границы и мелкие объекты, которые легко потерять при deblurring.",
+    "_reason": "Работа полезна для выбора архитектуры реставратора и подчёркивает риск чисто локального внимания. Это применимо перед разметкой кадров низкого качества.",
+    "why_read": "Читать стоит разработчику image restoration и апскейла. Для руководителя ключевой вывод — экономия attention не должна лишать модель глобальной структуры.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Абстракт не приводит численные сравнения и не оценивает влияние восстановления на последующую разметку."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "DiNA balances global context and local precision by integrating sliding-window attention with mixed dilation factors",
+        "advice": "Для высоких разрешений комбинируйте локальные окна с разными dilation, чтобы расширить поле зрения без полного attention. Оценивайте не только среднюю метрику, но и точность восстановления локальных дефектов.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "we introduce a channel-aware module that complements local attention, effectively integrating global context without sacrificing pixel-level precision.",
+        "advice": "Если локальный реставратор теряет структуру сцены, добавьте отдельный модуль глобального контекста. Проверьте, что он не размывает пиксельно точные границы, важные для масок.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11100,
+    "source": "arXiv",
+    "arxiv_id": "2604.10675",
+    "version": 2,
+    "article": "HiddenObjects: Scalable Spatial Prior Extraction for Object Placement from Diffusion Models",
+    "authors": [
+      "Marco Schouten, Ioannis Siglidis, Serge Belongie, Dim P. Papadopoulos"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "We learn explicit, class-conditioned spatial priors for object placement in natural scenes by distilling placement knowledge from text-conditioned diffusion models. Prior methods rely on sparse manual annotations or on inpainting object-removal pipelines, whose artifacts promote shortcut learning. To address these limitations, we propose a scalable pipeline that evaluates dense candidate placements by inserting objects into clean backgrounds. This produces HiddenObjects, a dataset of 27M bounding-box annotations (2M positives) across 27K diverse scenes and object categories. Human evaluation prefers our image editing composites over those guided by sparse annotations in 65.6% of comparisons. We distill the priors into a lightweight placement model that achieves the best accuracy among dedicated baselines and zero-shot vision-language models.",
+    "article_link": "https://arxiv.org/abs/2604.10675",
+    "html_link": "https://arxiv.org/html/2604.10675v2",
+    "pdf_link": "https://arxiv.org/pdf/2604.10675v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "HiddenObjects: извлечение priors для размещения объектов из diffusion-модели",
+    "summary": "HiddenObjects извлекает из текстовой diffusion-модели явные классовые priors допустимого размещения объектов в сцене. Конвейер перебирает плотный набор кандидатов и вставляет объекты в чистые фоны, избегая артефактов удаления, после чего обучает лёгкую модель размещения. Авторы выпускают крупный набор боксов и показывают преимущество над специализированными и zero-shot базовыми моделями.",
+    "practical_use": "Для синтетической вставки объектов стоит сначала предсказывать правдоподобные позиции, а уже затем выполнять compositing или inpainting. Это снижает число очевидно невозможных сцен и помогает сохранять автоматически полученные боксы.",
+    "_reason": "Работа напрямую полезна для генеративной аугментации и вставки объектов с геометрическими метками. Особенно важен отказ от удаления исходного объекта как источника shortcut-артефактов.",
+    "why_read": "Читать стоит разработчикам синтетических датасетов и object insertion. Руководителю полезна схема разделения задачи на размещение и визуальную вставку.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Датасет получен через diffusion-модель, поэтому может наследовать её пространственные и классовые смещения."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "a scalable pipeline that evaluates dense candidate placements by inserting objects into clean backgrounds.",
+        "advice": "Перед генерацией синтетики оценивайте множество возможных позиций объекта на чистом фоне и сохраняйте только правдоподобные. Бокс вставленного объекта можно переносить в разметку автоматически, но композицию всё равно нужно проверять.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Prior methods rely on sparse manual annotations or on inpainting object-removal pipelines, whose artifacts promote shortcut learning.",
+        "advice": "Не стройте priors размещения только на изображениях после удаления объектов: артефакты inpainting могут стать ложной подсказкой. Используйте чистые фоны или отдельно фильтруйте следы удаления.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11101,
+    "source": "arXiv",
+    "arxiv_id": "2605.15843",
+    "version": 2,
+    "article": "WorldAct: Activating Monolithic 3D Worlds into Interactive-Ready Object-Centric Scenes",
+    "authors": [
+      "Jichen Hu, Jiawei Guo, Jiazhong Cen, Chen Yang, Sikuang Li, Wei Shen"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Recent 3D world modeling systems based on generative scene synthesis, such as Marble, can create coherent and explorable 3D environments, yet their outputs are typically static monolithic assets with limited editability and physical interaction. This restricts their use in immersive content creation and embodied simulation, where generated worlds must be actively modified and manipulated. To tackle this challenge, we present WorldAct, a framework that converts static generated 3D worlds into editable and interaction-ready scenes. WorldAct uses a multimodal agent to guide scene decomposition, identify actionable objects, reconstruct geometrically aligned object-level meshes for interaction, and restore the residual background via 3D inpainting. The resulting scenes support object-level editing, collision-aware manipulation, and embodied task execution while preserving global scene coherence. Experiments show that WorldAct enables richer interaction scenarios than the original generated scenes, suggesting a practical path toward editable and interactive 3D world models. Project page: https://sjtu-deepvisionlab.github.io/WorldAct",
+    "article_link": "https://arxiv.org/abs/2605.15843",
+    "html_link": "https://arxiv.org/html/2605.15843v2",
+    "pdf_link": "https://arxiv.org/pdf/2605.15843v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "WorldAct: разбор 3D-сцены на редактируемые объекты и фон",
+    "summary": "WorldAct превращает монолитно сгенерированные 3D-миры в сцены с отдельными объектами, которые можно перемещать и использовать во взаимодействиях. Мультимодальный агент выбирает активные объекты, восстанавливает согласованные mesh и заполняет остаточный фон при помощи 3D-inpainting. Итог поддерживает объектное редактирование и столкновения, сохраняя общую связность сцены.",
+    "practical_use": "Подход полезен как схема сложного редактирования: сначала декомпозиция, затем восстановление объектов и только после этого заполнение фона. Для 2D-пайплайна это скорее источник архитектурных идей, чем готовый инструмент.",
+    "_reason": "Работа сильна для 3D inpainting и объектного редактирования, хотя основной отдел может не работать с интерактивными мирами. Она показывает, как не смешивать удаление объекта и восстановление фона в один непрозрачный шаг.",
+    "why_read": "Читать стоит разработчикам 3D-синтетики и embodied simulation. Остальным достаточно общей схемы.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Метод рассчитан на сгенерированные 3D-миры и не является 2D-редактором."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "WorldAct uses a multimodal agent to guide scene decomposition, identify actionable objects, reconstruct geometrically aligned object-level meshes for interaction, and restore the residual background via 3D inpainting.",
+        "advice": "Разделяйте редактирование 3D-сцены на явные этапы: декомпозицию, выбор объектов, восстановление согласованных mesh и заполнение остаточного фона. Это позволяет контролировать метки и находить источник геометрической ошибки.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11102,
+    "source": "arXiv",
+    "arxiv_id": "2611.06433",
+    "version": 2,
+    "article": "DreamRealm: Exploring and Materializing Hallucination Worlds for Trustworthy Vision-Language Models",
+    "authors": [
+      "Benlei Cui, Chunyang Chai, Yiliang Zhang, Xiaoqian Xia, Chengwen Yao, Song Li, Longtao Huang, Yuwen Zhai, Haiwen Hong"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Multimodal large language models (MLLMs) remain prone to visual hallucinations when correct responses depend on subtle visual details. One line of post-training methods constructs visual contrasts through image retrieval, generation, or editing to improve fine-grained perception. However, these contrasts are not built around the model's own hallucinations, making it difficult to ensure that supervision targets its actual perceptual confusions. Another line suppresses hallucinated outputs through response correction or preference learning under fixed image conditions, but leaves the design of supervision signals on the image-input side underexplored. Inspired by how humans correct misconceptions, we introduce DreamRealm, a post-training framework that explores diverse latent hallucinated responses, minimally edits original images to make them valid, and trains the model to assign each response to its supporting image. Our data construction pipeline, RealmForgePipe, mines observed and latent hallucinations from a target model and materializes them through image editing. Using hallucinations mined from Qwen3.5-9B, we construct the Realized Hallucination Dataset (RealmSet). Our training objective, RealmMatch, constructs a likelihood score matrix across image--response combinations and combines supervised learning with bidirectional contrastive losses to reinforce correct matches and suppress mismatches. Compared with the original Qwen3.5-9B model, DreamRealm improves performance across six visual perception and hallucination benchmarks, including gains of 7.26 percentage points in HallusionBench accuracy and 11.34 percentage points in MMVP pair accuracy. Together with ablation studies on data construction and training methods, these results demonstrate that hallucination assignment is a promising paradigm for improving visual perception and mitigating hallucinations.",
+    "article_link": "https://arxiv.org/abs/2611.06433",
+    "html_link": "https://arxiv.org/html/2611.06433v2",
+    "pdf_link": "https://arxiv.org/pdf/2611.06433v2",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "DreamRealm: исправление визуальных галлюцинаций через минимальные правки изображений",
+    "summary": "DreamRealm сначала выявляет наблюдаемые и скрытые ошибочные ответы целевой MLLM, затем минимально редактирует исходные изображения так, чтобы эти ответы стали верными. Модель обучается сопоставлять каждый ответ поддерживающему его изображению с supervised- и contrastive-целями. Авторы сообщают улучшения на шести benchmark визуального восприятия и галлюцинаций.",
+    "practical_use": "Для обучения VLM-проверяющего можно генерировать контрастные пары, меняя только деталь, из-за которой модель ошибается. Метки таких правок нужно хранить явно и проверять, что редактор не внёс посторонних изменений.",
+    "_reason": "Работа связывает диагностику галлюцинаций с управляемым image editing и даёт практичный способ hard-negative генерации. Это полезно для визуального QC и устойчивости VLM.",
+    "why_read": "Читать стоит разработчикам VLM и синтетических контрастных наборов. Руководителю важен принцип минимальной правки вокруг реальной ошибки модели.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Данные и результаты построены вокруг конкретной целевой модели Qwen3.5-9B."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "minimally edits original images to make them valid, and trains the model to assign each response to its supporting image.",
+        "advice": "Создавайте контрастные изображения минимальной правкой той детали, на которой ошиблась VLM. После генерации проверяйте, что изменён только целевой факт, иначе обучающий сигнал станет неоднозначным.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "mines observed and latent hallucinations from a target model and materializes them through image editing.",
+        "advice": "Формируйте hard negatives из фактических ошибок целевой модели, а не из случайных искажений. Так синтетика будет закрывать реальные слабые места текущего VLM-проверяющего.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11103,
+    "source": "arXiv",
+    "arxiv_id": "2611.06741",
+    "version": null,
+    "article": "TailSteer: Trajectory-Tail Steering for Drift-Resistant Multi-turn Image Editing",
+    "authors": [
+      "Ruikang Li",
+      "Zixuan Chen",
+      "Jiarui Wu",
+      "Mingde Yao",
+      "Yiyuan Zhang",
+      "Yujin Wang",
+      "Hanming Deng",
+      "Lewei Lu",
+      "Tianfan Xue"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Strong single-turn editing performance does not guarantee reliable multi-turn interaction: as edited outputs are repeatedly reused, small unintended changes can accumulate into severe visual drift. This long-term drift is often mitigated through training on multi-turn data or cross-turn rollouts, potentially altering pretrained priors, or through specialized inference-time mechanisms that are difficult to scale to foundation models. We introduce TailSteer , a final-stage training framework that improves multi-turn robustness while retaining the generative and editing capabilities acquired through earlier training. TailSteer follows a simple principle: keep early denoising dynamics close to those of the base model and concentrate preservation corrections near the trajectory tail, where fine-grained deviations can be suppressed. These corrections are learned from the editor’s own on-policy denoising rollouts, using unchanged source content as a preservation reference without requiring curated ground-truth editing pairs. Experiments across the FLUX, SenseNova, and Qwen families show that TailSteer substantially reduces cumulative drift over 15–20 editing turns while largely preserving base-model performance on extensive text-to-image and single-image editing benchmarks. These results demonstrate that long-horizon editing robustness can be unlocked in foundation models after TailSteer, rather than by relearning their existing capabilities. Project page: https://lyricccco.github.io/tailsteer/ Figure 1: Single- and multi-input multi-turn editing. TailSteer substantially reduces cumulative drift over editing turns while retaining the base model’s (FLUX.2 [klein] Base 9B) editing capability.",
+    "article_link": "https://arxiv.org/abs/2611.06741",
+    "html_link": "https://arxiv.org/html/2611.06741",
+    "pdf_link": "https://arxiv.org/pdf/2611.06741",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "TailSteer: защита от накопления дрейфа в многошаговом редактировании",
+    "summary": "TailSteer уменьшает накопление нежелательных изменений, когда результат одного редактирования многократно подаётся на следующий шаг. Метод удерживает раннюю динамику denoising близко к базовой модели и концентрирует корректировки сохранности ближе к концу траектории, используя собственные rollouts редактора. На нескольких семействах моделей авторы показывают меньший дрейф на длинных сериях правок при сохранении одиночного редактирования.",
+    "practical_use": "В тестах редактора нужно проверять не только один запрос, но и цепочки из многих правок с повторным использованием результата. Неизменяемые области следует фиксировать как reference и измерять их дрейф после каждого шага.",
+    "_reason": "Это сильная работа по производственной проблеме итеративного image editing. Она предлагает дообучение без специально собранных эталонных пар многошаговых правок.",
+    "why_read": "Читать стоит всем разработчикам inpainting и conversational editing. Руководителю полезно включить долговременный дрейф в критерии приёмки.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Статья оценивает конкретные семейства FLUX, SenseNova и Qwen; перенос на другой редактор нужно проверить."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "small unintended changes can accumulate into severe visual drift.",
+        "advice": "Добавьте в QA длинные цепочки редактирования и измеряйте накопление изменений в областях, которых запросы не касались. Успех на одиночном шаге не подтверждает надёжность интерактивного сценария.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "These corrections are learned from the editor’s own on-policy denoising rollouts, using unchanged source content as a preservation reference without requiring curated ground-truth editing pairs.",
+        "advice": "Для обучения сохранности используйте собственные траектории редактора и неизменяемое содержимое исходника как опору. Это позволяет собрать сигнал без ручных эталонов для каждой цепочки правок.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11104,
+    "source": "arXiv",
+    "arxiv_id": "2611.06042",
+    "version": null,
+    "article": "UniRestorer++: Scalable Universal Image Restoration with Multi-Granularity Degradation Modeling",
+    "authors": [
+      "Jingbo Lin",
+      "Zhilu Zhang",
+      "Fan Li",
+      "Renjing Pei",
+      "Wenbo Li",
+      "Hang Xu",
+      "Hongzhi Zhang",
+      "Wangmeng Zuo"
+    ],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Universal image restoration aims to handle diverse degradations within a single model. Despite rapid progress, a reliable scaling strategy remains underexplored. The conventional strategy of simply increasing backbone depth and width can exhibit performance saturation, with optimization conflicts across restoration objectives remaining a potential bottleneck. Degradation-aware methods allocate specialized capacity, but finer specialization requires more accurate degradation estimation and becomes vulnerable to estimation errors, especially on out-of-distribution and real-world inputs. To this end, we propose UniRestorer + ⁣ + ++ , a scalable universal image restoration framework driven by multi-granularity degradation modeling. Specifically, we construct a degradation hierarchy for model scaling by progressively refining the degradation group and introducing group-specific restoration experts, thereby coupling capacity growth with degradation-specific specialization. To ensure reliable scaling, degradation-estimation-based routing selects a root-to-leaf path within the hierarchy, while granularity-estimation-based routing selects an appropriate level along that path, balancing fine-grained specialization with robustness against degradation-estimation errors. Furthermore, spatially dense degradation representation maps enable region-aware expert routing to adaptively handle spatially non-uniform corruptions. We develop the CDD-50 benchmark, encompassing 50 degradation categories ranging from single-degradation to penta-degradation. Extensive experiments show approximately log-linear PSNR trends over the evaluated model-size range, with stronger scaling gains on out-of-distribution and real-world data than vanilla MoE scaling. UniRestorer + ⁣ + ++ achieves state-of-the-art performance across comprehensive benchmarks. It also demonstrates zero-shot generalization and few-shot transfer capability on real-world images. The code and pre-trained models will be publicly available at https://github.com/mrluin/UniRestorer_plusplus . I",
+    "article_link": "https://arxiv.org/abs/2611.06042",
+    "html_link": "https://arxiv.org/html/2611.06042",
+    "pdf_link": "https://arxiv.org/pdf/2611.06042",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "UniRestorer++: универсальное восстановление с иерархией деградаций",
+    "summary": "UniRestorer++ масштабирует универсальный реставратор не простым увеличением backbone, а иерархией типов деградации и специализированных экспертов. Один роутер выбирает путь по иерархии, другой — подходящую гранулярность, а плотные карты деградаций управляют обработкой разных областей изображения. Авторы также вводят benchmark из одиночных и смешанных деградаций и сообщают сильные результаты на реальных и внераспределительных данных.",
+    "practical_use": "Для предобработки разметки стоит маршрутизировать разные области кадра к разным экспертам, если шум, blur и другие дефекты пространственно неоднородны. Нельзя полагаться только на точную классификацию деградации: нужна более грубая резервная ветвь.",
+    "_reason": "Работа предлагает практичную архитектуру универсального восстановления и учитывает ошибки роутинга. Это важно для разнородных полевых и UAV-кадров.",
+    "why_read": "Читать стоит разработчикам restoration и владельцам наборов с несколькими типами дефектов. Руководителю полезен принцип масштабирования через специализацию, а не только размер модели.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Сложная иерархия зависит от качества оценки типа и гранулярности деградации."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "granularity-estimation-based routing selects an appropriate level along that path, balancing fine-grained specialization with robustness against degradation-estimation errors.",
+        "advice": "Стройте роутинг так, чтобы модель могла выбрать не только тип дефекта, но и более грубый уровень эксперта при неуверенности. Это снижает ущерб от ошибочной классификации деградации.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "spatially dense degradation representation maps enable region-aware expert routing to adaptively handle spatially non-uniform corruptions.",
+        "advice": "Для неоднородных кадров оценивайте карту дефектов по областям и направляйте регионы к подходящим экспертам. После восстановления проверяйте, не изменились ли границы объектов и маски.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11105,
+    "source": "arXiv",
+    "arxiv_id": "2611.04416",
+    "version": null,
+    "article": "Efficient and Faithful High-Resolution Image Editing with Sparse Cross-Resolution Denoising",
+    "authors": [
+      "Maosen Zhao",
+      "Xianfang Zeng",
+      "Pengtao Chen",
+      "Peng Ye",
+      "Gang Yu",
+      "Jiayuan Fan",
+      "Tao Chen"
+    ],
+    "date": "2026-11-04",
+    "updated": "2026-11-04",
+    "topic": "Inpainting, outpainting и правка изображений (удаление и вставка объектов)",
+    "topic_key": "inpaint_editing",
+    "topic_keys": [
+      "inpaint_editing"
+    ],
+    "topics": [
+      "Inpainting, outpainting и правка изображений (удаление и вставка объектов)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Instruction-based image editors still primarily operate at 1K, whereas practical editing increasingly requires faithful 2K/4K outputs. Dense high-resolution adaptation preserves the editing trajectory but incurs expensive target–source attention; editing at 1K followed by external refinement is cheaper but can separate detail restoration from the editing trajectory. We introduce FLASH, a native high-resolution editor based on sparse cross-resolution denoising . A frozen 1K branch provides a semantic and structural anchor, while a target-resolution branch reconstructs local detail within the same Transformer. An asymmetric topology retains full 1K attention, guides high-resolution queries with spatially aligned low-resolution noisy-target states, and confines high-resolution target–reference interaction to local Halo neighborhoods. Resolution-specific diffusion-state mapping and spatial YaRN adapt the pretrained editor to larger grids. An optional, training-free progressive path replaces early high-resolution denoising with a 1K prefix and completes refinement in the same editor. On VINS-4KEval, the direct model achieves the strongest structural fidelity among the compared methods at both 2K and 4K. A separate 4K forward benchmark with R = 1 R=1 records 4.2 × 4.2\\times faster total forward execution and 25.3 × 25.3\\times faster attention than dense target–reference attention. Progressive inference reduces end-to-end 4K latency by 30.5 % 30.5\\% , with a modest quality cost. Github: https://github.com/FDUPeter/FLASH",
+    "article_link": "https://arxiv.org/abs/2611.04416",
+    "html_link": "https://arxiv.org/html/2611.04416",
+    "pdf_link": "https://arxiv.org/pdf/2611.04416",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "FLASH: нативное редактирование изображений в 2K и 4K",
+    "summary": "FLASH сочетает замороженную ветвь 1K, которая удерживает семантику и структуру, с ветвью целевого разрешения для локальных деталей. Разреженное межмасштабное denoising ограничивает дорогое взаимодействие высокого разрешения локальными окрестностями, а опциональный прогрессивный режим заменяет ранние 4K-шаги префиксом 1K. Авторы сообщают высокую структурную точность и заметное ускорение относительно плотного attention.",
+    "practical_use": "Для 2K/4K-правки стоит сохранять низкоразрешённый структурный якорь и восстанавливать детали в том же редакторе, а не отдельным апскейлером. При выборе прогрессивного режима нужно явно принять компромисс между задержкой и качеством.",
+    "_reason": "Работа напрямую отвечает на практическую потребность в точном высокоразрешённом редактировании. Схема особенно интересна для тонких объектов и масок, где внешний апскейл может разорвать траекторию правки.",
+    "why_read": "Читать стоит разработчикам image editing и upscale. Руководителю полезны два режима работы и необходимость раздельной приёмки 2K и 4K.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Прогрессивный режим ускоряет обработку ценой умеренного снижения качества.",
+      "Оценка проведена на авторском VINS-4KEval."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "A frozen 1K branch provides a semantic and structural anchor, while a target-resolution branch reconstructs local detail within the same Transformer.",
+        "advice": "Сохраняйте отдельную низкоразрешённую ветвь как структурный якорь, а детали восстанавливайте в ветви целевого разрешения того же редактора. Это снижает риск, что апскейлер изменит смысл выполненной правки.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "An optional, training-free progressive path replaces early high-resolution denoising with a 1K prefix and completes refinement in the same editor.",
+        "advice": "Для пакетной обработки протестируйте прогрессивный режим с ранними шагами в 1K и финальным уточнением в полном разрешении. Принимайте его только после замера потери качества на тонких границах и малых объектах.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11106,
+    "source": "arXiv",
+    "arxiv_id": "2611.07705",
+    "version": 1,
+    "article": "FlyingDrones: A Dataset and Benchmark for Optical Flow Estimation from UAV motion",
+    "authors": [
+      "Laurenz Ruzicka, Roman Pflugfelder, Daniel Cremers"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Optical flow is an important cue for drone analysis in aerial surveillance, airspace monitoring, and long-range target tracking, where motion remains informative when appearance is weak. Estimating the motion of small Unmanned Aerial Vehicles, however, is difficult because distant targets occupy few pixels, have low contrast, and move against complex dynamic backgrounds. Standard optical-flow benchmarks emphasize large, object-centric motions and therefore do not characterize distant aerial targets well. We introduce FlyingDrones, a generated benchmark with dense ground-truth optical flow and segmentation masks derived from physically based rendering, and define resolution-normalized metrics (EPE Norm) that normalize flow by image dimensions. We evaluate 16 state-of-the-art model families on a motion- and size-stratified subset of 999 flow pairs at three resolutions. Every family recovers drone motion better than the zero-flow reference, but the gap between families widens with resolution: at 1920x1080, global-matching, recurrent, transformer, and short-window temporal models separate clearly from pyramid, classical, self-supervised, lightweight, and diffusion models. Within-family checkpoint spread is comparable to or larger than between-family spread, so the training curriculum is as important as the architecture. Two complementary studies test the benchmark beyond synthetic accuracy: a ground-truth-free motion-alignment evaluation on 21 cameras of real UAV footage shows that the synthetic ranking carries a moderate, significant signal about real-world performance (Spearman \\r{ho} = 0.63 over 41 checkpoints) while the exact top ranks differ, and a fine-tuning study shows that 800 FlyingDrones pairs reduce held-out drone-region error by up to 37% and improve drone localization on the real footage for all four architectures tested.",
+    "article_link": "https://arxiv.org/abs/2611.07705",
+    "html_link": "https://arxiv.org/html/2611.07705v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.07705v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "FlyingDrones: optical flow для малых БПЛА на дальних дистанциях",
+    "summary": "FlyingDrones — синтетический benchmark optical flow для небольших удалённых БПЛА с плотным потоком и сегментационными масками. Авторы стратифицируют тест по размеру и движению, сравнивают 16 семейств моделей на трёх разрешениях и отдельно проверяют перенос рейтинга на реальные камеры. Дообучение на части синтетических пар снижает ошибку в области дрона и улучшает локализацию на реальном видео.",
+    "practical_use": "Для задач УВД нельзя выбирать optical-flow модель только по общим benchmark: нужен отдельный тест на малых целях, сложном фоне и рабочем разрешении. Синтетические пары полезны для дообучения, но финальную приёмку следует проводить на реальных камерах.",
+    "_reason": "Это сильная профильная работа по UAV, учитывающая слабый внешний вид и важность движения. Особенно ценны маски, нормализованные метрики и анализ различий между checkpoint одного семейства.",
+    "why_read": "Читать стоит разработчикам UAV-детекции и трекинга, а также владельцу датасета. Руководителю важен вывод, что рецепт обучения может влиять не меньше архитектуры.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Синтетический рейтинг лишь умеренно согласуется с реальным, а точные лидеры различаются."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "define resolution-normalized metrics (EPE Norm) that normalize flow by image dimensions.",
+        "advice": "При сравнении optical flow на разных разрешениях используйте нормализованную по размеру кадра ошибку. Иначе результаты камер и режимов съёмки нельзя корректно сопоставить.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Within-family checkpoint spread is comparable to or larger than between-family spread, so the training curriculum is as important as the architecture.",
+        "advice": "Сравнивайте несколько checkpoint и режимов обучения внутри одного семейства, а не только названия архитектур. Для малых БПЛА curriculum может изменить результат не меньше, чем смена модели.",
+        "audience": "руководитель"
+      },
+      {
+        "quote": "fine-tuning study shows that 800 FlyingDrones pairs reduce held-out drone-region error by up to 37% and improve drone localization on the real footage for all four architectures tested.",
+        "advice": "Используйте синтетические пары для дообучения, но измеряйте перенос на отдельном реальном видео. В отчёте выделяйте ошибку именно в области дрона, чтобы фон не скрывал провалы на цели.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11107,
+    "source": "arXiv",
+    "arxiv_id": "2611.08147",
+    "version": 1,
+    "article": "MCUFlowNet: Hardware-Aware Neural Architecture Search for Optical Flow on Microcontrollers",
+    "authors": [
+      "Enmin Lin, Jona Beysens"
+    ],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV",
+      "cs.AR"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Dense optical flow allows small drones to avoid obstacles. However, few dense optical flow networks are designed for microcontrollers (MCUs) with neural accelerators, whose on-chip SRAM limits the input resolution. We present PACE-NAS, a macro-to-micro neural architecture search framework that decouples memory from latency: a macro design fixes the backbone and its peak SRAM, and a micro design searches operators and depths to trade accuracy against compiler-estimated latency. We apply it to EdgeFlowNet on a Grove Vision AI V2 board (Ethos-U55), where profiling locates the peak SRAM at the full-resolution output head. Replacing transposed convolutions with bilinear upsampling and convolutions lowers the peak SRAM by 18%, and two lightweight context modules lower the endpoint error (EPE) without raising the peak. All searched subnets share this peak, so the search needs no memory constraint. We name the Pareto-optimal models MCUFlowNet; the fastest variant, MCUFlowNet-S, runs 1.76x faster than a retrained EdgeFlowNet at a 1.6% higher EPE and, in simulated forest flights at 2 m/s, reaches the goal without collision in 51.5% of trials, against 41.8%. PACE-NAS also applies to semantic segmentation, where a searched PIDNet-S variant runs 1.17x faster at similar accuracy. Code is available at https://gitlab.kuleuven.be/emedia-research-lab/esat-stadius/mcuflownet/mcuflownet.",
+    "article_link": "https://arxiv.org/abs/2611.08147",
+    "html_link": "https://arxiv.org/html/2611.08147v1",
+    "pdf_link": "https://arxiv.org/pdf/2611.08147v1",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "MCUFlowNet: optical flow для микроконтроллеров малых дронов",
+    "summary": "MCUFlowNet получен поиском архитектуры с раздельной оптимизацией памяти и задержки для микроконтроллера с нейроускорителем. Авторы находят пик SRAM в полноразмерной выходной голове, заменяют transposed convolution и добавляют лёгкие контекстные модули. Быстрый вариант улучшает долю успешных полётов в симулированном лесу относительно переобученного базового решения при небольшом ухудшении EPE.",
+    "practical_use": "Для onboard-модели сначала профилируйте реальный скомпилированный граф и найдите пик памяти, а затем ограничивайте поиск архитектуры. Качество optical flow нужно проверять конечной метрикой полёта или обхода препятствий.",
+    "_reason": "Работа полезна для edge-UAV, где модель должна помещаться в SRAM и работать с низкой задержкой. Она показывает, что аппаратные ограничения нельзя оценивать только по числу параметров.",
+    "why_read": "Читать стоит разработчикам embedded CV и автономных дронов. Руководителю полезна связка технических метрик с успешностью полёта.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Главные полётные результаты получены в симуляции.",
+      "Поиск привязан к конкретной плате и ускорителю Ethos-U55."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "profiling locates the peak SRAM at the full-resolution output head.",
+        "advice": "Профилируйте модель после компиляции на целевом ускорителе и оптимизируйте узел с реальным пиком SRAM. Число параметров само по себе не показывает, поместится ли модель на устройстве.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "Replacing transposed convolutions with bilinear upsampling and convolutions lowers the peak SRAM by 18%",
+        "advice": "Для снижения пика памяти проверьте замену transposed convolution на bilinear upsampling с обычной convolution. Сравните не только память, но и ошибку потока на малых препятствиях.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11108,
+    "source": "arXiv",
+    "arxiv_id": "2611.05197",
+    "version": null,
+    "article": "Robust Reconstruction of Power Lines from Incomplete Mobile and Aerial LiDAR Data",
+    "authors": [
+      "Mohamed Gaha",
+      "Damos Ayobo Abongo",
+      "Philippe Massicotte",
+      "Eya Ben Kacem",
+      "Wael Jaafar",
+      "Rami Langar",
+      "Christian Buteau"
+    ],
+    "date": "2026-11-04",
+    "updated": "2026-11-04",
+    "topic": "Детекция объектов с дрона (УВД, площадки, ЛЭП)",
+    "topic_key": "uav_aerial_detection",
+    "topic_keys": [
+      "uav_aerial_detection"
+    ],
+    "topics": [
+      "Детекция объектов с дрона (УВД, площадки, ЛЭП)"
+    ],
+    "categories": [
+      "cs.CV"
+    ],
+    "primary_category": "cs.CV",
+    "abstract_en": "Accurate vegetation-encroachment assessment and effective risk mitigation require electric utilities to precisely locate and characterize distribution-network assets, including poles and power lines, and to distinguish among line types such as medium-voltage, low-voltage, neutral, and telecommunication lines. Mobile and aerial Light Detection and Ranging (LiDAR) point clouds provide high-resolution 3D representations of these assets and their surroundings, including vegetation, buildings, and roads. However, detecting and reconstructing power lines directly from LiDAR data remains challenging since conductor returns are often sparse, incomplete, noisy, or occluded by vegetation. These challenges are pronounced in distribution networks, where relatively low pole heights and complex line configurations place conductors in close proximity to trees. Moreover, mobile and aerial LiDAR point clouds differ substantially in point density, viewing geometry, spatial coverage, and occlusion patterns. In this work, we propose a robust and automated reconstruction method that combines scaled density-based clustering, robust polynomial fitting, and iterative fragment merging to recover individual conductors under severe data incompleteness and occlusion. Following semantic classification, the proposed reconstruction pipeline processes mobile and aerial LiDAR data using the same implementation and parameter configuration, without requiring modality-specific reconstruction code or parameter. We evaluate our method through controlled degradation experiments, comparative benchmarking, parameter sensitivity analysis, and large-scale validation on mobile and aerial LiDAR datasets. On the aerial dataset, the proposed method achieves a precision of 96.87%, a recall of 96.66%, an F 1 -score of 96.76%, and a geometric root mean square error (RMSE) of 0.127 m. On the mobile dataset, for which independent conductor-level reference annotations were unavailable, the method achieves a point-to-model RMSE of 0.045 m and a reconstruction coverage of 95.27%. To support reproducibility and facilitate further research, we publicly release the source code, documentation, and evaluation data available on https://github.com/varen-project .",
+    "article_link": "https://arxiv.org/abs/2611.05197",
+    "html_link": "https://arxiv.org/html/2611.05197",
+    "pdf_link": "https://arxiv.org/pdf/2611.05197",
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Восстановление ЛЭП из неполных мобильных и воздушных LiDAR-данных",
+    "summary": "Метод восстанавливает отдельные проводники из разреженных, шумных и перекрытых растительностью LiDAR-точек после семантической классификации. Конвейер сочетает масштабированную плотностную кластеризацию, устойчивую полиномиальную аппроксимацию и итеративное объединение фрагментов. Одна реализация и набор параметров применяются к мобильным и воздушным данным, а код и оценочные материалы опубликованы.",
+    "practical_use": "Для ЛЭП стоит отделить семантическую классификацию точек от геометрического восстановления проводников и явно объединять разорванные фрагменты. При QC нужно измерять и полноту найденных линий, и геометрическое расстояние до эталона.",
+    "_reason": "Это непосредственно профильная работа по ЛЭП и aerial LiDAR с сильной оценкой устойчивости к неполноте. Практическая ценность повышается доступностью кода и данных.",
+    "why_read": "Читать стоит разработчикам LiDAR, UAV и инфраструктурной разметки. Руководителю полезна единая схема для двух способов съёмки.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Для мобильного набора не было независимой разметки на уровне отдельных проводников."
+    ],
+    "importance_stars": 5,
+    "importance_mark": "★★★★★",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "combines scaled density-based clustering, robust polynomial fitting, and iterative fragment merging to recover individual conductors under severe data incompleteness and occlusion.",
+        "advice": "После классификации точек объединяйте плотностную кластеризацию, устойчивое приближение линии и итеративное слияние фрагментов. Это помогает восстанавливать проводники, разорванные шумом, растительностью и окклюзиями.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "processes mobile and aerial LiDAR data using the same implementation and parameter configuration",
+        "advice": "Проверьте единый конвейер и набор параметров на мобильном и воздушном LiDAR до создания отдельных веток кода. Общая реализация упрощает сопровождение и сопоставление качества.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11109,
+    "source": "OpenAI News",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Introducing Images 2.6",
+    "authors": [],
+    "date": "2026-11-04",
+    "updated": "2026-11-04",
+    "topic": "Промпт-инжиниринг NLP (без vision тоже нужен)",
+    "topic_key": "nlp_pe",
+    "topic_keys": [
+      "nlp_pe"
+    ],
+    "topics": [
+      "Промпт-инжиниринг NLP (без vision тоже нужен)"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Images 2.6 brings faster image generation, GIF creation, more precise editing, and new API controls across ChatGPT, Codex, and the API.",
+    "article_link": "https://openai.com/index/introducing-images-2-6",
+    "html_link": "https://openai.com/index/introducing-images-2-6",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": false,
+    "title_ru": "Images 2.6: ускоренная генерация, GIF и более точное редактирование",
+    "summary": "OpenAI анонсирует Images 2.6 с более быстрой генерацией изображений, созданием GIF, более точным редактированием и новыми API-настройками. Возможности доступны в ChatGPT, Codex и API. В коротком RSS-тексте нет benchmark или подробностей реализации.",
+    "practical_use": "Команде стоит проверить модель на собственном наборе object removal, insertion, outpainting и сохранения нецелевых областей. Новые API-настройки нужно оценить с точки зрения повторяемости синтетических данных и экспорта меток.",
+    "_reason": "Это важная продуктовая новость по генерации и редактированию изображений, прямо относящаяся к задачам отдела. Из-за краткости анонса выводы о качестве возможны только после собственного теста.",
+    "why_read": "Читать стоит разработчикам генеративной аугментации и редакторов. Руководителю полезно запланировать ограниченный сравнительный прогон.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Короткий анонс не содержит численных сравнений и описания тестов."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Images 2.6 brings faster image generation, GIF creation, more precise editing, and new API controls across ChatGPT, Codex, and the API.",
+        "advice": "Проведите собственный regression-тест новой версии на генерации, GIF и точечном редактировании. Отдельно проверьте сохранность масок, нецелевых областей и управляемость новых API-параметров.",
+        "audience": "CV-разработчик"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11110,
+    "source": "Google AI Blog",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
+    "authors": [],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Промпт-инжиниринг для CV",
+    "topic_key": "prompt_engineering_cv",
+    "topic_keys": [
+      "prompt_engineering_cv"
+    ],
+    "topics": [
+      "Промпт-инжиниринг для CV"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Gemini Omni 1.2 Flash brings native 15-second video generation and editing, stronger consistency, and 30% lower pricing.",
+    "article_link": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+    "html_link": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Gemini Omni 1.2 Flash: 15-секундная генерация и редактирование видео",
+    "summary": "Gemini Omni 1.2 Flash поддерживает нативную генерацию и редактирование видеоклипов длиной до 15 секунд. Google заявляет улучшенную согласованность и более низкую цену относительно предыдущей версии. Полный локальный текст описывает продуктовую возможность, но не заменяет проверку на данных отдела.",
+    "practical_use": "Модель стоит протестировать для короткой синтетической аугментации, пошаговой правки видео и сохранения объектов между кадрами. Оценивать нужно временную согласованность, сохранность меток и стоимость пригодного клипа после QC.",
+    "_reason": "Это профильная новость о видеомодели с редактированием и более длинным контекстом. Она потенциально полезна для генерации UAV-сцен и редких событий.",
+    "why_read": "Читать стоит разработчикам генеративного видео и руководителю синтетических данных. Решение о применении следует принимать после закрытого теста.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Продуктовые заявления о согласованности требуют независимой проверки на доменных сценариях."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Gemini Omni 1.2 Flash brings native 15-second video generation and editing, stronger consistency, and 30% lower pricing.",
+        "advice": "Запустите сравнительный тест 15-секундных клипов на временной согласованности и пошаговом редактировании. Считайте стоимость только для роликов, которые прошли QC и сохранили нужные объекты и метки.",
+        "audience": "руководитель"
+      }
+    ],
+    "attack_methods": []
+  },
+  {
+    "id": 11111,
+    "source": "The Decoder",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Thinking Machines' Inkling 2 Small claims top spot among western open-weight models",
+    "authors": [],
+    "date": "2026-11-06",
+    "updated": "2026-11-06",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Thinking Machines, the startup from former OpenAI CTO Mira Murati, is releasing Inkling 2 Small, a mixture-of-experts model with 594 billion parameters. The company claims it's the strongest western open-weight model. Better agentic performance comes at a price, though, with token usage rising sharply. The article Thinking Machines&#039; Inkling 2 Small claims top spot among western open-weight models appeared first on The Decoder .",
+    "article_link": "https://the-decoder.com/thinking-machines-inkling-2-small-claims-top-spot-among-western-open-weight-models/",
+    "html_link": "https://the-decoder.com/thinking-machines-inkling-2-small-claims-top-spot-among-western-open-weight-models/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Inkling 2 Small: новый открытый MoE-модельный релиз",
+    "summary": "Thinking Machines выпускает Inkling 2 Small, mixture-of-experts модель с открытыми весами, и заявляет лидерство среди западных open-weight решений. По сообщению The Decoder, усиление агентных возможностей сопровождается заметным ростом расхода токенов. Новость относится к общим LLM, а не к CV.",
+    "practical_use": "Для отдела модель может быть кандидатом на локальные агентные и текстовые операции, если важны открытые веса. Перед выбором нужно сравнить качество карточек, инструментальные вызовы, скорость и реальную стоимость токенов на собственных задачах.",
+    "_reason": "Материал следует сохранить как значимую новость open-weight экосистемы, хотя прямой CV-ценности мало. Краткий формат не позволяет подтвердить маркетинговое лидерство.",
+    "why_read": "Читать стоит разработчику локальных агентов и руководителю, который оценивает независимость от облачных API. Для разметчиков новость не даёт действий.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Заявление о лидерстве принадлежит разработчику модели.",
+      "В новости отмечен повышенный расход токенов."
+    ],
+    "importance_stars": 3,
+    "importance_mark": "★★★☆☆",
+    "from_collector": true,
+    "advice_items": [],
+    "attack_methods": []
+  },
+  {
+    "id": 11112,
+    "source": "The Decoder",
+    "arxiv_id": null,
+    "version": null,
+    "article": "Google's Gemini Omni 1.2 Flash stretches AI video clips to 15 seconds and cuts pricing by 30 percent",
+    "authors": [],
+    "date": "2026-11-05",
+    "updated": "2026-11-05",
+    "topic": "Генеративная аугментация",
+    "topic_key": "generative_augmentation",
+    "topic_keys": [
+      "generative_augmentation"
+    ],
+    "topics": [
+      "Генеративная аугментация"
+    ],
+    "categories": [],
+    "primary_category": "",
+    "abstract_en": "Google Deepmind is making Gemini Omni 1.2 Flash generally available. The video-generation model now creates clips up to 15 seconds long, can be edited step by step via conversation, and costs just $0.07 per second at 720p, 30 percent less than its predecessor. Users who draft in low resolution and upscale only the final result can save even more. The article Google&#039;s Gemini Omni 1.2 Flash stretches AI video clips to 15 seconds and cuts pricing by 30 percent appeared first on The Decoder .",
+    "article_link": "https://the-decoder.com/googles-gemini-omni-1-2-flash-stretches-ai-video-clips-to-15-seconds-and-cuts-pricing-by-30-percent/",
+    "html_link": "https://the-decoder.com/googles-gemini-omni-1-2-flash-stretches-ai-video-clips-to-15-seconds-and-cuts-pricing-by-30-percent/",
+    "pdf_link": null,
+    "doi": null,
+    "html_available": true,
+    "title_ru": "Gemini Omni 1.2 Flash: длиннее видеоклипы и дешевле финальный рендер",
+    "summary": "The Decoder сообщает о выпуске Gemini Omni 1.2 Flash с клипами до 15 секунд и пошаговым редактированием в диалоге. Модель генерирует 720p-видео по сниженной цене, а черновики можно делать в низком разрешении и повышать качество только финального результата. Это второй источник о том же продуктовом обновлении.",
+    "practical_use": "Для итеративной работы сначала создавайте и согласовывайте дешёвый низкоразрешённый черновик, а финальный вариант повышайте до 720p после выбора сцены. При этом нужно проверять, не меняются ли объекты и их траектории на этапе upscale.",
+    "_reason": "Новость напрямую относится к генерации, редактированию и upscale видео. Дублирование с блогом Google полезно для уточнения рабочего процесса и цены, но не является независимым benchmark.",
+    "why_read": "Читать стоит команде генеративного видео. Руководителю полезна схема экономии на черновиках и финальном рендере.",
+    "knowledge_area": "",
+    "subtopics": [],
+    "limitations": [
+      "Материал пересказывает продуктовый релиз и не содержит независимой оценки качества."
+    ],
+    "importance_stars": 4,
+    "importance_mark": "★★★★☆",
+    "from_collector": true,
+    "advice_items": [
+      {
+        "quote": "Users who draft in low resolution and upscale only the final result can save even more.",
+        "advice": "Создавайте варианты и согласовывайте монтаж в низком разрешении, а upscale запускайте только для выбранного результата. После повышения разрешения повторно проверьте идентичность объектов, траектории и соответствие меткам.",
+        "audience": "CV-разработчик"
+      },
+      {
+        "quote": "can be edited step by step via conversation",
+        "advice": "Для диалогового редактирования храните историю каждого шага и сравнивайте неизменяемые области с исходным клипом. Это поможет обнаружить накопительный дрейф до финального рендера.",
+        "audience": "разметчик"
+      }
+    ],
+    "attack_methods": []
   }
 ]
